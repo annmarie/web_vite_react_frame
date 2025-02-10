@@ -1,0 +1,66 @@
+
+.tic-tac-toe-game {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
+  min-width: 240px;
+  width: 200px;
+}
+
+.tic-tac-toe-board {
+  display: flex;
+  justify-content: center;
+}
+
+.tic-tac-toe-cells {
+  display: grid;
+  grid-template-columns: repeat(3, 40px);
+  grid-template-rows: repeat(3, 40px);
+  gap: 5px;
+}
+
+.tic-tac-toe-title {
+  margin: 0 0 10px 0;
+}
+
+.tic-tac-toe-cell {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.tic-tac-toe-cell:hover {
+  background-color: #f0f0f0;
+}
+
+.tic-tac-toe-status {
+  margin: 10px;
+  font-size: 18px;
+}
+
+.tic-tac-toe-actions {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+button:active {
+  outline: 8px auto #646cff;
+}
+
+.tic-tac-toe-actions button:disabled {
+  cursor: not-allowed;
+  outline: transparent;
+}

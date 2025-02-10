@@ -1,0 +1,27 @@
+.cat-carousel {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  width: 240px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+  padding: 10px;
+
+  .cat-title {
+    display: flex;
+    margin: 0 0 10px 0;
+    text-align: center;
+  }
+
+  .cat-pictures {
+    overflow: hidden;
+  }
+
+  .cat-image {
+    width: 100%;
+    height: auto;
+  }
+}

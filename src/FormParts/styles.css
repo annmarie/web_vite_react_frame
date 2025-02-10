@@ -1,0 +1,42 @@
+.form-parts-container {
+  background-color: #cdcdcd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+  padding: 20px;
+  width: 240px;
+
+  .row-item {
+    margin: 0 0 10px 0;
+    display: flex;
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+  }
+
+  .slider-range {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slider-range input {
+    accent-color: #000;
+  }
+
+  .slider-range div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .slider-range span {
+    padding: 0 8px 0 8px;
+  }
+}

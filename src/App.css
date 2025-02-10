@@ -1,0 +1,13 @@
+.main {
+  margin: 10px;
+}
+
+.well {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.well-item {
+  padding: 2px;
+  margin: 2px;
+}
