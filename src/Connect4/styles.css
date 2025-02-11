@@ -1,0 +1,80 @@
+.connect4-game {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  width: 420px;
+}
+
+.connect4-game .connect4-title {
+  margin: 0 0 10px 0;
+}
+
+.connect4-game .connect4-board {
+  display: grid;
+  grid-template-rows: repeat(6, 50px);
+  grid-template-columns: repeat(7, 50px);
+  gap: 5px;
+
+  .connect4-row {
+    display: contents;
+  }
+
+  .connect4-cell {
+    width: 50px;
+    height: 50px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .checker {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2px auto;
+  }
+
+  .checker.player_one {
+    background-color: red;
+    cursor: none;
+  }
+
+  .checker.player_two {
+    background-color: yellow;
+    cursor: none;
+  }
+
+  .connect4-cell.winner {
+    cursor: default;
+  }
+
+  .connect4-status {
+    margin: 10px;
+    font-size: 18px;
+  }
+
+}
+
+.connect4-game .connect4-actions {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.connect4-game button:active {
+  outline: 8px auto #646cff;
+}
+
+.connect4-game button:disabled {
+  cursor: not-allowed;
+  outline: transparent;
+}
