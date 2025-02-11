@@ -1,0 +1,44 @@
+.slide-puzzle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+
+  .row {
+    display: flex;
+  }
+
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .tile:hover {
+    background-color: #e0e0e0;
+  }
+
+  .tile.empty {
+    background-color: #ffffff;
+    border: 1px dashed #ccc;
+    cursor: default;
+  }
+
+  .status {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+}

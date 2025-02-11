@@ -5,7 +5,7 @@ import TicTacToe from './TicTacToe';
 import DiceRoll from './DiceRoll';
 import PegSolitaire from './PegSolitaire';
 import Connect4 from './Connect4';
-import CardsMove from './CardsMove';
+import SlidePuzzle from './SlidePuzzle';
 
 function App() {
   const components = [
@@ -15,7 +15,7 @@ function App() {
     { id: "CatCarousel", component: <CatCarousel /> },
     { id: "PegSolitaire", component: <PegSolitaire /> },
     { id: "Connect4", component: <Connect4 /> },
-    { id: "CardsMove", component: <CardsMove /> }
+    { id: "SlidePuzzle", component: <SlidePuzzle /> }
   ];
 
   return (<div className="main">
