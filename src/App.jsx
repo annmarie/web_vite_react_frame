@@ -10,15 +10,15 @@ import TicTacToe from './TicTacToe';
 
 const Hello = () => {
   return (
-    <div>
-      <Link to="/connect4">Connect4</Link><br />
-      <Link to="/diceroll">DiceRoll</Link><br />
-      <Link to="/slidepuzzle">SlidePuzzle</Link><br />
-      <Link to="/tictactoe">TicTacToe</Link><br />
-      <Link to="/catcarousel">CatCarousel</Link><br />
-      <Link to="/pegsolitaire">PegSolitaire</Link><br />
-      <Link to="/formparts">FormParts</Link><br />
-    </div>
+    <ul>
+      <li><Link to="/connect4">Connect4</Link></li>
+      <li><Link to="/diceroll">DiceRoll</Link></li>
+      <li><Link to="/slidepuzzle">SlidePuzzle</Link></li>
+      <li><Link to="/tictactoe">TicTacToe</Link></li>
+      <li><Link to="/catcarousel">CatCarousel</Link></li>
+      <li><Link to="/pegsolitaire">PegSolitaire</Link></li>
+      <li><Link to="/formparts">FormParts</Link></li>
+    </ul>
   )
 }
 
