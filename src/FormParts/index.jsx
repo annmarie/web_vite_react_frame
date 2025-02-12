@@ -1,4 +1,5 @@
 import { useReducer, useRef } from "react";
+import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes'
 import { reducer, initialState } from './reducer';
 import "./styles.css";
 
@@ -7,7 +8,7 @@ const FormParts = () => {
   const numRef = useRef(null);
 
   const resetForm = () => {
-    dispatch({ type: "RESET_FORM" });
+    dispatch({ type: RESET_FORM });
     numRef.current?.focus();
   };
 
@@ -22,10 +23,7 @@ const FormParts = () => {
           data-testid="color-select"
           aria-label="Select a color"
           value={state.colorKey}
-          onChange={(e) => dispatch({
-            type: "SET_COLOR",
-            payload: e.target.value,
-          })}
+          onChange={(e) => dispatch({ type: SET_COLOR, payload: e.target.value })}
         >
           {state.colors.map((str, index) => (
             <option
@@ -49,10 +47,7 @@ const FormParts = () => {
           ref={numRef}
           value={state.num}
           placeholder="input number"
-          onChange={(e) => dispatch({
-            type: "SET_NUM",
-            payload: Number(e.target.value) || "",
-          })}
+          onChange={(e) => dispatch({ type: SET_NUM, payload: Number(e.target.value) || "" })}
         />
       </div>
 
@@ -67,10 +62,7 @@ const FormParts = () => {
             min="0"
             max="3"
             value={state.sizeKey}
-            onChange={(e) => dispatch({
-              type: "SET_SIZE",
-              payload: e.target.value,
-            })}
+            onChange={(e) => dispatch({ type: SET_SIZE, payload: e.target.value })}
           />
           <div>
             {state.sizes.map((str, index) => (

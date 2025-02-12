@@ -1,3 +1,4 @@
+import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
 import { reducer, initialState } from './reducer';
 
 describe('Reducer Tests', () => {
@@ -12,7 +13,7 @@ describe('Reducer Tests', () => {
       tiles: [[1, 2, 3], [4, 5, 6], [7, 8, 0]],
       isSolved: true,
     };
-    const newState = reducer(state, { type: 'RESET_PUZZLE' });
+    const newState = reducer(state, { type: RESET_PUZZLE });
     expect(newState.isSolved).toBe(false);
     expect(newState.titles).not.toBe(state.tiles);
   });
@@ -23,7 +24,7 @@ describe('Reducer Tests', () => {
       tiles: [[1, 2, 3], [4, 5, 6], [7, 0, 8]],
     };
     const action = {
-      type: 'MOVE_TILE',
+      type: MOVE_TILE,
       payload: { moveTile: { row: 2, col: 2 } },
     };
     const newState = reducer(state, action);
@@ -38,7 +39,7 @@ describe('Reducer Tests', () => {
       isSolved: false,
     };
     const action = {
-      type: 'MOVE_TILE',
+      type: MOVE_TILE,
       payload: { moveTile: { row: 0, col: 0 } },
     };
     const newState = reducer(currentState, action);

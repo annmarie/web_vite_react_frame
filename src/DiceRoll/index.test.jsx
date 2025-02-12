@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useState } from "react";
-import DiceRoll from ".";
+import DiceRoll from "../DiceRoll";
 
 const ROLL_DICE_BUTTON_TEXT = /roll dice/i;
 const DICE_DOT_LEFT_TEST_ID = /dice-dot-left/i;

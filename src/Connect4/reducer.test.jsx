@@ -1,4 +1,6 @@
-import { initialState, reducer, PLAYER_ONE, PLAYER_TWO } from './reducer';
+import { MAKE_MOVE, UNDO_MOVE, RESET_GAME } from "./actionTypes";
+import { PLAYER_ONE, PLAYER_TWO } from "./globals";
+import { initialState, reducer } from './reducer';
 
 describe('Connect4 Reducer', () => {
 
@@ -9,7 +11,7 @@ describe('Connect4 Reducer', () => {
 
   it('should make a move', () => {
     const state = { ...initialState };
-    const action = { type: 'MAKE_MOVE', payload: { col: 0 } };
+    const action = { type: MAKE_MOVE, payload: { col: 0 } };
     const newState = reducer(state, action);
     expect(newState.board[5][0]).toBe(PLAYER_ONE);
     expect(newState.currentPlayer).toBe(PLAYER_TWO);
@@ -28,7 +30,7 @@ describe('Connect4 Reducer', () => {
       ],
       currentPlayer: PLAYER_TWO
     };
-    const action = { type: 'MAKE_MOVE', payload: { col: 0 } };
+    const action = { type: MAKE_MOVE, payload: { col: 0 } };
     const newState = reducer(state, action);
     expect(newState).toEqual(state);
   });
@@ -46,7 +48,7 @@ describe('Connect4 Reducer', () => {
       ],
       currentPlayer: PLAYER_ONE,
     };
-    const action = { type: 'MAKE_MOVE', payload: { col: 2 } };
+    const action = { type: MAKE_MOVE, payload: { col: 2 } };
     const newState = reducer(state, action);
     expect(newState.board[5][0]).toBe(PLAYER_ONE);
     expect(newState.board[4][0]).toBe(PLAYER_TWO);
@@ -66,7 +68,7 @@ describe('Connect4 Reducer', () => {
       ],
       winner: PLAYER_ONE,
     };
-    const action = { type: 'MAKE_MOVE', payload: { col: 1 } };
+    const action = { type: MAKE_MOVE, payload: { col: 1 } };
     const newState = reducer(state, action);
     expect(newState).toEqual(state);
   });
@@ -84,17 +86,17 @@ describe('Connect4 Reducer', () => {
       ],
       currentPlayer: PLAYER_TWO,
     };
-    const action = { type: 'RESET_GAME' };
+    const action = { type: RESET_GAME };
     const newState = reducer(state, action);
     expect(newState).toEqual(initialState);
   });
 
   it('should undo the last move', () => {
     const state = { ...initialState };
-    const newState = reducer(state,  { type: 'MAKE_MOVE', payload: { col: 0 } });
+    const newState = reducer(state,  { type: MAKE_MOVE, payload: { col: 0 } });
     expect(newState.board[5][0]).toBe(PLAYER_ONE);
     expect(newState.currentPlayer).toBe(PLAYER_TWO);
-    const finalState = reducer(newState, { type: 'UNDO_MOVE'});
+    const finalState = reducer(newState, { type: UNDO_MOVE});
     expect(finalState).toEqual(initialState);
   });
 
@@ -111,7 +113,7 @@ describe('Connect4 Reducer', () => {
       ],
       currentPlayer: PLAYER_ONE
     };
-    const action = { type: 'MAKE_MOVE', payload: { col: 3 } };
+    const action = { type: MAKE_MOVE, payload: { col: 3 } };
     const newState = reducer(state, action);
     expect(newState.board[5][3]).toBe(PLAYER_ONE);
     expect(newState.winner).toBe(PLAYER_ONE);
@@ -132,7 +134,7 @@ describe('Connect4 Reducer', () => {
       ],
       currentPlayer: PLAYER_ONE
     }
-    const action = { type: 'MAKE_MOVE', payload: { col: 2 } };
+    const action = { type: MAKE_MOVE, payload: { col: 2 } };
     const newState = reducer(state, action);
     expect(newState.boardFull).toBe(true)
     expect(newState.winner).toBe(null);

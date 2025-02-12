@@ -1,5 +1,5 @@
-export const PLAYER_ONE = 'X';
-export const PLAYER_TWO = 'O';
+import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from "./actionTypes";
+import { PLAYER_ONE, PLAYER_TWO } from "./globals";
 
 export const initialState = {
   board: Array(9).fill(null),
@@ -11,7 +11,7 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case 'MAKE_MOVE': {
+    case MAKE_MOVE: {
       const { index } = action.payload;
       if (state.winner || state.board[index]) return state;
 
@@ -31,10 +31,10 @@ export const reducer = (state, action) => {
         history: [...state.history, state.board],
       };
     }
-    case 'RESET_GAME': {
+    case RESET_GAME: {
       return initialState;
     }
-    case 'UNDO_MOVE': {
+    case UNDO_MOVE: {
       if (state.history.length === 0 || state.winner) return state;
 
       const previousBoard = state.history[state.history.length - 1];

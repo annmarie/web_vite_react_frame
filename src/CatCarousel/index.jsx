@@ -1,5 +1,6 @@
 import { useReducer, useEffect, useCallback } from "react";
 import axios from "axios";
+import { FETCH_START, SET_IMAGES, NEXT_IMAGE, PREVIOUS_IMAGE } from './actionTypes'
 import { initialState, reducer } from "./reducer";
 import "./styles.css";
 
@@ -9,25 +10,25 @@ const CatCarousel = () => {
   const handleRefresh = () => fetchCatImages();
 
   const fetchCatImages = useCallback(async () => {
-    dispatch({ type: "FETCH_START" });
+    dispatch({ type: FETCH_START });
     const catUrl = "https://api.thecatapi.com/v1/images/search?limit=10";
     try {
       const { data } = await axios.get(catUrl);
       if (data) {
         dispatch({
-          type: "SET_IMAGES",
+          type: SET_IMAGES,
           payload: { images: data, error: null }
         });
       } else {
         dispatch({
-          type: "SET_IMAGES",
+          type: SET_IMAGES,
           payload: { images: null, error: "Failed to fetch valid cat images." }
         });
       }
     } catch (error) {
       console.error("Error fetching cat images:", error);
       dispatch({
-        type: "SET_IMAGES",
+        type: SET_IMAGES,
         payload: { images: null, error: "Failed to fetch cat images." }
       });
     }
@@ -48,13 +49,13 @@ const CatCarousel = () => {
         <div>
           <div>
             <button
-              onClick={() => dispatch({ type: "PREVIOUS_IMAGE" })}
+              onClick={() => dispatch({ type: PREVIOUS_IMAGE })}
               aria-label="Previous Image"
             >
               Previous
             </button>
             <button
-              onClick={() => dispatch({ type: "NEXT_IMAGE" })}
+              onClick={() => dispatch({ type: NEXT_IMAGE })}
               aria-label="Next Image"
             >
               Next

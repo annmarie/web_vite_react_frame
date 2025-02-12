@@ -1,3 +1,4 @@
+import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
 
 export const initialState = {
   size: 3,
@@ -7,7 +8,7 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "MOVE_TILE": {
+    case MOVE_TILE: {
       const { moveTile } = action.payload;
       const { tiles, size } = state;
       const emptyTile = findEmptyTile(tiles, size);
@@ -22,7 +23,7 @@ export const reducer = (state, action) => {
       }
       return state;
     }
-    case "RESET_PUZZLE":
+    case RESET_PUZZLE:
       return {
         ...initialState,
         tiles: setTiles(3, false)

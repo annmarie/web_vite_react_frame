@@ -1,3 +1,4 @@
+import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from "./actionTypes";
 import { initialState, reducer } from './reducer';
 
 describe('TicTacToe Reducer', () => {
@@ -9,7 +10,7 @@ describe('TicTacToe Reducer', () => {
 
   it('should make a move', () => {
     const state = { ...initialState };
-    const action = { type: 'MAKE_MOVE', payload: { index: 0 } };
+    const action = { type: MAKE_MOVE, payload: { index: 0 } };
     const newState = reducer(state, action);
     expect(newState.board[0]).toBe('X');
     expect(newState.currentPlayer).toBe('O');
@@ -22,7 +23,7 @@ describe('TicTacToe Reducer', () => {
       ...initialState,
       board: ['X', null, null, null, null, null, null, null, null],
     };
-    const action = { type: 'MAKE_MOVE', payload: { index: 0 } };
+    const action = { type: MAKE_MOVE, payload: { index: 0 } };
     const newState = reducer(state, action);
     expect(newState).toEqual(state);
   });
@@ -33,7 +34,7 @@ describe('TicTacToe Reducer', () => {
       board: ['X', 'X', 'X', null, null, null, null, null, null],
       winner: 'X',
     };
-    const action = { type: 'MAKE_MOVE', payload: { index: 3 } };
+    const action = { type: MAKE_MOVE, payload: { index: 3 } };
     const newState = reducer(state, action);
     expect(newState).toEqual(state);
   });
@@ -44,7 +45,7 @@ describe('TicTacToe Reducer', () => {
       board: ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X'],
       currentPlayer: 'O',
     };
-    const action = { type: 'RESET_GAME' };
+    const action = { type: RESET_GAME };
     const newState = reducer(state, action);
     expect(newState).toEqual(initialState);
   });
@@ -56,7 +57,7 @@ describe('TicTacToe Reducer', () => {
       currentPlayer: 'O',
       history: [initialState.board],
     };
-    const action = { type: 'UNDO_MOVE' };
+    const action = { type: UNDO_MOVE };
     const newState = reducer(state, action);
     expect(newState.board).toEqual(initialState.board);
     expect(newState.history).toHaveLength(0);
@@ -65,7 +66,7 @@ describe('TicTacToe Reducer', () => {
 
   it('should not undo if there is no history', () => {
     const state = { ...initialState }
-    const action = { type: 'UNDO_MOVE' };
+    const action = { type: UNDO_MOVE };
     const newState = reducer(state, action);
     expect(newState).toEqual(state);
   });
@@ -77,7 +78,7 @@ describe('TicTacToe Reducer', () => {
       winner: 'X',
       history: [initialState.board],
     };
-    const action = { type: 'UNDO_MOVE' };
+    const action = { type: UNDO_MOVE };
     const newState = reducer(state, action);
     expect(newState).toEqual(state);
   });

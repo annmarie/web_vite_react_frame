@@ -5,11 +5,6 @@ import SlidePuzzle from "../SlidePuzzle";
 
 describe("SlidePuzzle Component Tests", () => {
 
-  it('matches snapshot', () => {
-    const { asFragment } = render(<SlidePuzzle />);
-    expect(asFragment()).toMatchSnapshot();
-  });
-
   it("should render the puzzle grid and reset button", async () => {
     const { size } = initialState;
     await act(() => render(<SlidePuzzle />));

@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from "./actionTypes";
 import { initialState, reducer } from "./reducer";
 import './styles.css';
 
@@ -7,7 +8,7 @@ const TicTacToe = () => {
 
   const handleCellClick = (index) => {
     if (state.board[index] || state.winner) return;
-    dispatch({ type: 'MAKE_MOVE', payload: { index } });
+    dispatch({ type: MAKE_MOVE, payload: { index } });
   };
 
   return (
@@ -43,14 +44,14 @@ const TicTacToe = () => {
       <div className="tic-tac-toe-actions">
         <button
           aria-label="Undo Move"
-          onClick={() => dispatch({ type: "UNDO_MOVE" })}
+          onClick={() => dispatch({ type: UNDO_MOVE })}
           disabled={state.history.length === 0 || state.winner}
         >
           Undo
         </button>
         <button
           aria-label="Reset Game"
-          onClick={() => dispatch({ type: "RESET_GAME" })}
+          onClick={() => dispatch({ type: RESET_GAME })}
           disabled={state.history.length === 0}
         >
           Reset

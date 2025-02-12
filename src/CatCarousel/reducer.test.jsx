@@ -1,3 +1,4 @@
+import { FETCH_START, SET_IMAGES, NEXT_IMAGE, PREVIOUS_IMAGE } from './actionTypes';
 import { reducer, initialState } from './reducer';
 
 describe('CatCarousel Reducer', () => {
@@ -13,9 +14,9 @@ describe('CatCarousel Reducer', () => {
       isLoading: true,
       error: null
     };
-    expect(reducer(state, { type: 'FETCH_START'})).toEqual(fetchStartState);
+    expect(reducer(state, { type: FETCH_START })).toEqual(fetchStartState);
     const action = {
-      type: 'SET_IMAGES',
+      type: SET_IMAGES,
       payload: {
         images: [{ url: 'https://example.com/cat1.jpg' }, { url: 'https://example.com/cat2.jpg' }],
         error: null,
@@ -35,7 +36,7 @@ describe('CatCarousel Reducer', () => {
       ...initialState,
       images: [{ url: 'https://example.com/cat1.jpg' }, { url: 'https://example.com/cat2.jpg' }],
     };
-    const action = { type: 'NEXT_IMAGE' };
+    const action = { type: NEXT_IMAGE };
     const expectedState = {
       ...state,
       currentIndex: 1,
@@ -49,7 +50,7 @@ describe('CatCarousel Reducer', () => {
       images: [{ url: 'https://example.com/cat1.jpg' }, { url: 'https://example.com/cat2.jpg' }],
       currentIndex: 1,
     };
-    const action = { type: 'PREVIOUS_IMAGE' };
+    const action = { type: PREVIOUS_IMAGE };
     const expectedState = {
       ...state,
       currentIndex: 0,

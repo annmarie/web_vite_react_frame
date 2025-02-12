@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { MAKE_MOVE, UNDO_MOVE, RESET_GAME, SELECT_PEG } from './actionTypes';
 import { reducer, initialState } from "./reducer";
 import "./styles.css";
 
@@ -9,9 +10,9 @@ const PegSolitaire = () => {
     const cellValue = state.board[row][col];
 
     if (cellValue === 1) {
-      dispatch({ type: "SELECT_PEG", payload: { row, col } });
+      dispatch({ type: SELECT_PEG, payload: { row, col } });
     } else if (cellValue === 0 && state.selectedPeg) {
-      dispatch({ type: "MAKE_MOVE", payload: { endRow: row, endCol: col } });
+      dispatch({ type: MAKE_MOVE, payload: { endRow: row, endCol: col } });
     }
   };
 
@@ -66,14 +67,14 @@ const PegSolitaire = () => {
       <div className="peg-actions">
         <button
           aria-label="Undo the last move"
-          onClick={() => dispatch({ type: "UNDO_MOVE" })}
+          onClick={() => dispatch({ type: UNDO_MOVE })}
           disabled={state.history.length === 0 || state.winner}
         >
           Undo
         </button>
         <button
           aria-label="Reset the game to its initial state"
-          onClick={() => dispatch({ type: "RESET_GAME" })}
+          onClick={() => dispatch({ type: RESET_GAME })}
           disabled={state.history.length === 0}
         >
           Reset

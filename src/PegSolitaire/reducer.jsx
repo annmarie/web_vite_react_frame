@@ -1,3 +1,4 @@
+import { MAKE_MOVE, UNDO_MOVE, RESET_GAME, SELECT_PEG } from './actionTypes';
 
 export const initialState = {
   board: [
@@ -95,9 +96,9 @@ export const reducer = (state, action) => {
   };
 
   switch (action.type) {
-    case 'SELECT_PEG':
+    case SELECT_PEG:
       return { ...state, selectedPeg: action.payload }
-    case 'MAKE_MOVE': {
+    case MAKE_MOVE: {
       if (state.winner) return state;
       const { endRow, endCol } = action.payload;
       const { row: startRow, col: startCol } = state.selectedPeg;
@@ -116,10 +117,10 @@ export const reducer = (state, action) => {
         history: [...state.history, state.board],
       };
     }
-    case 'RESET_GAME': {
+    case RESET_GAME: {
       return initialState;
     }
-    case 'UNDO_MOVE': {
+    case UNDO_MOVE: {
       if (state.history.length === 0 || state.winner) return state;
       const previousBoard = state.history[state.history.length - 1];
       return {

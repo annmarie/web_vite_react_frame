@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { PLAYER_ONE, PLAYER_TWO } from "./reducer";
+import { PLAYER_ONE, PLAYER_TWO } from "./globals";
 import TicTacToe from "../TicTacToe";
 
 const BOARD_LENGTH = 3 * 3; // 3 rows * 3 columns

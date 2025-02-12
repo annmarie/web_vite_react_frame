@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { PLAYER_ONE, PLAYER_TWO } from "./reducer";
+import { PLAYER_ONE, PLAYER_TWO } from "./globals";
 import Connect4 from "../Connect4";
 
 const BOARD_LENGTH = 6 * 7; // 6 rows * 7 columns

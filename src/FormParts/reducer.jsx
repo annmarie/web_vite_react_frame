@@ -1,3 +1,4 @@
+import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes'
 
 export const initialState = {
   num: 0,
@@ -13,22 +14,22 @@ const cleanKey = (key, min, max) => {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "SET_NUM":
+    case SET_NUM:
       return {
         ...state,
         num: action.payload
       };
-    case "SET_SIZE":
+    case SET_SIZE:
       return {
         ...state,
         sizeKey: cleanKey(action.payload, 0, initialState.sizes.length)
       };
-    case "SET_COLOR":
+    case SET_COLOR:
       return {
         ...state,
         colorKey: cleanKey(action.payload, 0, initialState.colors.length)
       };
-    case "RESET_FORM":
+    case RESET_FORM:
       return initialState;
     default:
       return state || initialState;

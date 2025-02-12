@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
 import { reducer, initialState } from './reducer';
 import PropTypes from 'prop-types'
 import "./styles.css";
@@ -7,7 +8,7 @@ const SidePuzzle = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleTileClick = (row, col) => {
-    dispatch({ type: "MOVE_TILE", payload: { moveTile: { row, col } } });
+    dispatch({ type: MOVE_TILE, payload: { moveTile: { row, col } } });
   };
 
   return (
@@ -25,7 +26,7 @@ const SidePuzzle = () => {
       <button
         aria-label="Reset the game to its initial state"
         data-testid="reset-button"
-        onClick={() => dispatch({ type: "RESET_PUZZLE" })}
+        onClick={() => dispatch({ type: RESET_PUZZLE })}
         disabled={false}
       >
         Reset Game
