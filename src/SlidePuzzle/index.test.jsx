@@ -3,21 +3,36 @@ import { initialState } from "./reducer";
 import SlidePuzzle from "../SlidePuzzle";
 
 
-// TODO: get this to work
 describe("SlidePuzzle Component Tests", () => {
+
+  it('matches snapshot', () => {
+    const { asFragment } = render(<SlidePuzzle />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+
   it("should render the puzzle grid and reset button", async () => {
     const { size } = initialState;
     await act(() => render(<SlidePuzzle />));
+    expect(screen.getByRole('status')).toHaveTextContent('Game On');
     const tiles = screen.getAllByRole("cell");
     expect(tiles.length).toBe(size * size);
-    const resetButton = screen.getByRole('button', { name: "Reset the game to its initial state" });
+    const resetButton = screen.getByTestId('reset-button');
     expect(resetButton).toBeInTheDocument();
   });
 
-  it("should display 'Game on' when the puzzle is not solved", async () => {
+  it('renders accessible ARIA attributes', async () => {
+    const { size } = initialState;
     await act(() => render(<SlidePuzzle />));
-    const status = screen.getByText(/game on/i);
-    expect(status).toBeInTheDocument();
+    const board = screen.getByRole('grid', { name: /slide puzzle board/i });
+    expect(board).toBeInTheDocument();
+    const tile = screen.getAllByRole('cell', { name: /tile at row \d+ and column \d+ with (empty|\d+)/i });
+    expect(tile.length).toBe(size * size);
+    const resetButton = screen.getByRole('button', { name: "Reset the game to its initial state" });
+    expect(resetButton).toBeInTheDocument();
+    const emptyTile = screen.getByRole('cell', { name: /tile at row \d+ and column \d+ with empty/i });
+    expect(emptyTile).toHaveClass('empty');
+    const numberedTile = screen.getByRole('cell', { name: /tile at row \d+ and column \d+ with 1/i });
+    expect(numberedTile).toHaveTextContent(1);
   });
 
   it("should update the state when a valid tile is clicked", async () => {

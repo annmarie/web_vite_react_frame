@@ -23,12 +23,13 @@ const SidePuzzle = () => {
       </div>
       <SlidePuzzleBoard tiles={state.tiles} onTileClick={handleTileClick} />
       <button
-          aria-label="Reset the game to its initial state"
-          onClick={() => dispatch({ type: "RESET_PUZZLE" })}
-          disabled={false}
-        >
-          Reset
-        </button>
+        aria-label="Reset the game to its initial state"
+        data-testid="reset-button"
+        onClick={() => dispatch({ type: "RESET_PUZZLE" })}
+        disabled={false}
+      >
+        Reset Game
+      </button>
     </div>
   );
 };
@@ -63,7 +64,8 @@ SlidePuzzleBoard.propTypes = {
 };
 
 const SlidePuzzleTile = ({ tile, rowIdx, colIdx, onClick }) => {
-  const ariaLabel = `Tile ${tile !== 0 ? tile : "empty"} at row ${rowIdx + 1}, column ${colIdx + 1}`;
+  const ariaLabel = `Tile at row ${rowIdx + 1} and column ${colIdx + 1}`
+    + ` with ${tile !== 0 ? tile : "empty"}`;
   return (
     <div
       role="cell"
