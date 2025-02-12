@@ -4,7 +4,13 @@
   align-items: center;
   justify-content: center;
   margin: 20px auto;
+}
 
+.slide-puzzle-title {
+  margin: 0 0 10px 0;
+}
+
+.slide-puzzle-board {
   .row {
     display: flex;
   }
@@ -34,11 +40,13 @@
     border: 1px dashed #ccc;
     cursor: default;
   }
+}
 
-  .status {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-  }
+.slider-puzzle button:active {
+  outline: 8px auto #646cff;
+}
+
+.slider-puzzle button:disabled {
+  cursor: not-allowed;
+  outline: transparent;
 }

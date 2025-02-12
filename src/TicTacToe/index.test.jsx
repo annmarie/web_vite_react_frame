@@ -11,9 +11,6 @@ const RESET_GAME = /reset game/i;
 const UNDO_MOVE = /undo move/i;
 
 describe("TicTacToe Component", () => {
-  let cells;
-  let resetButton;
-  let undoButton;
 
   const validateInitialBoardState = (cells) => {
     cells.forEach((cell) => { expect(cell).toBeEmptyDOMElement(); });
@@ -35,9 +32,9 @@ describe("TicTacToe Component", () => {
 
   it("should render the initial board", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
-    undoButton = screen.getByRole('button', { name: UNDO_MOVE });
-    resetButton = screen.getByRole('button', { name: RESET_GAME });
+    const cells = screen.getAllByRole("cell");
+    const undoButton = screen.getByRole('button', { name: UNDO_MOVE });
+    const resetButton = screen.getByRole('button', { name: RESET_GAME });
     expect(cells).toHaveLength(BOARD_LENGTH);
     validateInitialBoardState(cells)
     expect(screen.getByText(CURRENT_PLAYER_ONE)).toBeInTheDocument();
@@ -47,7 +44,7 @@ describe("TicTacToe Component", () => {
 
   it("should allow players to take turns", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole("cell");
     expect(cells[0]).toHaveAttribute('aria-label', `Cell 0: empty`);
     expect(screen.getByText(CURRENT_PLAYER_ONE)).toBeInTheDocument();
     await act(async () => fireEvent.click(cells[0])); // Player One
@@ -66,22 +63,22 @@ describe("TicTacToe Component", () => {
 
   it("should declare a winner", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole("cell");
     await simulatePlayerOneWin(cells)
     expect(screen.getByText(WINNER_PLAYER_ONE)).toBeInTheDocument();
   });
 
   it("should declare a draw", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole("cell");
     await setUpBoardWithNoWinners(cells)
     expect(screen.getByText(DRAW_MESSAGE)).toBeInTheDocument();
   });
 
   it("should reset the game", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
-    resetButton = screen.getByRole('button', { name: RESET_GAME });
+    const cells = screen.getAllByRole("cell");
+    const resetButton = screen.getByRole('button', { name: RESET_GAME });
     expect(cells[0]).toHaveAttribute('aria-label', `Cell 0: empty`);
     await act(async () => fireEvent.click(cells[0])); // Player 1);
     expect(cells[0]).toHaveAttribute('aria-label', `Cell 0: ${PLAYER_ONE}`);
@@ -97,8 +94,8 @@ describe("TicTacToe Component", () => {
 
   it("should undo last move", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
-    undoButton = screen.getByRole('button', { name: UNDO_MOVE });
+    const cells = screen.getAllByRole("cell");
+    const undoButton = screen.getByRole('button', { name: UNDO_MOVE });
     await act(async () => fireEvent.click(cells[0])); // Player One
     expect(cells[0]).toHaveAttribute('aria-label', `Cell 0: ${PLAYER_ONE}`);
     expect(screen.getByText(CURRENT_PLAYER_TWO)).toBeInTheDocument();
@@ -111,7 +108,8 @@ describe("TicTacToe Component", () => {
 
   it("should not allow undo after a winning move", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole("cell");
+    const undoButton = screen.getByRole('button', { name: UNDO_MOVE });
     await simulatePlayerOneWin(cells)
     expect(screen.getByText(WINNER_PLAYER_ONE)).toBeInTheDocument();
     await act(async () => fireEvent.click(undoButton)); // Undo
@@ -121,7 +119,7 @@ describe("TicTacToe Component", () => {
 
   it("should not make move if cell is already occupied", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole("cell");
     await act(async () => fireEvent.click(cells[0])); // Player One
     expect(cells[0]).toHaveAttribute('aria-label', `Cell 0: ${PLAYER_ONE}`);
     expect(screen.getByText(CURRENT_PLAYER_TWO)).toBeInTheDocument();
@@ -132,12 +130,13 @@ describe("TicTacToe Component", () => {
 
   it("should not make move after a winning move", async () => {
     await act(async () => render(<TicTacToe />))
-    cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole("cell");
     await simulatePlayerOneWin(cells)
     expect(screen.getByText(WINNER_PLAYER_ONE)).toBeInTheDocument();
     await act(async () => fireEvent.click(cells[5]));
     expect(cells[5]).toHaveAttribute('aria-label', `Cell 5: empty`);
     expect(screen.getByText(WINNER_PLAYER_ONE)).toBeInTheDocument();
+    const undoButton = screen.getByRole('button', { name: UNDO_MOVE });
     expect(undoButton).not.toBeEnabled();
   });
 });

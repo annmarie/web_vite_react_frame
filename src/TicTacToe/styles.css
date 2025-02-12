@@ -56,11 +56,11 @@
   margin: 10px;
 }
 
-button:active {
+.tic-tac-toe-game button:active {
   outline: 8px auto #646cff;
 }
 
-.tic-tac-toe-actions button:disabled {
+.tic-tac-toe-game button:disabled {
   cursor: not-allowed;
   outline: transparent;
 }

@@ -1,5 +1,5 @@
-import { useReducer } from "react";
-import { reducer, initialState } from "./reducer";
+import { useReducer } from 'react';
+import { reducer, initialState } from './reducer';
 import './styles.css'
 
 const SidePuzzle = () => {
@@ -9,32 +9,48 @@ const SidePuzzle = () => {
     dispatch({ type: "MOVE_TILE", payload: { moveTile: { row, col } } });
   };
 
-  const handleReset = () => {
-    dispatch({ type: "RESET_PUZZLE" });
-  };
-
   return (
     <div>
       <div className="slide-puzzle">
-        {state.tiles.map((row, rIdx) => (
-          <div key={rIdx} className="row">
-            {row.map((tile, cIdx) => (
-              <div
-                role='cell'
-                key={cIdx}
-                className={`tile ${tile === 0 ? "empty" : ""}`}
-                onClick={() => handleTileClick(rIdx, cIdx)}
-              >
-                {tile !== 0 ? tile : ""}
-              </div>
-            ))}
-          </div>
-        ))}
+        <h3 className="slide-puzzle-title">Slide Puzzle</h3>
+        <div
+          aria-label="Game Status"
+          className="slide-puzzle-status"
+          role="status"
+          aria-live="polite"
+        >
+          {state.isSolved ? `Game Won` : `Game On`}
+        </div>
+        <div
+          className="slide-puzzle-board"
+          role="grid"
+          aria-label="Slide Puzzle Board"
+        >
+          {state.tiles.map((row, rowIdx) => (
+            <div key={rowIdx} className="row">
+              {row.map((tile, colIdx) => (
+                <div
+                  role='cell'
+                  key={colIdx}
+                  aria-label={`Tile row ${rowIdx + 1} and column ` +
+                    `${colIdx + 1} with ${tile !== 0 ? tile : ''}`}
+                  className={`tile ${tile === 0 ? "empty" : ""}`}
+                  onClick={() => handleTileClick(rowIdx, colIdx)}
+                >
+                  {tile !== 0 ? tile : ""}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="status">
-        {state.isSolved ? "You won!" : "Game on"}
-      </div>
-      <button onClick={handleReset}>Reset Puzzle</button>
+      <button
+        aria-label="Reset the game to its initial state"
+        onClick={() => dispatch({ type: "RESET_PUZZLE" })}
+        disabled={false}
+      >
+        Reset Puzzle
+      </button>
     </div>
   );
 }
