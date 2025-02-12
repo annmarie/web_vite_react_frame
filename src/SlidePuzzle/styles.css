@@ -1,9 +1,15 @@
-.slide-puzzle {
+.slide-puzzle-game {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 20px auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
 }
 
 .slide-puzzle-title {
@@ -32,6 +38,7 @@
   }
 
   .tile:hover {
+    cursor: pointer;
     background-color: #e0e0e0;
   }
 
@@ -40,6 +47,11 @@
     border: 1px dashed #ccc;
     cursor: default;
   }
+}
+
+.slide-puzzle-status {
+  margin: 10px;
+  font-size: 18px;
 }
 
 .slider-puzzle button:active {
