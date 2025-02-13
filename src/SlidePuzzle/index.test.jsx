@@ -26,7 +26,7 @@ describe("SlidePuzzle Component Tests", () => {
     expect(resetButton).toBeInTheDocument();
     const emptyTile = screen.getByRole('cell', { name: /tile at row \d+ and column \d+ with empty/i });
     expect(emptyTile).toHaveClass('empty');
-    const numberedTile = screen.getByRole('cell', { name: /tile at row \d+ and column \d+ with 1/i });
+    const numberedTile = screen.getByRole('cell', { name: /tile at row \d+ and column \d+ with 1(?![0-9])/i});
     expect(numberedTile).toHaveTextContent(1);
   });
 

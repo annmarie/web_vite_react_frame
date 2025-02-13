@@ -10,6 +10,10 @@
   width: 200px;
 }
 
+.tic-tac-toe-title {
+  margin: 0 0 10px 0;
+}
+
 .tic-tac-toe-board {
   display: flex;
   justify-content: center;
@@ -20,10 +24,6 @@
   grid-template-columns: repeat(3, 40px);
   grid-template-rows: repeat(3, 40px);
   gap: 5px;
-}
-
-.tic-tac-toe-title {
-  margin: 0 0 10px 0;
 }
 
 .tic-tac-toe-cell {

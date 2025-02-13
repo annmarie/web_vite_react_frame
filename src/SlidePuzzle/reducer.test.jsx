@@ -21,6 +21,7 @@ describe('Reducer Tests', () => {
   it('should move a tile when MOVE_TILE action is dispatched with a valid move', () => {
     const state = {
       ...initialState,
+      size: 3,
       tiles: [[1, 2, 3], [4, 5, 6], [7, 0, 8]],
     };
     const action = {

@@ -1,8 +1,9 @@
 import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
 
+const size = 4;
 export const initialState = {
-  size: 3,
-  tiles: setTiles(3, false),
+  size,
+  tiles: setTiles(size, false),
   isSolved: false,
 }
 
@@ -12,27 +13,21 @@ export const reducer = (state, action) => {
       const { moveTile } = action.payload;
       const { tiles, size } = state;
       const emptyTile = findEmptyTile(tiles, size);
-      if (moveIsValid(emptyTile, moveTile, size)) {
+
+      if (moveIsValid(emptyTile, moveTile)) {
         const newTiles = makeMove(tiles, emptyTile, moveTile);
         const isSolved = puzzleIsSolved(newTiles, size);
-        return {
-          ...state,
-          tiles: newTiles,
-          isSolved
-        };
+        return { ...state, tiles: newTiles, isSolved };
       }
       return state;
     }
     case RESET_PUZZLE:
-      return {
-        ...initialState,
-        tiles: setTiles(3, false)
-      }
-
+      return { ...initialState, tiles: setTiles(initialState.size, false) };
     default:
       return state || initialState;
   }
-}
+};
+
 
 function setTiles(size, ordered) {
   const arrayLen = size * size;
@@ -51,9 +46,9 @@ function setTiles(size, ordered) {
   );
 }
 
-function findEmptyTile(tiles, size) {
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c < size; c++) {
+function findEmptyTile(tiles) {
+  for (let r = 0; r < tiles.length; r++) {
+    for (let c = 0; c < tiles[r].length; c++) {
       if (tiles[r][c] === 0) {
         return { row: r, col: c };
       }
@@ -85,4 +80,4 @@ function puzzleIsSolved(tiles, size) {
   return orderedTiles.every((value, index) => value === currentTiles[index]);
 }
 
-export default { puzzleIsSolved, reducer, initialState }
+export default { reducer, initialState }
