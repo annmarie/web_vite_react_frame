@@ -4,8 +4,8 @@ import FormParts from "../FormParts";
 
 describe("FormParts Component", () => {
 
-  it("should render the form with default values", () => {
-    render(<FormParts />);
+  it("should render the form with default values", async () => {
+    await act(() => render(<FormParts />));
     const numInput = screen.getByTestId('num-input');
     const sizeSlider = screen.getByTestId('size-slider');
     const colorSelect = screen.getByTestId('color-select');
@@ -17,7 +17,7 @@ describe("FormParts Component", () => {
   });
 
   it("should update the color key value", async () => {
-    render(<FormParts />);
+    await act(() => render(<FormParts />));
     const colorSelect = screen.getByTestId('color-select');
     await act(() => fireEvent.change(colorSelect, { target: { value: "2" } }));
     expect(colorSelect.value).toBe("2");
@@ -25,7 +25,7 @@ describe("FormParts Component", () => {
   });
 
   it("should update the number input value", async () => {
-    render(<FormParts />);
+    await act(() => render(<FormParts />));
     const numInput = screen.getByTestId('num-input');
     await act(() => fireEvent.change(numInput, { target: { value: "5" } }));
     expect(numInput.value).toBe("5");
@@ -33,7 +33,7 @@ describe("FormParts Component", () => {
   });
 
   it("should update the size key value", async () => {
-    render(<FormParts />);
+    await act(() => render(<FormParts />));
     const sizeSlider = screen.getByTestId('size-slider');
     await act(() => fireEvent.change(sizeSlider, { target: { value: "3" } }));
     expect(sizeSlider.value).toBe("3");
@@ -41,7 +41,7 @@ describe("FormParts Component", () => {
   });
 
   it("should reset the form", async () => {
-    render(<FormParts />);
+    await act(() => render(<FormParts />));
     const colorSelect = screen.getByTestId('color-select');
     await act(() => fireEvent.change(colorSelect, { target: { value: "2" } }));
     expect(colorSelect.value).toBe("2");

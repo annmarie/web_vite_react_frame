@@ -1,0 +1,28 @@
+
+.dice-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.dice-container .die {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  position: relative;
+}
+
+.dice-container .die-dot {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+}
