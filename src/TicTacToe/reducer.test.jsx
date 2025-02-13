@@ -74,7 +74,9 @@ describe('TicTacToe Reducer', () => {
   it('should not undo after the game is won', () => {
     const state = {
       ...initialState,
-      board: ['X', 'X', 'X', null, null, null, null, null, null],
+      board: ['X', 'X', 'X',
+              'O', 'O', null,
+              null, null, null],
       winner: 'X',
       history: [initialState.board],
     };

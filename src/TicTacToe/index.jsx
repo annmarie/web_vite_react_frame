@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
-import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from "./actionTypes";
-import { initialState, reducer } from "./reducer";
+import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from './actionTypes';
+import { initialState, reducer } from './reducer';
 import './styles.css';
 
 const TicTacToe = () => {
@@ -14,6 +14,7 @@ const TicTacToe = () => {
   return (
     <div className="tic-tac-toe-game">
       <h3 className="tic-tac-toe-title">Tic Tac Toe</h3>
+
       <div
         aria-label="Game Status"
         className="tic-tac-toe-status"
@@ -26,6 +27,7 @@ const TicTacToe = () => {
             ? `It's a draw!`
             : `Current Player: ${state.currentPlayer}`}
       </div>
+
       <div className="tic-tac-toe-board">
         <div className="tic-tac-toe-cells">
           {state.board.map((cell, index) => (
@@ -41,6 +43,7 @@ const TicTacToe = () => {
           ))}
         </div>
       </div>
+
       <div className="tic-tac-toe-actions">
         <button
           aria-label="Undo Move"

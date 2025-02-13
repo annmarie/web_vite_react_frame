@@ -32,7 +32,7 @@ describe("TicTacToe Component", () => {
 
   it("should render the initial board", async () => {
     await act(async () => render(<TicTacToe />))
-    const cells = screen.getAllByRole("cell");
+    const cells = screen.getAllByRole('cell');
     const undoButton = screen.getByRole('button', { name: UNDO_MOVE });
     const resetButton = screen.getByRole('button', { name: RESET_GAME });
     expect(cells).toHaveLength(BOARD_LENGTH);
