@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import './styles.css'
 
 const Tile = ({ tile, rowIdx, colIdx, onClick }) => {
   const ariaLabel = `Tile at row ${rowIdx + 1} and column ${colIdx + 1}`
