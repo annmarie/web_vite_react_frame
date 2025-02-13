@@ -7,34 +7,6 @@
   padding: 20px;
 }
 
-.dice-game .dice-container {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-}
-
-.dice-game .dice-container .dice {
-  width: 60px;
-  height: 60px;
-  background-color: white;
-  border: 2px solid black;
-  border-radius: 10px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  justify-items: center;
-  align-items: center;
-  position: relative;
-}
-
-.dice-game .dice-container .dice-dot {
-  width: 10px;
-  height: 10px;
-  background-color: black;
-  border-radius: 50%;
-}
-
 .dice-game .dice-button {
   width: 100%;
   border-radius: 8px;
