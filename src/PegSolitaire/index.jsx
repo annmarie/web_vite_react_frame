@@ -54,14 +54,18 @@ const PegSolitaire = () => {
           aria-label="Undo the last move"
           onClick={() => dispatch({ type: UNDO_MOVE })}
           disabled={state.history.length === 0 || state.winner}
-        />
+        >
+          Undo Move
+        </button>
         <button
           aria-label="Reset the game to its initial state"
           onClick={() => dispatch({ type: RESET_GAME })}
           disabled={state.history.length === 0}
-        />
+        >
+          Reset Game
+        </button>
       </div>
-    </div>
+    </div >
   );
 };
 
