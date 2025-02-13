@@ -1,87 +1,10 @@
-import { useReducer, useRef } from "react";
-import PropsTypes from 'prop-types';
+import { useReducer, useRef } from 'react';
 import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes';
 import { reducer, initialState } from './reducer';
-import "./styles.css";
-
-const ColorSelector = ({ colors, selected, onChange }) => (
-  <>
-    <label htmlFor="color">Color:</label>
-    <select
-      id="color"
-      data-testid="color-select"
-      aria-label="Select a color"
-      value={selected}
-      onChange={(e) => onChange(Number(e.target.value))}
-    >
-      {colors.map((item, index) => (
-        <option key={index} value={index} aria-label={`Color: ${item}`}>
-          {item}
-        </option>
-      ))}
-    </select>
-  </>
-);
-
-ColorSelector.propTypes = {
-  colors: PropsTypes.arrayOf(PropsTypes.string).isRequired,
-  selected: PropsTypes.number.isRequired,
-  onChange: PropsTypes.func.isRequired,
-};
-
-const NumberInput = ({ num, onChange, inputRef }) => (
-  <>
-    <label htmlFor="num">Num:</label>
-    <input
-      id="num"
-      type="number"
-      data-testid="num-input"
-      aria-label="Enter a number"
-      ref={inputRef}
-      value={num}
-      placeholder="Input number"
-      onChange={(e) => onChange(Number(e.target.value) || "")}
-    />
-  </>
-);
-
-NumberInput.propTypes = {
-  num: PropsTypes.oneOfType([PropsTypes.number, PropsTypes.string]).isRequired,
-  onChange: PropsTypes.func.isRequired,
-  inputRef: PropsTypes.shape({ current: PropsTypes.instanceOf(Element) })
-}
-
-const SizeSlider = ({ sizes, selected, onChange }) => (
-  <>
-    <label htmlFor="size">Size:</label>
-    <div className="slider-range">
-      <input
-        id="size"
-        data-testid="size-slider"
-        aria-label="Select a size value"
-        type="range"
-        min="0"
-        max={sizes.length - 1}
-        value={selected}
-        onChange={(e) => onChange(Number(e.target.value))}
-      />
-      <div>
-        {sizes.map((size, index) => (
-          <span key={index} aria-label={`Size: ${size}`}>
-            {size}
-          </span>
-        ))}
-      </div>
-    </div>
-  </>
-);
-
-SizeSlider.propTypes = {
-  sizes: PropsTypes.arrayOf(PropsTypes.string).isRequired,
-  selected: PropsTypes.number.isRequired,
-  onChange: PropsTypes.func.isRequired,
-};
-
+import ColorSelector from "./ColorSelector";
+import NumberInput from './NumberInput';
+import SizeSlider from './SizeSlider';
+import './styles.css';
 
 const FormParts = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
