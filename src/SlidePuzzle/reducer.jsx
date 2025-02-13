@@ -9,6 +9,7 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
+
     case MOVE_TILE: {
       const { moveTile } = action.payload;
       const { tiles, size } = state;
@@ -21,8 +22,10 @@ export const reducer = (state, action) => {
       }
       return state;
     }
+
     case RESET_PUZZLE:
-      return { ...initialState, tiles: setTiles(initialState.size, false) };
+      return { ...initialState };
+
     default:
       return state || initialState;
   }
@@ -34,12 +37,14 @@ function setTiles(size, ordered) {
     const val = index + 1;
     return val === arrayLen ? 0 : val;
   });
+
   if (!ordered) {
     for (let i = tiles.length - 1; i > 0; i--) {
       const randomIndex = Math.floor(Math.random() * (i + 1));
       [tiles[i], tiles[randomIndex]] = [tiles[randomIndex], tiles[i]];
     }
   }
+
   return Array.from({ length: size }, (_, row) =>
     tiles.slice(row * size, row * size + size)
   );
@@ -58,6 +63,7 @@ function findEmptyTile(tiles) {
 function moveIsValid(emptyTile, moveTile) {
   const { row: eRow, col: eCol } = emptyTile;
   const { row: mRow, col: mCol } = moveTile;
+
   return (
     (Math.abs(eRow - mRow) === 1 && eCol === mCol) ||
     (Math.abs(eCol - mCol) === 1 && eRow === mRow)
