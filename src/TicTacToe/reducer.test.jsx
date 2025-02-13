@@ -21,7 +21,9 @@ describe('TicTacToe Reducer', () => {
   it('should not make a move on an occupied spot', () => {
     const state = {
       ...initialState,
-      board: ['X', null, null, null, null, null, null, null, null],
+      board: ['X', null, null,
+              null, null, null,
+              null, null, null],
     };
     const action = { type: MAKE_MOVE, payload: { index: 0 } };
     const newState = reducer(state, action);
@@ -31,7 +33,9 @@ describe('TicTacToe Reducer', () => {
   it('should not make a move after the game is won', () => {
     const state = {
       ...initialState,
-      board: ['X', 'X', 'X', null, null, null, null, null, null],
+      board: ['X', 'X', 'X',
+              'O', null, null,
+              null, 'O', null],
       winner: 'X',
     };
     const action = { type: MAKE_MOVE, payload: { index: 3 } };
@@ -42,7 +46,9 @@ describe('TicTacToe Reducer', () => {
   it('should reset the game', () => {
     const state = {
       ...initialState,
-      board: ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X'],
+      board: ['X', 'O', 'X',
+              'O', 'X', 'O',
+              'X', 'O', 'X'],
       currentPlayer: 'O',
     };
     const action = { type: RESET_GAME };
