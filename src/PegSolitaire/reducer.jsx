@@ -4,9 +4,9 @@ export const initialState = {
   board: [
     [null, null, 1, 1, 1, null, null],
     [null, null, 1, 1, 1, null, null],
-    [  1,    1,  1, 1, 1,   1,    1 ],
-    [  1,    1,  1, 0, 1,   1,    1 ],
-    [  1,    1,  1, 1, 1,   1,    1 ],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
     [null, null, 1, 1, 1, null, null],
     [null, null, 1, 1, 1, null, null],
   ],
@@ -58,13 +58,10 @@ export const reducer = (state, action) => {
       const midCol = col + y / 2;
       const newRow = row + x;
       const newCol = col + y;
-      // Check if the jump is within bounds
       if (
         newRow >= 0 && newRow < board.length &&
         newCol >= 0 && newCol < board[0].length
       ) {
-        // Check if the middle spot has a 1
-        // and the landing spot is empty
         if (
           board[midRow]?.[midCol] === 1 &&
           board[newRow]?.[newCol] === 0
@@ -96,17 +93,23 @@ export const reducer = (state, action) => {
   };
 
   switch (action.type) {
-    case SELECT_PEG:
-      return { ...state, selectedPeg: action.payload }
+    case SELECT_PEG: {
+      const { row, col } = action.payload;
+      if (state.board[row][col] !== 1) return state;
+      return { ...state, selectedPeg: action.payload };
+    }
     case MAKE_MOVE: {
-      if (state.winner) return state;
+      if (state.winner || !state.selectedPeg ) return state;
       const { endRow, endCol } = action.payload;
       const { row: startRow, col: startCol } = state.selectedPeg;
-      if (!validateJump(startRow, startCol, endRow, endCol)) return state
-      const newBoard = jumpPeg(startRow, startCol, endRow, endCol);
 
+      if (!validateJump(startRow, startCol, endRow, endCol)) return state;
+
+      const newBoard = jumpPeg(startRow, startCol, endRow, endCol, state.board);
+
+      // Only calculate winner and movesLeft if the board changes
       const winner = hasWinningMove(newBoard);
-      const movesLeft = hasMovesLeft(newBoard);
+      const movesLeft = winner ? false : hasMovesLeft(newBoard);
 
       return {
         ...state,
@@ -118,7 +121,7 @@ export const reducer = (state, action) => {
       };
     }
     case RESET_GAME: {
-      return initialState;
+      return { ...initialState }
     }
     case UNDO_MOVE: {
       if (state.history.length === 0 || state.winner) return state;
@@ -126,7 +129,8 @@ export const reducer = (state, action) => {
       return {
         ...state,
         board: previousBoard,
-        winner: null,
+        winner: hasWinningMove(previousBoard),
+        movesLeft: hasMovesLeft(previousBoard),
         selectedPeg: null,
         history: state.history.slice(0, -1),
       };
