@@ -4,7 +4,6 @@ import { reducer, initialState } from "./reducer";
 import Cell from './Cell'
 import "./styles.css";
 
-
 const PegSolitaire = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -19,7 +18,6 @@ const PegSolitaire = () => {
 
   return (
     <div className="peg-game">
-      {/* Game Status */}
       <div
         aria-label="Game Status"
         className="peg-game-status"
@@ -33,7 +31,11 @@ const PegSolitaire = () => {
             : "Jump the pegs to the open spot"}
       </div>
 
-      <div className="peg-board" role="grid" aria-label="Peg Solitaire Board">
+      <div
+        className="peg-board"
+        role="grid"
+        aria-label="Peg Solitaire Board"
+      >
         {state.board.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <Cell

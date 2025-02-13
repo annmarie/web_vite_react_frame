@@ -27,7 +27,7 @@ const Cell = ({ rowIndex, colIndex, cellValue, selectedPeg, onClick }) => {
 Cell.propTypes = {
   rowIndex: PropTypes.number.isRequired,
   colIndex: PropTypes.number.isRequired,
-  cellValue: PropTypes.oneOf([0, 1, null, "invalid"]).isRequired,
+  cellValue: PropTypes.oneOf([0, 1, null, "invalid"]),
   selectedPeg: PropTypes.shape({
     row: PropTypes.number,
     col: PropTypes.number,

@@ -4,8 +4,7 @@ import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes';
 import { reducer, initialState } from './reducer';
 import "./styles.css";
 
-// Selector Component
-const ColorSelector = ({ options, selected, onChange }) => (
+const ColorSelector = ({ colors, selected, onChange }) => (
   <>
     <label htmlFor="color">Color:</label>
     <select
@@ -15,7 +14,7 @@ const ColorSelector = ({ options, selected, onChange }) => (
       value={selected}
       onChange={(e) => onChange(Number(e.target.value))}
     >
-      {options.map((item, index) => (
+      {colors.map((item, index) => (
         <option key={index} value={index} aria-label={`Color: ${item}`}>
           {item}
         </option>
@@ -25,13 +24,12 @@ const ColorSelector = ({ options, selected, onChange }) => (
 );
 
 ColorSelector.propTypes = {
-  options: PropsTypes.arrayOf(PropsTypes.string).isRequired,
+  colors: PropsTypes.arrayOf(PropsTypes.string).isRequired,
   selected: PropsTypes.number.isRequired,
   onChange: PropsTypes.func.isRequired,
 };
 
-// Number Input Component
-const NumberInput = ({ value, onChange, inputRef }) => (
+const NumberInput = ({ num, onChange, inputRef }) => (
   <>
     <label htmlFor="num">Num:</label>
     <input
@@ -40,7 +38,7 @@ const NumberInput = ({ value, onChange, inputRef }) => (
       data-testid="num-input"
       aria-label="Enter a number"
       ref={inputRef}
-      value={value}
+      value={num}
       placeholder="Input number"
       onChange={(e) => onChange(Number(e.target.value) || "")}
     />
@@ -48,13 +46,12 @@ const NumberInput = ({ value, onChange, inputRef }) => (
 );
 
 NumberInput.propTypes = {
-  value: PropsTypes.oneOfType([PropsTypes.number, PropsTypes.string]).isRequired,
+  num: PropsTypes.oneOfType([PropsTypes.number, PropsTypes.string]).isRequired,
   onChange: PropsTypes.func.isRequired,
   inputRef: PropsTypes.shape({ current: PropsTypes.instanceOf(Element) })
 }
 
-// Slider Component
-const SizeSlider = ({ options, selected, onChange }) => (
+const SizeSlider = ({ sizes, selected, onChange }) => (
   <>
     <label htmlFor="size">Size:</label>
     <div className="slider-range">
@@ -64,14 +61,14 @@ const SizeSlider = ({ options, selected, onChange }) => (
         aria-label="Select a size value"
         type="range"
         min="0"
-        max={options.length - 1}
+        max={sizes.length - 1}
         value={selected}
         onChange={(e) => onChange(Number(e.target.value))}
       />
       <div>
-        {options.map((item, index) => (
-          <span key={index} aria-label={`Size: ${item}`}>
-            {item}
+        {sizes.map((size, index) => (
+          <span key={index} aria-label={`Size: ${size}`}>
+            {size}
           </span>
         ))}
       </div>
@@ -80,7 +77,7 @@ const SizeSlider = ({ options, selected, onChange }) => (
 );
 
 SizeSlider.propTypes = {
-  options: PropsTypes.arrayOf(PropsTypes.string).isRequired,
+  sizes: PropsTypes.arrayOf(PropsTypes.string).isRequired,
   selected: PropsTypes.number.isRequired,
   onChange: PropsTypes.func.isRequired,
 };
@@ -101,7 +98,7 @@ const FormParts = () => {
 
       <div className="row-item">
         <ColorSelector
-          options={state.colors}
+          colors={state.colors}
           selected={state.colorKey}
           onChange={(value) => dispatch({ type: SET_COLOR, payload: value })}
         />
@@ -109,17 +106,17 @@ const FormParts = () => {
 
       <div className="row-item">
         <NumberInput
-          value={state.num}
-          onChange={(value) => dispatch({ type: SET_NUM, payload: value })}
+          num={state.num}
+          onChange={(num) => dispatch({ type: SET_NUM, payload: num })}
           inputRef={numRef}
         />
       </div>
 
       <div className="row-item">
         <SizeSlider
-          options={state.sizes}
+          sizes={state.sizes}
           selected={state.sizeKey}
-          onChange={(value) => dispatch({ type: SET_SIZE, payload: value })}
+          onChange={(size) => dispatch({ type: SET_SIZE, payload: size})}
         />
       </div>
 

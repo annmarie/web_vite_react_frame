@@ -2,6 +2,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import PegSolitaire from "../PegSolitaire";
 import { initialState } from "./reducer";
 
+const BOARD_LENGTH = 7 * 7; // 7 rows * 7 columns
 const UNDO_BUTTON = /Undo the last move/i
 const RESET_BUTTON = /Reset the game to its initial state/i
 const GAME_STATUS = /Game Status/i
@@ -27,7 +28,7 @@ describe("PegSolitaire Component", () => {
     expect(gameStatus).toBeInTheDocument();
     expect(undoButton).toBeDisabled();
     expect(resetButton).toBeDisabled();
-    expect(cells.length).toEqual(7 * 7);
+    expect(cells.length).toEqual(BOARD_LENGTH);
   });
 
   it("should handle a first move", async () => {
