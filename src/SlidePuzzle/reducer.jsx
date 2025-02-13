@@ -1,9 +1,9 @@
 import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
+import { SIZE } from './globals';
 
-const size = 4;
 export const initialState = {
-  size,
-  tiles: setTiles(size, false),
+  size: SIZE,
+  tiles: setTiles(SIZE, false),
   isSolved: false,
 }
 
@@ -27,7 +27,6 @@ export const reducer = (state, action) => {
       return state || initialState;
   }
 };
-
 
 function setTiles(size, ordered) {
   const arrayLen = size * size;
