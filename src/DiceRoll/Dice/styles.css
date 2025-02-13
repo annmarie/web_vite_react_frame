@@ -18,6 +18,7 @@
   justify-items: center;
   align-items: center;
   position: relative;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .dice-container .die-dot {
