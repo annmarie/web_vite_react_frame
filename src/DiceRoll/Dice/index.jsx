@@ -1,7 +1,17 @@
 import PropTypes from 'prop-types';
 import './styles.css';
+import { useEffect, useState } from 'react';
 
 const Dice = ({ diceValue = null }) => {
+  const [rolling, setRolling] = useState(false);
+
+  useEffect(() => {
+    if (diceValue) {
+      setRolling(true);
+      const timer = setTimeout(() => setRolling(false), 1000); // Animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [diceValue]);
 
   const renderDots = (numDots, diceId) => {
     const dotPositions = {
@@ -17,21 +27,24 @@ const Dice = ({ diceValue = null }) => {
     return Array.from({ length: 9 }).map((_, index) => (
       <div
         key={index}
-        className={positions.includes(index) ? `die-dot` : ""}
+        className={`die-dot ${positions.includes(index) ? 'visible' : ''} ${rolling ? 'animate' : ''}`}
         data-testid={positions.includes(index) ? `die-dot-${diceId}` : ""}
       />
     ));
   };
 
-  return (diceValue && <div className="dice-container">
-    <div
-      aria-label={`Dice 1 showing ${diceValue[0]}`}
-      className="die">{renderDots(diceValue[0], 'left')}</div>
-    <div
-      aria-label={`Dice 2 showing ${diceValue[1]}`}
-      className="die">{renderDots(diceValue[1], 'right')}</div>
-  </div>
-  )
+  return (
+    diceValue && (
+      <div className="dice-container">
+        <div
+          aria-label={`Dice 1 showing ${diceValue[0]}`}
+          className="die">{renderDots(diceValue[0], 'left')}</div>
+        <div
+          aria-label={`Dice 2 showing ${diceValue[1]}`}
+          className="die">{renderDots(diceValue[1], 'right')}</div>
+      </div>
+    )
+  );
 };
 
 Dice.propTypes = {

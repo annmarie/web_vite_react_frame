@@ -26,4 +26,26 @@
   height: 10px;
   background-color: black;
   border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dice-container .die-dot.visible {
+  opacity: 1;
+}
+
+.dice-container .die-dot.animate {
+  animation: bounce 0.5s ease forwards;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
