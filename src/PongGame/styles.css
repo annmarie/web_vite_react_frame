@@ -1,0 +1,38 @@
+.pong-game-wrapper {
+  font-family: Arial, sans-serif;
+  align-items: center;
+  background: #000;
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.pong-game-board {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  background: #222;
+  border: 2px solid #fff;
+  overflow: hidden;
+}
+
+.pong-game-board .score {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.pong-game-board .paddle {
+  position: absolute;
+  width: 10px;
+  height: 100px;
+  background: #fff;
+}
+
+.pong-game-board .ball {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+}

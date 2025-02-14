@@ -7,17 +7,18 @@ import Connect4 from './Connect4';
 import PegSolitaire from './PegSolitaire';
 import CatCarousel from './CatCarousel';
 import TicTacToe from './TicTacToe';
+import PongGame from "./PongGame";
 
 const Hello = () => {
   return (
     <ul>
       <li><Link to="/connect4">Connect4</Link></li>
-      <li><Link to="/diceroll">DiceRoll</Link></li>
+      <li><Link to="/ponggame">PongGame</Link></li>
       <li><Link to="/slidepuzzle">SlidePuzzle</Link></li>
       <li><Link to="/tictactoe">TicTacToe</Link></li>
       <li><Link to="/catcarousel">CatCarousel</Link></li>
       <li><Link to="/pegsolitaire">PegSolitaire</Link></li>
-      <li><Link to="/formparts">FormParts</Link></li>
+      <li><Link to="/diceroll">DiceRoll</Link></li>
     </ul>
   )
 }
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/pegsolitaire" element={<PegSolitaire />} />
         <Route path="/catcarousel" element={<CatCarousel />} />
         <Route path="/tictactoe" element={<TicTacToe />} />
+        <Route path="/PongGame" element={<PongGame />} />
       </Routes>
     </Router>
   );
