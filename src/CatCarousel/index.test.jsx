@@ -5,18 +5,18 @@ import CatCarousel from "../CatCarousel";
 jest.mock("axios"); // Mock axios
 
 describe("CatCarousel Component with good api call", () => {
-  // Mock data for API response
   const mockImages = [
     { url: "https://example.com/cat1.jpg" },
     { url: "https://example.com/cat2.jpg" },
     { url: "https://example.com/cat3.jpg" },
   ];
 
-  // Mock console.log
+  // Mock console log and error
   jest.spyOn(console, 'log').mockImplementation();
   jest.spyOn(console, 'error').mockImplementation();
 
   beforeEach(async () => {
+    jest.clearAllMocks()
   });
 
   it("should render the carousel", async () => {

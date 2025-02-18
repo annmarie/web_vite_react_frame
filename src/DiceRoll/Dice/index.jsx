@@ -8,7 +8,7 @@ const Dice = ({ diceValue = null }) => {
   useEffect(() => {
     if (diceValue) {
       setRolling(true);
-      const timer = setTimeout(() => setRolling(false), 1000); // Animation duration
+      const timer = setTimeout(() => setRolling(false), 1000);
       return () => clearTimeout(timer);
     }
   }, [diceValue]);
@@ -33,15 +33,21 @@ const Dice = ({ diceValue = null }) => {
     ));
   };
 
+  const renderDie = (value, id) => (
+    <div
+      key={id}
+      aria-label={`Dice ${id} showing ${value || 0}`}
+      className="die"
+    >
+      {renderDots(value, id)}
+    </div>
+  );
+
   return (
     diceValue && (
       <div className="dice-container">
-        <div
-          aria-label={`Dice 1 showing ${diceValue[0]}`}
-          className="die">{renderDots(diceValue[0], 'left')}</div>
-        <div
-          aria-label={`Dice 2 showing ${diceValue[1]}`}
-          className="die">{renderDots(diceValue[1], 'right')}</div>
+        {renderDie(diceValue[0], 'left')}
+        {renderDie(diceValue[1], 'right')}
       </div>
     )
   );

@@ -41,5 +41,3 @@ export const reducer = (state, action) => {
       return state || initialState;
   }
 };
-
-export default { initialState, reducer };

@@ -12,28 +12,6 @@ const UNDO_MOVE = /undo move/i;
 
 describe("Connect4 Component", () => {
 
-  const validateInitialBoardState = (cells) => {
-    cells.forEach((cell) => {
-      expect(cell).toBeEmptyDOMElement();
-    });
-  };
-
-  const simulateMoves = async (cells, moves) => {
-    await act(async () => {
-      moves.forEach((index) => fireEvent.click(cells[index]));
-    });
-  };
-
-  const simulatePlayerOneWin = async (cells) => {
-    await simulateMoves(cells, [1, 2, 1, 2, 1, 2, 1])
-  };
-
-  const setUpBoardWithNoWinners = async (cells) => {
-    for (let i = 0; i < 6; i++) {
-      await simulateMoves(cells, [6, 0, 5, 1, 2, 4, 3])
-    }
-  };
-
   it("should render the initial board setup", async () => {
     await act(async () => render(<Connect4 />));
     const cells = screen.getAllByRole("cell");
@@ -124,3 +102,26 @@ describe("Connect4 Component", () => {
     expect(undoButton).not.toBeEnabled();
   });
 });
+
+
+const validateInitialBoardState = (cells) => {
+  cells.forEach((cell) => {
+    expect(cell).toBeEmptyDOMElement();
+  });
+};
+
+const simulateMoves = async (cells, moves) => {
+  await act(async () => {
+    moves.forEach((index) => fireEvent.click(cells[index]));
+  });
+};
+
+const simulatePlayerOneWin = async (cells) => {
+  await simulateMoves(cells, [1, 2, 1, 2, 1, 2, 1])
+};
+
+const setUpBoardWithNoWinners = async (cells) => {
+  for (let i = 0; i < 6; i++) {
+    await simulateMoves(cells, [6, 0, 5, 1, 2, 4, 3])
+  }
+};

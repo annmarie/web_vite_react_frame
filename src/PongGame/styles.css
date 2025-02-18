@@ -36,3 +36,9 @@
   background: #fff;
   border-radius: 50%;
 }
+
+.pong-game-wrapper .legend {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}

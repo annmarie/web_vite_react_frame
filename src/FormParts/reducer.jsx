@@ -1,4 +1,9 @@
-import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes'
+import {
+  SET_NUM,
+  SET_COLOR,
+  SET_SIZE,
+  RESET_FORM
+} from './actionTypes'
 
 export const initialState = {
   num: 0,
@@ -35,5 +40,3 @@ export const reducer = (state, action) => {
       return state || initialState;
   }
 };
-
-export default { reducer, initialState }

@@ -1,11 +1,10 @@
 import { useReducer, useEffect, useRef } from "react";
 import { reducer, initialState } from "./reducer";
 import {
-  MOVE_PADDLE1, MOVE_PADDLE2, MOVE_BALL,
+  MOVE_PADDLE_LEFT, MOVE_PADDLE_RIGHT, MOVE_BALL,
   TOGGLE_GAME, RESET_GAME
 } from './actionTypes'
 import "./styles.css";
-
 
 const PongGame = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -13,12 +12,12 @@ const PongGame = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "w") dispatch({ type: MOVE_PADDLE1, payload: -20 });
-      if (e.key === "s") dispatch({ type: MOVE_PADDLE1, payload: 20 });
-      if (e.key === "ArrowUp") dispatch({ type: MOVE_PADDLE2, payload: -20 });
-      if (e.key === "ArrowDown") dispatch({ type: MOVE_PADDLE2, payload: 20 });
-      if (e.key === "o") dispatch({ type: MOVE_PADDLE2, payload: -20 });
-      if (e.key === "l") dispatch({ type: MOVE_PADDLE2, payload: 20 });
+      if (e.key === "w") dispatch({ type: MOVE_PADDLE_LEFT, payload: -20 });
+      if (e.key === "s") dispatch({ type: MOVE_PADDLE_LEFT, payload: 20 });
+      if (e.key === "ArrowUp") dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
+      if (e.key === "ArrowDown") dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
+      if (e.key === "o") dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
+      if (e.key === "l") dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
       if (e.key === " ") dispatch({ type: TOGGLE_GAME });
     };
 
@@ -39,26 +38,31 @@ const PongGame = () => {
     return () => clearInterval(intervalRef.current);
   }, [state.pause]);
 
-  const { ball, paddle1, paddle2, score } = state;
+  const { ball, paddle_left, paddle_right, score } = state;
 
   return (
     <div className="pong-game-wrapper">
       <div ref={gameRef} className="pong-game-board">
         <div className="score">
-          Player 1: {score.player_one} | Player 2: {score.player_two}
+          Player 1: {score.player_left} | Player 2: {score.player_right}
         </div>
         <div
           className="paddle"
-          style={{ top: paddle1, left: 10 }}
+          style={{ top: paddle_left, left: 10 }}
         ></div>
         <div
           className="paddle"
-          style={{ top: paddle2, right: 10 }}
+          style={{ top: paddle_right, right: 10 }}
         ></div>
         <div
           className="ball"
           style={{ top: ball.y, left: ball.x }}
         ></div>
+      </div>
+      <div className="legend">
+        <div>w - left up<br />s - left up</div>
+        <div>spacebar to play/pause</div>
+        <div>o - left up<br />l - left up</div>
       </div>
 
       <button

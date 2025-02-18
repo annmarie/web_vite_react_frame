@@ -19,75 +19,50 @@ describe('TicTacToe Reducer', () => {
   });
 
   it('should not make a move on an occupied spot', () => {
-    const state = {
-      ...initialState,
-      board: ['X', null, null,
-              null, null, null,
-              null, null, null],
-    };
-    const action = { type: MAKE_MOVE, payload: { index: 0 } };
-    const newState = reducer(state, action);
-    expect(newState).toEqual(state);
-  });
-
-  it('should not make a move after the game is won', () => {
-    const state = {
-      ...initialState,
-      board: ['X', 'X', 'X',
-              'O', null, null,
-              null, 'O', null],
-      winner: 'X',
-    };
-    const action = { type: MAKE_MOVE, payload: { index: 3 } };
-    const newState = reducer(state, action);
-    expect(newState).toEqual(state);
-  });
-
-  it('should reset the game', () => {
-    const state = {
-      ...initialState,
-      board: ['X', 'O', 'X',
-              'O', 'X', 'O',
-              'X', 'O', 'X'],
-      currentPlayer: 'O',
-    };
-    const action = { type: RESET_GAME };
-    const newState = reducer(state, action);
-    expect(newState).toEqual(initialState);
-  });
-
-  it('should undo a move', () => {
-    const state = {
-      ...initialState,
-      board: ['X', null, null, null, null, null, null, null, null],
-      currentPlayer: 'O',
-      history: [initialState.board],
-    };
-    const action = { type: UNDO_MOVE };
-    const newState = reducer(state, action);
-    expect(newState.board).toEqual(initialState.board);
-    expect(newState.history).toHaveLength(0);
-    expect(newState.currentPlayer).toBe('X');
-  });
-
-  it('should not undo if there is no history', () => {
-    const state = { ...initialState }
-    const action = { type: UNDO_MOVE };
-    const newState = reducer(state, action);
+    const state = reducer({ ...initialState }, { type: MAKE_MOVE, payload: { index: 0 } });
+    const newState = reducer(state, { type: MAKE_MOVE, payload: { index: 0 } });
     expect(newState).toEqual(state);
   });
 
   it('should not undo after the game is won', () => {
-    const state = {
-      ...initialState,
-      board: ['X', 'X', 'X',
-              'O', 'O', null,
-              null, null, null],
-      winner: 'X',
-      history: [initialState.board],
-    };
-    const action = { type: UNDO_MOVE };
-    const newState = reducer(state, action);
-    expect(newState).toEqual(state);
+    const state = reducer({ ...initialState }, { type: MAKE_MOVE, payload: { index: 0 } });
+    const state2 = reducer(state, { type: MAKE_MOVE, payload: { index: 3 } });
+    const state3 = reducer(state2, { type: MAKE_MOVE, payload: { index: 2 } });
+    const state4 = reducer(state3, { type: MAKE_MOVE, payload: { index: 4 } });
+    const state5 = reducer(state4, { type: MAKE_MOVE, payload: { index: 1 } });
+    const state6 = reducer(state5, { type: UNDO_MOVE } );
+    expect(state6).toEqual(state5);
+  });
+
+  it('should not make a move after the game is won', () => {
+    const state = reducer({ ...initialState }, { type: MAKE_MOVE, payload: { index: 0 } });
+    const state2 = reducer(state, { type: MAKE_MOVE, payload: { index: 3 } });
+    const state3 = reducer(state2, { type: MAKE_MOVE, payload: { index: 2 } });
+    const state4 = reducer(state3, { type: MAKE_MOVE, payload: { index: 4 } });
+    const state5 = reducer(state4, { type: MAKE_MOVE, payload: { index: 1 } });
+    const state6 = reducer(state5, { type: MAKE_MOVE, payload: { index: 3 } });
+    expect(state6).toEqual(state5);
+  });
+
+  it('should undo a move', () => {
+    const state = reducer({ ...initialState }, { type: MAKE_MOVE, payload: { index: 0 } });
+    const state2 = reducer(state, { type: UNDO_MOVE });
+    expect(state2.board).toEqual(initialState.board);
+    expect(state2.history).toHaveLength(0);
+    expect(state2.currentPlayer).toBe('X');
+  });
+
+  it('should reset the game', () => {
+    const state = reducer({ ...initialState }, { type: MAKE_MOVE, payload: { index: 0 } });
+    const state2 = reducer(state, { type: MAKE_MOVE, payload: { index: 1 } });
+    const state3 = reducer(state2, { type: MAKE_MOVE, payload: { index: 2 } });
+    const state4 = reducer(state3, { type: MAKE_MOVE, payload: { index: 3 } });
+    const state5 = reducer(state4, { type: MAKE_MOVE, payload: { index: 4 } });
+    const state6 = reducer(state5, { type: MAKE_MOVE, payload: { index: 6 } });
+    const state7 = reducer(state6, { type: MAKE_MOVE, payload: { index: 5 } });
+    const state8 = reducer(state7, { type: MAKE_MOVE, payload: { index: 8 } });
+    const state9 = reducer(state8, { type: MAKE_MOVE, payload: { index: 7 } });
+    const endState = reducer(state9, { type: RESET_GAME });
+    expect(endState).toEqual(initialState);
   });
 });
