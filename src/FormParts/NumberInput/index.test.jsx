@@ -21,11 +21,11 @@ describe('NumberInput Component', () => {
   });
 
   it('calls onChange when the input value changes', async () => {
-    await act(() => render(<NumberInput num={42} onChange={onChangeMock} inputRef={inputRefMock} />));
+    await act(async () => render(<NumberInput num={42} onChange={onChangeMock} inputRef={inputRefMock} />));
     const input = screen.getByTestId('num-input');
-    await act(() => fireEvent.change(input, { target: { value: '100' } }));
+    await act(async () => fireEvent.change(input, { target: { value: '100' } }));
     expect(onChangeMock).toHaveBeenCalledWith(100);
-    await act(() => fireEvent.change(input, { target: { value: '' } }));
+    await act(async () => fireEvent.change(input, { target: { value: '' } }));
     expect(onChangeMock).toHaveBeenCalledWith('');
   });
 

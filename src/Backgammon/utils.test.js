@@ -10,12 +10,12 @@ import {
 
 describe('Utility Functions', () => {
   describe('initializeBoard', () => {
-    it('returns an array of 24 points', () => {
+    it('should return an array of 24 points', () => {
       const board = initializeBoard();
       expect(board).toHaveLength(24);
     });
 
-    it('correctly initializes points with checkers and players', () => {
+    it('should initializes points with checkers and players', () => {
       const board = initializeBoard();
 
       expect(board[0]).toEqual({ id: 1, checkers: 5, player: PLAYER_LEFT });
@@ -33,7 +33,7 @@ describe('Utility Functions', () => {
   });
 
   describe('rollDie', () => {
-    it('returns a number between 1 and 6', () => {
+    it('should return a number between 1 and 6', () => {
       for (let i = 0; i < 100; i++) {
         const roll = rollDie();
         expect(roll).toBeGreaterThanOrEqual(1);
@@ -43,17 +43,17 @@ describe('Utility Functions', () => {
   });
 
   describe('togglePlayer', () => {
-    it('toggles from PLAYER_RIGHT to PLAYER_LEFT', () => {
+    it('should toggle from PLAYER_RIGHT to PLAYER_LEFT', () => {
       expect(togglePlayer(PLAYER_RIGHT)).toBe(PLAYER_LEFT);
     });
 
-    it('toggles from PLAYER_LEFT to PLAYER_RIGHT', () => {
+    it('should toggle from PLAYER_LEFT to PLAYER_RIGHT', () => {
       expect(togglePlayer(PLAYER_LEFT)).toBe(PLAYER_RIGHT);
     });
   });
 
   describe('getPointKey', () => {
-    it('returns correct point mapping for PLAYER_RIGHT', () => {
+    it('should return correct point mapping for PLAYER_RIGHT', () => {
       const pointKey = getPointKey(PLAYER_RIGHT);
       expect(pointKey[0]).toBe(12);
       expect(pointKey[11]).toBe(23);
@@ -61,7 +61,7 @@ describe('Utility Functions', () => {
       expect(pointKey[23]).toBe(0);
     });
 
-    it('returns correct point mapping for PLAYER_LEFT', () => {
+    it('should return correct point mapping for PLAYER_LEFT', () => {
       const pointKey = getPointKey(PLAYER_LEFT);
       expect(pointKey[0]).toBe(11);
       expect(pointKey[11]).toBe(0);
@@ -71,7 +71,7 @@ describe('Utility Functions', () => {
   });
 
   describe('updatePoints', () => {
-    it('moves a checker from one point to another', () => {
+    it('should move a checker from one point to another', () => {
       const points = initializeBoard();
       const fromIndex = 0; // Point 1
       const toIndex = 5; // Point 6
@@ -86,7 +86,7 @@ describe('Utility Functions', () => {
       expect(updatedPoints[toIndex].player).toBe(PLAYER_LEFT);
     });
 
-    it('removes player from a point when checkers reach 0', () => {
+    it('should remove player from a point when checkers reach 0', () => {
       const points = initializeBoard();
       const fromIndex = 11; // Point 12 (2 checkers for PLAYER_LEFT)
       const toIndex = 5; // Point 6
@@ -101,7 +101,7 @@ describe('Utility Functions', () => {
       expect(updatedPoints[fromIndex].player).toBe(null);
     });
 
-    it('adds player to a point when checkers reach 1', () => {
+    it('should add a player to a point when checkers reach 1', () => {
       const points = initializeBoard();
       const fromIndex = 0; // Point 1 (5 checkers for PLAYER_LEFT)
       const toIndex = 2; // Point 3 (0 checkers)

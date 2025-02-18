@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 import { initialState, reducer } from './reducer';
 import {
   SELECT_SPOT, MOVE_CHECKER,
@@ -11,6 +11,22 @@ import './styles.css';
 
 const Backgammon = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === ' ') {
+        if (state.diceValue === null) {
+          dispatch({ type: ROLL_DICE });
+        }
+      }
+      if (e.key === 'u') {
+        dispatch({ type: UNDO })
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state.diceValue]);
 
   const handleSpotClick = useCallback(
     (point) => {

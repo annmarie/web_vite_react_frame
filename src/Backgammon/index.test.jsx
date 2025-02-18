@@ -2,6 +2,7 @@ import { render, fireEvent, screen, act } from '@testing-library/react';
 import Backgammon from '../Backgammon';
 import * as utils from './utils';
 
+
 jest.mock('./utils', () => ({
   ...jest.requireActual('./utils'),
   rollDie: jest.fn(),
@@ -128,6 +129,46 @@ describe('Backgammon Component Tests', () => {
     expect(screen.getByRole('button', { name: UNDO_MOVE })).toHaveAttribute('disabled');
     validateInitialBoardState(points);
   });
+
+  it('should roll the dice when the spacebar is pressed and diceValue is null', async () => {
+    await act(async () => render(<Backgammon />));
+    const rollButton = screen.getByRole('button', { name: ROLL_DICE });
+    expect(rollButton).toBeInTheDocument();
+    utils.rollDie.mockReturnValueOnce(4).mockReturnValueOnce(6);
+    await act(async () => fireEvent.keyDown(window, { key: ' ' }));
+    expect(screen.queryAllByTestId(DICE_DOT_LEFT_TEST_ID).length).toBe(4);
+    expect(screen.queryAllByTestId(DICE_DOT_RIGHT_TEST_ID).length).toBe(6);
+  });
+
+  it('should not roll the dice when the spacebar is pressed and diceValue is not null', async () => {
+    await act(async () => render(<Backgammon />));
+    expect(screen.getByRole('button', { name: ROLL_DICE })).toBeInTheDocument();
+    utils.rollDie.mockReturnValueOnce(4).mockReturnValueOnce(6);
+    await act(async () => fireEvent.keyDown(window, { key: ' ' }))
+    utils.rollDie.mockReturnValueOnce(1).mockReturnValueOnce(3);
+    await act(async () => fireEvent.keyDown(window, { key: ' ' }))
+    expect(screen.queryAllByTestId(DICE_DOT_LEFT_TEST_ID).length).toBe(4);
+    expect(screen.queryAllByTestId(DICE_DOT_RIGHT_TEST_ID).length).toBe(6);
+  });
+
+  it('should undo the dice roll when the "u" key is pressed', async () => {
+    await act(async () => render(<Backgammon />));
+    expect(screen.getByRole('button', { name: ROLL_DICE })).toBeInTheDocument();
+    utils.rollDie.mockReturnValueOnce(4).mockReturnValueOnce(6);
+    await act(async () => fireEvent.keyDown(window, { key: ' ' }))
+    expect(screen.queryAllByTestId(DICE_DOT_LEFT_TEST_ID).length).toBe(4);
+    expect(screen.queryAllByTestId(DICE_DOT_RIGHT_TEST_ID).length).toBe(6);
+    await act(async () => fireEvent.keyDown(window, { key: 'u' }))
+    expect(screen.queryAllByTestId(DICE_DOT_LEFT_TEST_ID).length).toBe(0);
+    expect(screen.queryAllByTestId(DICE_DOT_RIGHT_TEST_ID).length).toBe(0);
+  });
+
+  it('should clean up the event listener on unmount', async () => {
+    const { unmount } = await act(async () => render(<Backgammon />));
+    const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+    unmount();
+    expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+  });
 });
 
 function validateInitialBoardState(points) {
@@ -144,3 +185,9 @@ function validateInitialBoardState(points) {
     }
   });
 };
+
+describe('Backgammon keydown events', () => {
+
+
+
+});

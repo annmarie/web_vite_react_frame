@@ -13,7 +13,7 @@ describe("Cell Component", () => {
   };
 
   it("renders correctly with a peg", async () => {
-    await act(() => render(<Cell {...defaultProps} />));
+    await act(async () => render(<Cell {...defaultProps} />));
     const cell = screen.getByRole("button", { name: /Cell at row 1, column 1 is a peg/i });
     expect(cell).toBeInTheDocument();
     expect(cell).toHaveClass("cell peg");
@@ -22,7 +22,7 @@ describe("Cell Component", () => {
   });
 
   it("renders correctly when selected", async () => {
-    await act(() => render(
+    await act(async () => render(
       <Cell
         {...defaultProps}
         selectedPeg={{ row: 0, col: 0 }}
@@ -33,29 +33,29 @@ describe("Cell Component", () => {
   });
 
   it("renders correctly with an empty cell", async () => {
-    await act(() => render(<Cell {...defaultProps} cellValue={0} />));
+    await act(async () => render(<Cell {...defaultProps} cellValue={0} />));
     const cell = screen.getByRole("button", { name: /Cell at row 1, column 1 is empty/i });
     expect(cell).toHaveClass("cell empty");
   });
 
   it("renders correctly with an invalid cell", async () => {
-    await act(() => render(<Cell {...defaultProps} cellValue={"invalid"} />));
+    await act(async () => render(<Cell {...defaultProps} cellValue={"invalid"} />));
     const cell = screen.getByRole("button", { name: /Cell at row 1, column 1 is not playable/i });
     expect(cell).toHaveClass("cell invalid");
     expect(cell).toHaveAttribute("aria-disabled", "true");
   });
 
   it("calls onClick when clicked", async () => {
-    await act(() => render(<Cell {...defaultProps} />));
+    await act(async () => render(<Cell {...defaultProps} />));
     const cell = screen.getByRole("button", { name: /Cell at row 1, column 1 is a peg/i });
     fireEvent.click(cell);
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
 
   it("does not call onClick for invalid cells", async () => {
-    await act(() => render(<Cell {...defaultProps} cellValue={"invalid"} />));
+    await act(async () => render(<Cell {...defaultProps} cellValue={"invalid"} />));
     const cell = screen.getByRole("button", { name: /Cell at row 1, column 1 is not playable/i });
-    await act(() => fireEvent.click(cell));
+    await act(async () => fireEvent.click(cell));
     expect(mockOnClick).not.toHaveBeenCalled();
   });
 });

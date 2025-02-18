@@ -12,22 +12,22 @@ describe('Point Component', () => {
 
   const mockOnClick = jest.fn();
 
-  it('renders with the correct class based on point id', async () => {
-    await act(() => render(<Point point={mockPoint} onClick={mockOnClick} />));
+  it('should render with the correct class based on point id', async () => {
+    await act(async () => render(<Point point={mockPoint} onClick={mockOnClick} />));
     const point = screen.getByLabelText(/Point 1 with 3 checkers/);
     expect(point).toHaveClass('point dark top');
   });
 
-  it('renders the correct number of checkers', async () => {
-    await act(() => render(<Point point={mockPoint} onClick={mockOnClick} />));
+  it('should render the correct number of checkers', async () => {
+    await act(async () => render(<Point point={mockPoint} onClick={mockOnClick} />));
     const checkers = screen.getAllByTestId('checker');
     expect(checkers).toHaveLength(3);
   });
 
-  it('calls onClick with the correct point object when clicked', async () => {
-    await act(() => render(<Point point={mockPoint} onClick={mockOnClick} />));
+  it('should call onClick with the correct point object when clicked', async () => {
+    await act(async () => render(<Point point={mockPoint} onClick={mockOnClick} />));
     const point = screen.getByLabelText(/Point 1 with 3 checkers/);
-    await act(() => fireEvent.click(point));
+    await act(async () => fireEvent.click(point));
     expect(mockOnClick).toHaveBeenCalledWith(mockPoint);
   });
 });

@@ -11,7 +11,7 @@ const SELECT_CELL = /Cell at row \d+, column \d+ is (a peg|empty|not playable)/i
 describe("PegSolitaire Component", () => {
 
   it("should render the peg solitaire board", async () => {
-    await act(() => render(<PegSolitaire />));
+    await act(async () => render(<PegSolitaire />));
     const undoButton = screen.getByRole("button", { name: UNDO_BUTTON });
     const resetButton = screen.getByRole("button", { name: RESET_BUTTON });
     const gameStatus = screen.getByRole("status", { name: GAME_STATUS });
@@ -32,7 +32,7 @@ describe("PegSolitaire Component", () => {
   });
 
   it("should handle a first move", async () => {
-    await act(() => render(<PegSolitaire />));
+    await act(async () => render(<PegSolitaire />));
     const undoButton = screen.getByRole("button", { name: UNDO_BUTTON });
     const resetButton = screen.getByRole("button", { name: RESET_BUTTON });
     const { board } = initialState;
@@ -45,10 +45,10 @@ describe("PegSolitaire Component", () => {
       }
     }
     const pegCell1 = screen.getByLabelText(/Cell at row 4, column 2 is a peg/i);
-    await act(() => fireEvent.click(pegCell1));
+    await act(async () => fireEvent.click(pegCell1));
     expect(screen.getByLabelText(/Cell at row 4, column 2 is a peg and selected/i)).toBeInTheDocument();
     const pegCell2 = screen.getByLabelText(/Cell at row 4, column 4 is empty/i);
-    await act(() => fireEvent.click(pegCell2));
+    await act(async () => fireEvent.click(pegCell2));
     expect(screen.getByLabelText(/Cell at row 4, column 2 is empty/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Cell at row 4, column 3 is empty/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Cell at row 4, column 4 is a peg/i)).toBeInTheDocument();
@@ -57,20 +57,20 @@ describe("PegSolitaire Component", () => {
   });
 
   it("should handle undo button click", async () => {
-    await act(() => render(<PegSolitaire />));
+    await act(async () => render(<PegSolitaire />));
     const undoButton = screen.getByRole("button", { name: UNDO_BUTTON });
     expect(undoButton).toBeDisabled();
-    await act(() => fireEvent.click(screen.getByLabelText(/Cell at row 4, column 2 is a peg/i)));
+    await act(async () => fireEvent.click(screen.getByLabelText(/Cell at row 4, column 2 is a peg/i)));
     expect(screen.getByLabelText(/Cell at row 4, column 2 is a peg and selected/i)).toBeInTheDocument();
-    await act(() => fireEvent.click(screen.getByLabelText(/Cell at row 4, column 4 is empty/i)));
+    await act(async () => fireEvent.click(screen.getByLabelText(/Cell at row 4, column 4 is empty/i)));
     expect(screen.getByLabelText(/Cell at row 4, column 2 is empty/i)).toBeInTheDocument();
     expect(undoButton).not.toBeDisabled();
-    await act(() => fireEvent.click(undoButton));
+    await act(async () => fireEvent.click(undoButton));
     expect(screen.getByLabelText(/Cell at row 4, column 2 is a peg/i)).toBeInTheDocument();
   });
 
   it("should handle a win and reset it", async () => {
-    await act(() => render(<PegSolitaire />));
+    await act(async () => render(<PegSolitaire />));
     const cells = screen.getAllByRole("button", { name: SELECT_CELL });
     const winCellClickOrder = [
       22, 24, 37, 23, 28, 30, 14, 28, 31, 29, 28, 30, 23, 37, 33, 31,
@@ -79,10 +79,10 @@ describe("PegSolitaire Component", () => {
       2, 4, 9, 11, 4, 18, 19, 17, 24, 10, 15, 17, 10, 24
     ]
     for (const c of winCellClickOrder) {
-      await act(() => fireEvent.click(cells[c]));
+      await act(async () => fireEvent.click(cells[c]));
     }
     expect(screen.getByText("Game Won")).toBeInTheDocument();
-    await act(() => fireEvent.click(screen.getByRole("button", { name: RESET_BUTTON })));
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: RESET_BUTTON })));
     const { board } = initialState;
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
