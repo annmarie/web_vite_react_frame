@@ -14,13 +14,10 @@ const Hello = () => {
     <ul>
       <li><Link to="/connect4">Connect4</Link></li>
       <li><Link to="/ponggame">PongGame</Link></li>
-      <li><Link to="/slidepuzzle">SlidePuzzle</Link></li>
       <li><Link to="/tictactoe">TicTacToe</Link></li>
       <li><Link to="/catcarousel">CatCarousel</Link></li>
       <li><Link to="/pegsolitaire">PegSolitaire</Link></li>
       <li><Link to="/diceroll">DiceRoll</Link></li>
-      <li><Link to="/backgammon">Backgammon</Link></li>
-      <li><Link to="/formparts">FormFun</Link></li>
     </ul>
   )
 }
