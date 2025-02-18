@@ -2,7 +2,6 @@ import { render, fireEvent, screen, act } from '@testing-library/react';
 import Backgammon from '../Backgammon';
 import * as utils from './utils';
 
-
 jest.mock('./utils', () => ({
   ...jest.requireActual('./utils'),
   rollDie: jest.fn(),
@@ -51,7 +50,7 @@ describe('Backgammon Component Tests', () => {
     expect(points[cell].className).toContain('selected')
   });
 
-  it("should roll the dice and render the dots for each die", async () => {
+  it('should roll the dice and render the dots for each die', async () => {
     await act(async () => render(<Backgammon />));
     const rollButton = screen.getByRole('button', { name: ROLL_DICE });
     const resetButton = screen.getByRole('button', { name: RESET_GAME });
@@ -74,7 +73,7 @@ describe('Backgammon Component Tests', () => {
     validateInitialBoardState(points);
   });
 
-  it("should be able roll dice, make a move and reset board", async () => {
+  it('should be able roll dice, make a move and reset board', async () => {
     await act(async () => render(<Backgammon />));
     const rollButton = screen.getByRole('button', { name: ROLL_DICE });
     const resetButton = screen.getByRole('button', { name: RESET_GAME });
@@ -103,7 +102,7 @@ describe('Backgammon Component Tests', () => {
     validateInitialBoardState(points);
   });
 
-  it("should be able display four sets of die when doubles are rolled", async () => {
+  it('should be able display four sets of die when doubles are rolled', async () => {
     await act(async () => render(<Backgammon />));
     const points = screen.queryAllByRole('point');
     // first roll cannot be doubles
@@ -185,9 +184,3 @@ function validateInitialBoardState(points) {
     }
   });
 };
-
-describe('Backgammon keydown events', () => {
-
-
-
-});

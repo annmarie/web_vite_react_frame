@@ -47,8 +47,8 @@ export function makeMove(tiles, emptyTile, moveTile) {
   return newTiles;
 }
 
-export function puzzleIsSolved(tiles, size) {
-  const orderedTiles = setTiles(size, true).flat();
+export function puzzleIsSolved(tiles) {
+  const orderedTiles = setTiles(tiles.length, true).flat();
   const currentTiles = tiles.flat();
   return orderedTiles.every((value, index) => value === currentTiles[index]);
 }

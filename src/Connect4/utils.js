@@ -70,3 +70,5 @@ export const checkWin = (board, move) => {
 export const togglePlayer = (player) => {
   return player === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
 }
+
+export const initializeBoard = () => Array.from({ length: 6 }, () => Array(7).fill(null));

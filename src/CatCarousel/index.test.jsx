@@ -1,6 +1,6 @@
-import { render, fireEvent, screen, act } from "@testing-library/react";
-import axios from "axios";
-import CatCarousel from "../CatCarousel";
+import { render, fireEvent, screen, act } from '@testing-library/react';
+import axios from 'axios';
+import CatCarousel from '../CatCarousel';
 
 jest.mock("axios"); // Mock axios
 

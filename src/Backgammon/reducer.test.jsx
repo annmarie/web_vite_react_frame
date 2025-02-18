@@ -1,5 +1,5 @@
 import { reducer, initialState } from './reducer';
-import { PLAYER_LEFT, PLAYER_RIGHT } from "./globals";
+import { PLAYER_LEFT, PLAYER_RIGHT } from './globals';
 import {
   SELECT_SPOT, MOVE_CHECKER,
   ROLL_DICE, RESET

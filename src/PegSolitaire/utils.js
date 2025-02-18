@@ -72,3 +72,15 @@ export function validateJump(board, startRow, startCol, endRow, endCol) {
   }
   return false;
 };
+
+export function initializeBoard() {
+  return [
+    [null, null, 1, 1, 1, null, null],
+    [null, null, 1, 1, 1, null, null],
+    [1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1],
+    [null, null, 1, 1, 1, null, null],
+    [null, null, 1, 1, 1, null, null],
+  ];
+}

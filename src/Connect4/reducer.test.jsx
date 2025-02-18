@@ -88,7 +88,7 @@ describe('Connect4 Reducer', () => {
     };
     const action = { type: RESET_GAME };
     const newState = reducer(state, action);
-    expect(newState).toEqual(initialState);
+    expect(newState).toStrictEqual(initialState);
   });
 
   it('should undo the last move', () => {
@@ -97,7 +97,7 @@ describe('Connect4 Reducer', () => {
     expect(newState.board[5][0]).toBe(PLAYER_ONE);
     expect(newState.currentPlayer).toBe(PLAYER_TWO);
     const finalState = reducer(newState, { type: UNDO_MOVE});
-    expect(finalState).toEqual(initialState);
+    expect(finalState).toStrictEqual(initialState);
   });
 
   it('should declare a winner', () => {

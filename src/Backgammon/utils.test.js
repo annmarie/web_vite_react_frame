@@ -73,8 +73,8 @@ describe('Utility Functions', () => {
   describe('updatePoints', () => {
     it('should move a checker from one point to another', () => {
       const points = initializeBoard();
-      const fromIndex = 0; // Point 1
-      const toIndex = 5; // Point 6
+      const fromIndex = 0;
+      const toIndex = 5;
       const player = PLAYER_LEFT;
 
       const updatedPoints = updatePoints(points, fromIndex, toIndex, player);
@@ -88,27 +88,20 @@ describe('Utility Functions', () => {
 
     it('should remove player from a point when checkers reach 0', () => {
       const points = initializeBoard();
-      const fromIndex = 11; // Point 12 (2 checkers for PLAYER_LEFT)
-      const toIndex = 5; // Point 6
+      const fromIndex = 11;
+      const toIndex = 5;
       const player = PLAYER_LEFT;
-
-      // Move both checkers away
       let updatedPoints = updatePoints(points, fromIndex, toIndex, player);
       updatedPoints = updatePoints(updatedPoints, fromIndex, toIndex, player);
-
-      // Check the fromIndex point
       expect(updatedPoints[fromIndex].checkers).toBe(0);
       expect(updatedPoints[fromIndex].player).toBe(null);
     });
 
     it('should add a player to a point when checkers reach 1', () => {
       const points = initializeBoard();
-      const fromIndex = 0; // Point 1 (5 checkers for PLAYER_LEFT)
-      const toIndex = 2; // Point 3 (0 checkers)
-
+      const fromIndex = 0;
+      const toIndex = 2;
       const updatedPoints = updatePoints(points, fromIndex, toIndex, PLAYER_LEFT);
-
-      // Check the toIndex point
       expect(updatedPoints[toIndex].checkers).toBe(1);
       expect(updatedPoints[toIndex].player).toBe(PLAYER_LEFT);
     });

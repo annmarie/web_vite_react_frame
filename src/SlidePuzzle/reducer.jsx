@@ -9,7 +9,6 @@ import {
 } from './utils'
 
 export const initialState = {
-  size: SIZE,
   tiles: setTiles(SIZE, false),
   isSolved: false,
 }
@@ -21,7 +20,7 @@ export const reducer = (state, action) => {
       return reduceMoveTile(state, action);
 
     case RESET_PUZZLE:
-      return { ...initialState };
+      return { ...initialState, tiles: setTiles(SIZE, false) };
 
     default:
       return state || initialState;
@@ -30,12 +29,12 @@ export const reducer = (state, action) => {
 
 function reduceMoveTile(state, action) {
   const { moveTile } = action.payload;
-  const { tiles, size } = state;
-  const emptyTile = findEmptyTile(tiles, size);
+  const { tiles } = state;
+  const emptyTile = findEmptyTile(tiles);
 
   if (moveIsValid(emptyTile, moveTile)) {
     const newTiles = makeMove(tiles, emptyTile, moveTile);
-    const isSolved = puzzleIsSolved(newTiles, size);
+    const isSolved = puzzleIsSolved(newTiles);
     return { ...state, tiles: newTiles, isSolved };
   }
   return state;

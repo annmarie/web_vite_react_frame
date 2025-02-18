@@ -1,23 +1,23 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { useState } from 'react';
-import DiceRoll from "../DiceRoll";
+import DiceRoll from '../DiceRoll';
 
 const ROLL_DICE_BUTTON_TEXT = /roll dice/i;
 const DICE_DOT_LEFT_TEST_ID = /die-dot-left/i;
 const DICE_DOT_RIGHT_TEST_ID = /die-dot-right/i;
 const RESET_DICE_BUTTON_TEXT = 'reset dice'
 
-describe("DiceRoll Component", () => {
+describe('DiceRoll Component', () => {
 
-  it("should render the roll button", async () => {
+  it('should render the roll button', async () => {
     await act(async () => render(<DiceRoll />));
-    const rollButton = screen.getByRole("button", { name: ROLL_DICE_BUTTON_TEXT });
+    const rollButton = screen.getByRole('button', { name: ROLL_DICE_BUTTON_TEXT });
     expect(rollButton).toBeInTheDocument();
   });
 
-  it("should roll the dice and display results", async () => {
+  it('should roll the dice and display results', async () => {
     await act(async () => render(<DiceRoll />));
-    const rollButton = screen.getByRole("button", { name: ROLL_DICE_BUTTON_TEXT });
+    const rollButton = screen.getByRole('button', { name: ROLL_DICE_BUTTON_TEXT });
     expect(screen.queryAllByTestId(DICE_DOT_LEFT_TEST_ID).length).toBe(0);
     expect(screen.queryAllByTestId(DICE_DOT_RIGHT_TEST_ID).length).toBe(0);
     await act(async () => fireEvent.click(rollButton));
@@ -25,7 +25,7 @@ describe("DiceRoll Component", () => {
     expect(screen.queryAllByTestId(DICE_DOT_RIGHT_TEST_ID).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("should render the correct number of dots for each die", async () => {
+  it('should render the correct number of dots for each die', async () => {
     await act(async () => render(<DiceRoll />));
     const rollButton = screen.getByRole("button", { name: ROLL_DICE_BUTTON_TEXT });
     for (let i = 0; i < 6; i++) { // Roll the dice 6 times

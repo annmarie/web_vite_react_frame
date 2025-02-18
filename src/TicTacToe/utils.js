@@ -17,3 +17,5 @@ export function calculateWinner(squares) {
 export function isBoardFull(board) {
   return board.every((square) => square !== null);
 }
+
+export const initializeBoard = () => Array(9).fill(null);

@@ -1,16 +1,8 @@
 import { MAKE_MOVE, UNDO_MOVE, RESET_GAME, SELECT_PEG } from './actionTypes';
-import { hasWinningMove, hasMovesLeft, jumpPeg, validateJump } from './utils';
+import { initializeBoard, hasWinningMove, hasMovesLeft, jumpPeg, validateJump } from './utils';
 
 export const initialState = {
-  board: [
-    [null, null, 1, 1, 1, null, null],
-    [null, null, 1, 1, 1, null, null],
-    [   1,    1, 1, 1, 1,    1,    1],
-    [   1,    1, 1, 0, 1,    1,    1],
-    [   1,    1, 1, 1, 1,    1,    1],
-    [null, null, 1, 1, 1, null, null],
-    [null, null, 1, 1, 1, null, null],
-  ],
+  board: initializeBoard(),
   selectedPeg: null,
   winner: false,
   movesLeft: true,
@@ -29,7 +21,7 @@ export const reducer = (state,  action) => {
       return reduceUndoMove(state);
 
     case RESET_GAME:
-      return { ...initialState };
+      return { ...initialState, board: initializeBoard() };
 
     default:
       return state || initialState;

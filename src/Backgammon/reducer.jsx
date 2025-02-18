@@ -33,7 +33,7 @@ export const reducer = (state, action) => {
       return reduceUndo(state);
 
     case RESET:
-      return { ...initialState };
+      return { ...initialState, points: initializeBoard() };
 
     default:
       return state || initialState;

@@ -1,6 +1,6 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
-import PegSolitaire from "../PegSolitaire";
-import { initialState } from "./reducer";
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import PegSolitaire from '../PegSolitaire';
+import { initialState } from './reducer';
 
 const BOARD_LENGTH = 7 * 7; // 7 rows * 7 columns
 const UNDO_BUTTON = /Undo the last move/i
@@ -8,14 +8,14 @@ const RESET_BUTTON = /Reset the game to its initial state/i
 const GAME_STATUS = /Game Status/i
 const SELECT_CELL = /Cell at row \d+, column \d+ is (a peg|empty|not playable)/i
 
-describe("PegSolitaire Component", () => {
+describe('PegSolitaire Component', () => {
 
-  it("should render the peg solitaire board", async () => {
+  it('should render the peg solitaire board', async () => {
     await act(async () => render(<PegSolitaire />));
-    const undoButton = screen.getByRole("button", { name: UNDO_BUTTON });
-    const resetButton = screen.getByRole("button", { name: RESET_BUTTON });
-    const gameStatus = screen.getByRole("status", { name: GAME_STATUS });
-    const cells = screen.getAllByRole("button", { name: SELECT_CELL });
+    const undoButton = screen.getByRole('button', { name: UNDO_BUTTON });
+    const resetButton = screen.getByRole('button', { name: RESET_BUTTON });
+    const gameStatus = screen.getByRole('status', { name: GAME_STATUS });
+    const cells = screen.getAllByRole('button', { name: SELECT_CELL });
     const { board } = initialState;
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -31,10 +31,10 @@ describe("PegSolitaire Component", () => {
     expect(cells.length).toEqual(BOARD_LENGTH);
   });
 
-  it("should handle a first move", async () => {
+  it('should handle a first move', async () => {
     await act(async () => render(<PegSolitaire />));
-    const undoButton = screen.getByRole("button", { name: UNDO_BUTTON });
-    const resetButton = screen.getByRole("button", { name: RESET_BUTTON });
+    const undoButton = screen.getByRole('button', { name: UNDO_BUTTON });
+    const resetButton = screen.getByRole('button', { name: RESET_BUTTON });
     const { board } = initialState;
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -56,9 +56,9 @@ describe("PegSolitaire Component", () => {
     expect(resetButton).not.toBeDisabled();
   });
 
-  it("should handle undo button click", async () => {
+  it('should handle undo button click', async () => {
     await act(async () => render(<PegSolitaire />));
-    const undoButton = screen.getByRole("button", { name: UNDO_BUTTON });
+    const undoButton = screen.getByRole('button', { name: UNDO_BUTTON });
     expect(undoButton).toBeDisabled();
     await act(async () => fireEvent.click(screen.getByLabelText(/Cell at row 4, column 2 is a peg/i)));
     expect(screen.getByLabelText(/Cell at row 4, column 2 is a peg and selected/i)).toBeInTheDocument();
@@ -69,9 +69,9 @@ describe("PegSolitaire Component", () => {
     expect(screen.getByLabelText(/Cell at row 4, column 2 is a peg/i)).toBeInTheDocument();
   });
 
-  it("should handle a win and reset it", async () => {
+  it('should handle a win and reset it', async () => {
     await act(async () => render(<PegSolitaire />));
-    const cells = screen.getAllByRole("button", { name: SELECT_CELL });
+    const cells = screen.getAllByRole('button', { name: SELECT_CELL });
     const winCellClickOrder = [
       22, 24, 37, 23, 28, 30, 14, 28, 31, 29, 28, 30, 23, 37, 33, 31,
       46, 32, 31, 33, 44, 46, 37, 39, 46, 32, 33, 31, 18, 32, 31, 33,
@@ -81,8 +81,8 @@ describe("PegSolitaire Component", () => {
     for (const c of winCellClickOrder) {
       await act(async () => fireEvent.click(cells[c]));
     }
-    expect(screen.getByText("Game Won")).toBeInTheDocument();
-    await act(async () => fireEvent.click(screen.getByRole("button", { name: RESET_BUTTON })));
+    expect(screen.getByText('Game Won')).toBeInTheDocument();
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: RESET_BUTTON })));
     const { board } = initialState;
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {

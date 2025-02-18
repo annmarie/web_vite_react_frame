@@ -1,9 +1,9 @@
 import { MAKE_MOVE, UNDO_MOVE, RESET_GAME } from './actionTypes';
 import { PLAYER_ONE } from './globals';
-import { dropChecker, checkWin, isBoardFull, togglePlayer } from './utils'
+import { initializeBoard, dropChecker, checkWin, isBoardFull, togglePlayer } from './utils'
 
 export const initialState = {
-  board: Array.from({ length: 6 }, () => Array(7).fill(null)),
+  board: initializeBoard(),
   currentPlayer: PLAYER_ONE,
   winner: null,
   winnerDesc: '',
@@ -18,7 +18,7 @@ export const reducer = (state, action) => {
     case UNDO_MOVE:
       return reduceUndoMove(state);
     case RESET_GAME:
-      return { ...initialState }
+      return { ...initialState, board: initializeBoard() }
     default:
       return state || initialState;
   }

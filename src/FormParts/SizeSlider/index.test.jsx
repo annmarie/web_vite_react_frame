@@ -6,7 +6,7 @@ describe('SizeSlider Component', () => {
   const selected = 1;
   const onChangeMock = jest.fn();
 
-  it('renders the component correctly', () => {
+  it('should render the component correctly', () => {
     render(<SizeSlider sizes={sizes} selected={selected} onChange={onChangeMock} />);
     expect(screen.getByLabelText('Size:')).toBeInTheDocument();
     const slider = screen.getByTestId('size-slider');
@@ -17,21 +17,21 @@ describe('SizeSlider Component', () => {
     expect(slider).toHaveValue(`${selected}`);
   });
 
-  it('renders the sizes correctly', () => {
+  it('should render the sizes correctly', () => {
     render(<SizeSlider sizes={sizes} selected={selected} onChange={onChangeMock} />);
     sizes.forEach((size) => {
       expect(screen.getByLabelText(`Size: ${size}`)).toBeInTheDocument();
     });
   });
 
-  it('calls onChange when the slider value changes', () => {
+  it('should call onChange when the slider value changes', () => {
     render(<SizeSlider sizes={sizes} selected={selected} onChange={onChangeMock} />);
     const slider = screen.getByTestId('size-slider');
     fireEvent.change(slider, { target: { value: '2' } });
     expect(onChangeMock).toHaveBeenCalledWith(2);
   });
 
-  it('does not log PropTypes warnings in the console', () => {
+  it('should not log PropTypes warnings in the console', () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     render(<SizeSlider sizes={sizes} selected={selected} onChange={onChangeMock} />);
     expect(consoleErrorSpy).not.toHaveBeenCalled();

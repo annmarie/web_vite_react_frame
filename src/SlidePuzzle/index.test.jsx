@@ -1,27 +1,37 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
-import { initialState } from "./reducer";
-import SlidePuzzle from "../SlidePuzzle";
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import SlidePuzzle from '../SlidePuzzle';
+import * as utils from './utils';
 
-describe("SlidePuzzle Component Tests", () => {
+const SIZE = 3;
 
-  it("should render the puzzle grid and reset button", async () => {
-    const { size } = initialState;
-    await act(async () => render(<SlidePuzzle />));
-    expect(screen.getByRole('status')).toHaveTextContent('Game On');
-    const tiles = screen.getAllByRole("cell");
-    expect(tiles.length).toBe(size * size);
-    const resetButton = screen.getByTestId('reset-button');
-    expect(resetButton).toBeInTheDocument();
+jest.mock('./utils', () => ({
+  ...jest.requireActual('./utils'),
+  setTiles: jest.fn(() => [[5,4,3],[2,1,8],[7,0,6]]),
+}));
+
+describe('SlidePuzzle Component Tests', () => {
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('renders accessible ARIA attributes', async () => {
-    const { size } = initialState;
+  it('should render the puzzle grid and reset button', async () => {
+    await act(async () => render(<SlidePuzzle />));
+    const resetButton = screen.getByTestId('reset-button');
+    expect(screen.getByRole('status')).toHaveTextContent('Game On');
+    const tiles = screen.getAllByRole('cell');
+    expect(tiles.length).toBe(SIZE * SIZE);
+    expect(screen.getByTestId('reset-button')).toBeInTheDocument();
+  });
+
+  it('should render accessible ARIA attributes', async () => {
+    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
     await act(async () => render(<SlidePuzzle />));
     const board = screen.getByRole('grid', { name: /slide puzzle board/i });
     expect(board).toBeInTheDocument();
     const tile = screen.getAllByRole('cell', { name: /tile at row \d+ and column \d+ with (empty|\d+)/i });
-    expect(tile.length).toBe(size * size);
-    const resetButton = screen.getByRole('button', { name: "Reset the game to its initial state" });
+    expect(tile.length).toBe(SIZE * SIZE);
+    const resetButton = screen.getByRole('button', { name: 'Reset the game to its initial state' });
     expect(resetButton).toBeInTheDocument();
     const emptyTile = screen.getByRole('cell', { name: /tile at row \d+ and column \d+ with empty/i });
     expect(emptyTile).toHaveClass('empty');
@@ -29,16 +39,28 @@ describe("SlidePuzzle Component Tests", () => {
     expect(numberedTile).toHaveTextContent(1);
   });
 
-  it("should update the state when a valid tile is clicked", async () => {
+  it('should update the state when a valid tile is clicked', async () => {
+    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
     await act(async () => render(<SlidePuzzle />));
-    const tiles = screen.getAllByRole("cell");
-    const currentTiles = tiles.map(tile => tile.textContent);
-    const emptyIdx = tiles.findIndex(tile => tile.textContent === "");
-    expect(tiles[emptyIdx].textContent).toBe('')
-    const clickOnIdx = emptyIdx === 9 ? 8 : emptyIdx + 1;
-    await act(async () => fireEvent.click(tiles[clickOnIdx]))
-    const newTiles = tiles.map(tile => tile.textContent);
-    expect(newTiles[emptyIdx].textContent).not.toBe('')
-    expect(currentTiles).not.toBe(newTiles)
+    const tiles = screen.getAllByRole('cell');
+    expect(tiles[7].getAttribute('aria-label')).toContain('empty')
+    expect(tiles[6].getAttribute('aria-label')).toContain('with 7')
+    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
+    await act(async () => fireEvent.click(tiles[6]))
+    expect(tiles[6].getAttribute('aria-label')).toContain('empty')
+    expect(tiles[7].getAttribute('aria-label')).toContain('with 7')
+  });
+
+  it('should update winner on winning move', async () => {
+    await act(async () => render(<SlidePuzzle />));
+    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
+    await act(async () => fireEvent.click(screen.getByTestId('reset-button')))
+    const tiles = screen.getAllByRole('cell');
+    expect(tiles[7].getAttribute('aria-label')).toContain('empty')
+    expect(tiles[8].getAttribute('aria-label')).toContain('with 8')
+    await act(async () => fireEvent.click(tiles[8]))
+    expect(tiles[8].getAttribute('aria-label')).toContain('empty')
+    expect(tiles[7].getAttribute('aria-label')).toContain('with 8')
+    expect(screen.getByRole('status')).toHaveTextContent('Game Won');
   });
 });

@@ -17,7 +17,7 @@ const FormParts = () => {
 
   return (
     <div className="form-parts-container">
-      <h3 className="row-item">Form Parts</h3>
+      <h3 className="row-item">Form Fun</h3>
 
       <div className="row-item">
         <ColorSelector

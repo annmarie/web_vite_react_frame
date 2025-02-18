@@ -6,13 +6,9 @@ describe('NumberInput Component', () => {
   const onChangeMock = jest.fn();
   const inputRefMock = createRef();
 
-  it('renders the component correctly', () => {
+  it('should render the component correctly', () => {
     render(<NumberInput num={42} onChange={onChangeMock} inputRef={inputRefMock} />);
-
-    // Check if the label is rendered
     expect(screen.getByLabelText('Num:')).toBeInTheDocument();
-
-    // Check if the input is rendered with correct attributes
     const input = screen.getByTestId('num-input');
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('type', 'number');
@@ -20,7 +16,7 @@ describe('NumberInput Component', () => {
     expect(input).toHaveValue(42);
   });
 
-  it('calls onChange when the input value changes', async () => {
+  it('should call onChange when the input value changes', async () => {
     await act(async () => render(<NumberInput num={42} onChange={onChangeMock} inputRef={inputRefMock} />));
     const input = screen.getByTestId('num-input');
     await act(async () => fireEvent.change(input, { target: { value: '100' } }));
@@ -29,20 +25,20 @@ describe('NumberInput Component', () => {
     expect(onChangeMock).toHaveBeenCalledWith('');
   });
 
-  it('handles inputRef correctly', () => {
+  it('should handle inputRef correctly', () => {
     render(<NumberInput num={42} onChange={onChangeMock} inputRef={inputRefMock} />);
     const input = screen.getByTestId('num-input');
     expect(inputRefMock.current).toBe(input);
   });
 
-  it('does not log PropTypes warnings in the console', () => {
+  it('should not log PropTypes warnings in the console', () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     render(<NumberInput num={42} onChange={onChangeMock} inputRef={inputRefMock} />);
     expect(consoleErrorSpy).not.toHaveBeenCalled();
     consoleErrorSpy.mockRestore();
   });
 
-  it('renders correctly with a string value for num', () => {
+  it('should render correctly with a string value for num', () => {
     render(<NumberInput num="42" onChange={onChangeMock} inputRef={inputRefMock} />);
     const input = screen.getByTestId('num-input');
     expect(input).toHaveValue(42);

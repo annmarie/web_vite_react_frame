@@ -1,11 +1,11 @@
-import { render, screen, act } from "@testing-library/react";
-import Tile from "../Tile";
+import { render, screen, act } from '@testing-library/react';
+import Tile from '../Tile';
 
 
-describe("Board Component Tests", () => {
+describe('Board Component Tests', () => {
   const onClick = jest.fn();
 
-  it("should render the puzzle grid and reset button", async () => {
+  it('should render the puzzle grid and reset button', async () => {
     const tiles = [
         [1, 2, 3],
         [4, 5, 6],

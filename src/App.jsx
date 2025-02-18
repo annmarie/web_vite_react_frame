@@ -7,6 +7,7 @@ import PegSolitaire from './PegSolitaire';
 import CatCarousel from './CatCarousel';
 import TicTacToe from './TicTacToe';
 import PongGame from './PongGame';
+import Backgammon from './Backgammon';
 
 const Hello = () => {
   return (
@@ -18,6 +19,8 @@ const Hello = () => {
       <li><Link to="/catcarousel">CatCarousel</Link></li>
       <li><Link to="/pegsolitaire">PegSolitaire</Link></li>
       <li><Link to="/diceroll">DiceRoll</Link></li>
+      <li><Link to="/backgammon">Backgammon</Link></li>
+      <li><Link to="/formparts">FormFun</Link></li>
     </ul>
   )
 }
@@ -35,6 +38,7 @@ const App = () => {
         <Route path="/catcarousel" element={<CatCarousel />} />
         <Route path="/tictactoe" element={<TicTacToe />} />
         <Route path="/PongGame" element={<PongGame />} />
+        <Route path="/Backgammon" element={<Backgammon />} />
       </Routes>
     </Router>
   );

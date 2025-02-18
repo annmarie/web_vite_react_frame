@@ -1,6 +1,6 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
-import { PLAYER_ONE, PLAYER_TWO, DRAW_MESSAGE } from "./globals";
-import Connect4 from "../Connect4";
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import { PLAYER_ONE, PLAYER_TWO, DRAW_MESSAGE } from './globals';
+import Connect4 from '../Connect4';
 
 const BOARD_LENGTH = 6 * 7; // 6 rows * 7 columns
 const CURRENT_PLAYER_ONE = new RegExp(`Current Player: ${PLAYER_ONE}`, "i");
