@@ -8,7 +8,7 @@ const Board = ({ tiles, onTileClick }) => (
     aria-label="Slide Puzzle Board"
     role="grid"
   >
-    {tiles && tiles.map((row, rowIdx) => (
+    {tiles.map((row, rowIdx) => (
       <div key={rowIdx} className="row">
         {row.map((tile, colIdx) => (
           <Tile
