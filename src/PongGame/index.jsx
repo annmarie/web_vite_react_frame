@@ -1,10 +1,10 @@
-import { useReducer, useEffect, useRef } from "react";
-import { reducer, initialState } from "./reducer";
+import { useReducer, useEffect, useRef } from 'react';
+import { reducer, initialState } from './reducer';
 import {
   MOVE_PADDLE_LEFT, MOVE_PADDLE_RIGHT, MOVE_BALL,
   TOGGLE_GAME, RESET_GAME
 } from './actionTypes'
-import "./styles.css";
+import './styles.css';
 
 const PongGame = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -12,17 +12,17 @@ const PongGame = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "w") dispatch({ type: MOVE_PADDLE_LEFT, payload: -20 });
-      if (e.key === "s") dispatch({ type: MOVE_PADDLE_LEFT, payload: 20 });
-      if (e.key === "ArrowUp") dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
-      if (e.key === "ArrowDown") dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
-      if (e.key === "o") dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
-      if (e.key === "l") dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
-      if (e.key === " ") dispatch({ type: TOGGLE_GAME });
+      if (e.key === 'w') dispatch({ type: MOVE_PADDLE_LEFT, payload: -20 });
+      if (e.key === 's') dispatch({ type: MOVE_PADDLE_LEFT, payload: 20 });
+      if (e.key === 'ArrowUp') dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
+      if (e.key === 'ArrowDown') dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
+      if (e.key === 'o') dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
+      if (e.key === 'l') dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
+      if (e.key === ' ') dispatch({ type: TOGGLE_GAME });
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const intervalRef = useRef(null);
@@ -48,10 +48,12 @@ const PongGame = () => {
         </div>
         <div
           className="paddle"
+          role="paddle_left"
           style={{ top: paddle_left, left: 10 }}
         ></div>
         <div
           className="paddle"
+          role="paddle_right"
           style={{ top: paddle_right, right: 10 }}
         ></div>
         <div
@@ -69,7 +71,7 @@ const PongGame = () => {
         aria-label="Play/Pause Game"
         onClick={() => dispatch({ type: TOGGLE_GAME })}
       >
-        {state.pause ? "Play" : "Pause"}
+        {state.pause ? 'Play' : 'Pause'}
       </button>
 
       <button

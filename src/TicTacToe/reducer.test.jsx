@@ -13,7 +13,7 @@ describe('TicTacToe Reducer', () => {
     const action = { type: MAKE_MOVE, payload: { index: 0 } };
     const newState = reducer(state, action);
     expect(newState.board[0]).toBe('X');
-    expect(newState.currentPlayer).toBe('O');
+    expect(newState.player).toBe('O');
     expect(newState.history).toHaveLength(1);
     expect(newState.history[0]).toEqual(state.board);
   });
@@ -49,7 +49,7 @@ describe('TicTacToe Reducer', () => {
     const state2 = reducer(state, { type: UNDO_MOVE });
     expect(state2.board).toEqual(initialState.board);
     expect(state2.history).toHaveLength(0);
-    expect(state2.currentPlayer).toBe('X');
+    expect(state2.player).toBe('X');
   });
 
   it('should reset the game', () => {

@@ -1,8 +1,8 @@
 import { useReducer } from 'react';
-import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
+import { MOVE_TILE, RESET_PUZZLE } from './actionTypes';
 import { reducer, initialState } from './reducer';
 import Board from './Board';
-import "./styles.css";
+import './styles.css';
 
 const SidePuzzle = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -20,7 +20,7 @@ const SidePuzzle = () => {
         role="status"
         aria-live="polite"
       >
-        {state.isSolved ? "Game Won" : "Game On"}
+        {state.isSolved ? 'Game Won' : 'Game On'}
       </div>
       <Board tiles={state.tiles} onTileClick={handleTileClick} />
       <button

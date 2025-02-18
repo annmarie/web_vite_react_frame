@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from './actionTypes';
+import { DRAW_MESSAGE, UNDO_BUTTON_TEXT, RESET_BUTTON_TEXT } from './globals';
 import { initialState, reducer } from './reducer';
 import './styles.css';
 
@@ -24,8 +25,8 @@ const TicTacToe = () => {
         {state.winner
           ? `Winner: ${state.winner}`
           : state.boardFull
-            ? `It's a draw!`
-            : `Current Player: ${state.currentPlayer}`}
+            ? DRAW_MESSAGE
+            : `Player: ${state.player}`}
       </div>
 
       <div className="tic-tac-toe-board">
@@ -50,14 +51,14 @@ const TicTacToe = () => {
           onClick={() => dispatch({ type: UNDO_MOVE })}
           disabled={state.history.length === 0 || state.winner}
         >
-          Undo
+          {UNDO_BUTTON_TEXT}
         </button>
         <button
           aria-label="Reset Game"
           onClick={() => dispatch({ type: RESET_GAME })}
           disabled={state.history.length === 0}
         >
-          Reset
+          {RESET_BUTTON_TEXT}
         </button>
       </div>
     </div>

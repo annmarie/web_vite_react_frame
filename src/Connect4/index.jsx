@@ -1,9 +1,9 @@
 import { useReducer } from 'react';
-import { MAKE_MOVE, UNDO_MOVE, RESET_GAME } from "./actionTypes";
-import { reducer, initialState } from "./reducer";
+import { MAKE_MOVE, UNDO_MOVE, RESET_GAME } from './actionTypes';
+import { DRAW_MESSAGE, UNDO_BUTTON_TEXT, RESET_BUTTON_TEXT } from './globals';
+import { reducer, initialState } from './reducer';
 import Cell from './Cell';
 import './styles.css';
-
 
 const Connect4 = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -19,7 +19,7 @@ const Connect4 = () => {
         {state.winner
           ? `Winner: ${state.winner} Winning move (${state.winnerDesc})`
           : state.boardFull
-            ? `It's a draw!`
+            ? DRAW_MESSAGE
             : `Current Player: ${state.currentPlayer}`}
       </div>
       <div className="connect4-board">
@@ -43,14 +43,14 @@ const Connect4 = () => {
           onClick={() => dispatch({ type: UNDO_MOVE })}
           disabled={state.history.length === 0 || state.winner}
         >
-          Undo
+          {UNDO_BUTTON_TEXT}
         </button>
         <button
           aria-label="Reset Game"
           onClick={() => dispatch({ type: RESET_GAME })}
           disabled={state.history.length === 0}
         >
-          Reset
+          {RESET_BUTTON_TEXT}
         </button>
       </div>
     </div>

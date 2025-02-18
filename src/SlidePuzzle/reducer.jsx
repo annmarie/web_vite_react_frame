@@ -1,4 +1,4 @@
-import { MOVE_TILE, RESET_PUZZLE } from "./actionTypes";
+import { MOVE_TILE, RESET_PUZZLE } from './actionTypes';
 import { SIZE } from './globals';
 import {
   setTiles,

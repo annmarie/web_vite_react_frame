@@ -28,7 +28,7 @@ const Dice = ({ diceValue = null }) => {
       <div
         key={index}
         className={`die-dot ${positions.includes(index) ? 'visible' : ''} ${rolling ? 'animate' : ''}`}
-        data-testid={positions.includes(index) ? `die-dot-${diceId}` : ""}
+        data-testid={positions.includes(index) ? `die-dot-${diceId}` : ''}
       />
     ));
   };

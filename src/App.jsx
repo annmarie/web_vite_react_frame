@@ -1,5 +1,4 @@
-
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import DiceRoll from './DiceRoll';
 import FormParts from './FormParts';
 import SlidePuzzle from './SlidePuzzle';
@@ -7,7 +6,7 @@ import Connect4 from './Connect4';
 import PegSolitaire from './PegSolitaire';
 import CatCarousel from './CatCarousel';
 import TicTacToe from './TicTacToe';
-import PongGame from "./PongGame";
+import PongGame from './PongGame';
 
 const Hello = () => {
   return (

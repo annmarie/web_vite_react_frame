@@ -10,7 +10,7 @@ export const initialState = {
   sizeKey: 2,
   colorKey: 1,
   sizes: ['XL', 'L', 'M', 'S'],
-  colors: ["Blue", "Green", "Yellow", "Black"]
+  colors: ['Blue', 'Green', 'Yellow', 'Black']
 };
 
 const cleanKey = (key, min, max) => {

@@ -11,7 +11,7 @@ const NumberInput = ({ num, onChange, inputRef }) => (
       ref={inputRef}
       value={num}
       placeholder="Input number"
-      onChange={(e) => onChange(Number(e.target.value) || "")}
+      onChange={(e) => onChange(Number(e.target.value) || '')}
     />
   </>
 );

@@ -1,12 +1,11 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { PLAYER_ONE, PLAYER_TWO } from "./globals";
+import { PLAYER_ONE, PLAYER_TWO, DRAW_MESSAGE } from "./globals";
 import Connect4 from "../Connect4";
 
 const BOARD_LENGTH = 6 * 7; // 6 rows * 7 columns
 const CURRENT_PLAYER_ONE = new RegExp(`Current Player: ${PLAYER_ONE}`, "i");
 const CURRENT_PLAYER_TWO = new RegExp(`Current Player: ${PLAYER_TWO}`, "i");
 const WINNER_PLAYER_ONE = new RegExp(`Winner: ${PLAYER_ONE}`, "i");
-const DRAW_MESSAGE = /It's a draw!/i;
 const RESET_GAME = /reset game/i;
 const UNDO_MOVE = /undo move/i;
 
@@ -15,13 +14,11 @@ describe("Connect4 Component", () => {
   it("should render the initial board setup", async () => {
     await act(async () => render(<Connect4 />));
     const cells = screen.getAllByRole("cell");
-    const undoButton = screen.getByRole('button', { name: UNDO_MOVE });
-    const resetButton = screen.getByRole('button', { name: RESET_GAME });
     expect(cells).toHaveLength(BOARD_LENGTH);
     validateInitialBoardState(cells);
     expect(screen.getByText(CURRENT_PLAYER_ONE)).toBeInTheDocument();
-    expect(undoButton).not.toBeEnabled();
-    expect(resetButton).not.toBeEnabled();
+    expect(screen.getByRole('button', { name: UNDO_MOVE })).not.toBeEnabled();
+    expect(screen.getByRole('button', { name: RESET_GAME })).not.toBeEnabled();
   });
 
   it("should allow players to take turns", async () => {
@@ -102,7 +99,6 @@ describe("Connect4 Component", () => {
     expect(undoButton).not.toBeEnabled();
   });
 });
-
 
 const validateInitialBoardState = (cells) => {
   cells.forEach((cell) => {

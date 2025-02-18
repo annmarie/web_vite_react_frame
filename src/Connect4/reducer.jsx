@@ -1,6 +1,6 @@
 import { MAKE_MOVE, UNDO_MOVE, RESET_GAME } from './actionTypes';
-import { PLAYER_ONE, PLAYER_TWO } from './globals';
-import { dropChecker, checkWin, isBoardFull } from './utils'
+import { PLAYER_ONE } from './globals';
+import { dropChecker, checkWin, isBoardFull, togglePlayer } from './utils'
 
 export const initialState = {
   board: Array.from({ length: 6 }, () => Array(7).fill(null)),
@@ -39,7 +39,7 @@ const reduceMakeMove = (state, action) => {
     winner: haveWinner ? state.currentPlayer : null,
     winnerDesc: haveWinner ? desc : '',
     boardFull,
-    currentPlayer: state.currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE,
+    currentPlayer: togglePlayer(state.currentPlayer),
     history: [...state.history, state.board],
   };
 };
@@ -51,7 +51,7 @@ const reduceUndoMove = (state) => {
   return {
     ...state,
     board: previousBoard,
-    currentPlayer: state.currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE,
+    currentPlayer: togglePlayer(state.currentPlayer),
     winner: null,
     history: state.history.slice(0, -1),
   };

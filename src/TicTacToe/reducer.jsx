@@ -4,7 +4,7 @@ import { calculateWinner, isBoardFull } from './utils';
 
 export const initialState = {
   board: Array(9).fill(null),
-  currentPlayer: PLAYER_ONE,
+  player: PLAYER_ONE,
   winner: null,
   boardFull: false,
   history: [],
@@ -35,12 +35,12 @@ const reduceMakeMove = (state, action) => {
   }
 
   const newBoard = [...state.board];
-  newBoard[index] = state.currentPlayer;
+  newBoard[index] = state.player;
 
   return {
     ...state,
     board: newBoard,
-    currentPlayer: state.currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE,
+    player: togglePlayer(state.player),
     winner: calculateWinner(newBoard),
     boardFull: isBoardFull(newBoard),
     history: [...state.history, state.board],
@@ -56,8 +56,12 @@ const reduceUndoMove = (state) => {
   return {
     ...state,
     board: previousBoard,
-    currentPlayer: state.currentPlayer === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE,
+    player: togglePlayer(state.player),
     winner: null,
     history: state.history.slice(0, -1),
   };
 };
+
+export function togglePlayer(player) {
+  return player === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
+}

@@ -1,12 +1,11 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { PLAYER_ONE, PLAYER_TWO } from "./globals";
+import { PLAYER_ONE, PLAYER_TWO, DRAW_MESSAGE } from "./globals";
 import TicTacToe from "../TicTacToe";
 
 const BOARD_LENGTH = 3 * 3; // 3 rows * 3 columns
-const CURRENT_PLAYER_ONE = new RegExp(`Current Player: ${PLAYER_ONE}`, "i");
-const CURRENT_PLAYER_TWO = new RegExp(`Current Player: ${PLAYER_TWO}`, "i");
+const CURRENT_PLAYER_ONE = new RegExp(`Player: ${PLAYER_ONE}`, "i");
+const CURRENT_PLAYER_TWO = new RegExp(`Player: ${PLAYER_TWO}`, "i");
 const WINNER_PLAYER_ONE = new RegExp(`Winner: ${PLAYER_ONE}`, "i")
-const DRAW_MESSAGE = /It's a draw!/i;
 const RESET_GAME = /reset game/i;
 const UNDO_MOVE = /undo move/i;
 

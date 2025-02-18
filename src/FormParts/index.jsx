@@ -1,7 +1,7 @@
 import { useReducer, useRef } from 'react';
 import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes';
 import { reducer, initialState } from './reducer';
-import ColorSelector from "./ColorSelector";
+import ColorSelector from './ColorSelector';
 import NumberInput from './NumberInput';
 import SizeSlider from './SizeSlider';
 import './styles.css';

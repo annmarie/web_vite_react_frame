@@ -1,8 +1,8 @@
-import { useReducer } from "react";
-import { MAKE_MOVE, UNDO_MOVE, RESET_GAME, SELECT_PEG } from "./actionTypes";
-import { reducer, initialState } from "./reducer";
+import { useReducer } from 'react';
+import { MAKE_MOVE, UNDO_MOVE, RESET_GAME, SELECT_PEG } from './actionTypes';
+import { reducer, initialState } from './reducer';
 import Cell from './Cell'
-import "./styles.css";
+import './styles.css';
 
 const PegSolitaire = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -25,10 +25,10 @@ const PegSolitaire = () => {
         aria-live="polite"
       >
         {state.winner
-          ? "Game Won"
+          ? 'Game Won'
           : state.movesLeft === false
-            ? "No moves left"
-            : "Jump the pegs to the open spot"}
+            ? 'No moves left'
+            : 'Jump the pegs to the open spot'}
       </div>
 
       <div

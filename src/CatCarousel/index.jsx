@@ -1,17 +1,17 @@
-import { useReducer, useEffect, useCallback } from "react";
-import axios from "axios";
+import { useReducer, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { FETCH_START, SET_IMAGES, NEXT_IMAGE, PREVIOUS_IMAGE } from './actionTypes'
-import { initialState, reducer } from "./reducer";
-import "./styles.css";
+import { initialState, reducer } from './reducer';
+import './styles.css';
 
 const CatCarousel = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const currentImage = state.images[state.currentIndex] || { url: "" };
+  const currentImage = state.images[state.currentIndex] || { url: '' };
   const handleRefresh = () => fetchCatImages();
 
   const fetchCatImages = useCallback(async () => {
     dispatch({ type: FETCH_START });
-    const catUrl = "https://api.thecatapi.com/v1/images/search?limit=10";
+    const catUrl = 'https://api.thecatapi.com/v1/images/search?limit=10';
     try {
       const { data } = await axios.get(catUrl);
       if (data) {
@@ -22,14 +22,14 @@ const CatCarousel = () => {
       } else {
         dispatch({
           type: SET_IMAGES,
-          payload: { images: null, error: "Failed to fetch valid cat images." }
+          payload: { images: null, error: 'Failed to fetch valid cat images.' }
         });
       }
     } catch (error) {
-      console.error("Error fetching cat images:", error);
+      console.error('Error fetching cat images:', error);
       dispatch({
         type: SET_IMAGES,
-        payload: { images: null, error: "Failed to fetch cat images." }
+        payload: { images: null, error: 'Failed to fetch cat images.' }
       });
     }
   }, []);
@@ -71,7 +71,7 @@ const CatCarousel = () => {
             <img
               src={currentImage.url}
               className="cat-image"
-              alt={currentImage.url ? `Cat Image ${state.currentIndex}` : "No image available"} />
+              alt={currentImage.url ? `Cat Image ${state.currentIndex}` : 'No image available'} />
           </div>
         </div>
       ) : (

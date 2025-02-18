@@ -1,4 +1,4 @@
-
+import { PLAYER_ONE, PLAYER_TWO } from './globals';
 
 export const dropChecker = (col, board, player) => {
   const newBoard = board.map(row => [ ...row ]);
@@ -66,3 +66,7 @@ export const checkWin = (board, move) => {
 
   return { haveWinner: false, desc: '' };
 };
+
+export const togglePlayer = (player) => {
+  return player === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
+}
