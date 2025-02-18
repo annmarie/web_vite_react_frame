@@ -25,7 +25,6 @@ describe('SlidePuzzle Component Tests', () => {
   });
 
   it('should render accessible ARIA attributes', async () => {
-    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
     await act(async () => render(<SlidePuzzle />));
     const board = screen.getByRole('grid', { name: /slide puzzle board/i });
     expect(board).toBeInTheDocument();
@@ -40,12 +39,10 @@ describe('SlidePuzzle Component Tests', () => {
   });
 
   it('should update the state when a valid tile is clicked', async () => {
-    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
     await act(async () => render(<SlidePuzzle />));
     const tiles = screen.getAllByRole('cell');
     expect(tiles[7].getAttribute('aria-label')).toContain('empty')
     expect(tiles[6].getAttribute('aria-label')).toContain('with 7')
-    utils.setTiles.mockReturnValueOnce([[1,2,3],[4,5,6],[7,0,8]]);
     await act(async () => fireEvent.click(tiles[6]))
     expect(tiles[6].getAttribute('aria-label')).toContain('empty')
     expect(tiles[7].getAttribute('aria-label')).toContain('with 7')
