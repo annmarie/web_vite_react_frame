@@ -49,7 +49,11 @@ const Backgammon = () => {
             key={point.id}
             point={point}
             onClick={handleSpotClick}
-            selected={state.selectedSpot === point.id ? true : false}
+            selected={
+              state.selectedSpot === point.id ||
+              state.potentialSpots.includes(point.id)
+              ? true : false
+            }
           />
         ))}
       </div>
@@ -73,6 +77,7 @@ const Backgammon = () => {
         {state.player && (
           <div aria-label={`Current player ${state.player}`} >
             Current Player <Checker player={state.player} />
+            {state.potentialSpots}
           </div>
         )}
         <div>

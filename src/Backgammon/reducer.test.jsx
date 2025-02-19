@@ -17,6 +17,30 @@ describe('Backgammon Reducer', () => {
     jest.clearAllMocks();
   });
 
+  it('should select spot with dice roll 2 3', () => {
+    const state = { ...initialState };
+    utils.rollDie.mockReturnValueOnce(2).mockReturnValueOnce(3);
+    const rollState = reducer(state, { type: ROLL_DICE });
+    const stateSelect24 = reducer(rollState, { type: SELECT_SPOT, payload: 24 });
+    expect(stateSelect24.potentialSpots).toEqual([22,21])
+    const stateSelect5 = reducer(rollState, { type: SELECT_SPOT, payload: 5 });
+    expect(stateSelect5.potentialSpots).toEqual([7,8])
+    const stateSelect13 = reducer(rollState, { type: SELECT_SPOT, payload: 13 });
+    expect(stateSelect13.potentialSpots).toEqual([2,3])
+  });
+
+  it('should select spot with dice roll 3 2', () => {
+    const state = { ...initialState };
+    utils.rollDie.mockReturnValueOnce(3).mockReturnValueOnce(2);
+    const rollState = reducer(state, { type: ROLL_DICE });
+    const stateSelect12 = reducer(rollState, { type: SELECT_SPOT, payload: 12 });
+    expect(stateSelect12.potentialSpots).toEqual([9,10])
+    const stateSelect1 = reducer(rollState, { type: SELECT_SPOT, payload: 1 });
+    expect(stateSelect1.potentialSpots).toEqual([15, 14])
+    const stateSelect16 = reducer(rollState, { type: SELECT_SPOT, payload: 17 });
+    expect(stateSelect16.potentialSpots).toEqual([20,19])
+  });
+
   it('should handle doubles roll', () => {
     // first roll of the game cannot be doubles
     utils.rollDie.mockReturnValueOnce(6).mockReturnValueOnce(3);
@@ -43,7 +67,7 @@ describe('Backgammon Reducer', () => {
   });
 
   it('should select spot', () => {
-    const state = { ...initialState, player: PLAYER_LEFT  };
+    const state = { ...initialState, player: PLAYER_LEFT, diceValue: [1,2]  };
     const actionSelect = { type: SELECT_SPOT, payload: 1 };
     const stateSelect = reducer(state, actionSelect);
     expect(stateSelect.selectedSpot).toBe(1)

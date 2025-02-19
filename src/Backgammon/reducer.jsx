@@ -5,7 +5,7 @@ import {
 } from './actionTypes';
 import {
   togglePlayer, rollDie, updatePoints,
-  getPointKey, initializeBoard
+  getPointKey, initializeBoard, getTargetPointId
 } from './utils';
 
 export const initialState = {
@@ -16,6 +16,7 @@ export const initialState = {
   diceHistory: [],
   playerHistory: [],
   selectedSpot: null,
+  potentialSpots: [],
 };
 
 export const reducer = (state, action) => {
@@ -41,8 +42,32 @@ export const reducer = (state, action) => {
 };
 
 function reduceSelectSpot(state, action) {
-  if (state.player === null) return state;
-  return { ...state, selectedSpot: action.payload };
+  if (state.player === null || state.diceValue.length === 0) return state;
+
+  const pointId = action.payload;
+  const selectedIndex = pointId - 1;
+
+  if (selectedIndex === -1 || state.points[selectedIndex].player !== state.player) {
+    return state;
+  }
+
+  const dice = [...new Set(state.diceValue)]
+  const potentialSpots = [];
+
+  // check the dice for potential next moves
+  for (const die of dice) {
+    const targetPointId = getTargetPointId(state.player, selectedIndex, die);
+    const targetPoint = state.points[targetPointId];
+    if (
+      targetPoint.checkers === 0 ||
+      targetPoint.player === state.player ||
+      (targetPoint.checkers === 1 && targetPoint.player !== state.player)
+    ) {
+      potentialSpots.push(targetPoint.id);
+    }
+  }
+
+  return { ...state, selectedSpot: pointId, potentialSpots };
 }
 
 function reduceMoveChecker(state, action) {
@@ -51,7 +76,7 @@ function reduceMoveChecker(state, action) {
   const { fromPointId, toPointId } = action.payload;
 
   // deselect spot when selected spot is the requested selected spot
-  if (fromPointId === toPointId) return { ...state, selectedSpot: null };
+  if (fromPointId === toPointId) return { ...state, selectedSpot: null, potentialSpots: [] };
 
   const fromIndex = state.points.findIndex((point) => point.id === fromPointId);
   const toIndex = state.points.findIndex((point) => point.id === toPointId);
@@ -64,13 +89,7 @@ function reduceMoveChecker(state, action) {
   const moveDistance = Math.abs(pointKey[toIndex] - pointKey[fromIndex]);
   const isValidDiceValue = state.diceValue.includes(moveDistance);
 
-  const isMovingForward = (player, pointKey, fromIndex, toIndex) => {
-    return player === PLAYER_LEFT
-      ? pointKey[toIndex] > pointKey[fromIndex]
-      : pointKey[toIndex] > pointKey[fromIndex];
-  }
-
-  if (!isValidDiceValue || !isMovingForward(state.player, pointKey, fromIndex, toIndex)) {
+  if (!isValidDiceValue || !(pointKey[toIndex] > pointKey[fromIndex])) {
     return state;
   }
 
@@ -95,6 +114,7 @@ function reduceMoveChecker(state, action) {
     diceHistory: [...state.diceHistory, state.diceValue],
     playerHistory: [...state.playerHistory, state.player],
     selectedSpot: null,
+    potentialSpots: [],
   };
 }
 
@@ -112,6 +132,7 @@ function reduceUndo(state) {
     diceHistory: [...state.diceHistory],
     playerHistory: [...state.playerHistory],
     selectedSpot: null,
+    potentialSpots: [],
   };
 }
 
