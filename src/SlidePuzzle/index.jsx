@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import { MOVE_TILE, RESET_PUZZLE } from './actionTypes';
 import { reducer, initialState } from './reducer';
+import StatusBox from './StatusBox';
 import Board from './Board';
 import './styles.css';
 
@@ -13,16 +14,13 @@ const SidePuzzle = () => {
 
   return (
     <div className="slide-puzzle-game">
+
       <h3 className="slide-puzzle-title">Slide Puzzle</h3>
-      <div
-        aria-label="Game Status"
-        className="slide-puzzle-status"
-        role="status"
-        aria-live="polite"
-      >
-        {state.isSolved ? 'Game Won' : 'Game On'}
-      </div>
+
+      <StatusBox isSolved={state.isSolved} />
+
       <Board tiles={state.tiles} onTileClick={handleTileClick} />
+
       <button
         aria-label="Reset the game to its initial state"
         data-testid="reset-button"
@@ -31,6 +29,7 @@ const SidePuzzle = () => {
       >
         Reset Game
       </button>
+
     </div>
   );
 };

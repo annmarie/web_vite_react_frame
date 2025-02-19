@@ -1,8 +1,9 @@
 import { useReducer } from 'react';
 import { MAKE_MOVE, UNDO_MOVE, RESET_GAME } from './actionTypes';
-import { DRAW_MESSAGE, UNDO_BUTTON_TEXT, RESET_BUTTON_TEXT } from './globals';
+import { UNDO_BUTTON_TEXT, RESET_BUTTON_TEXT } from './globals';
 import { reducer, initialState } from './reducer';
-import Cell from './Cell';
+import StatusBox from './StatusBox';
+import Board from './Board';
 import './styles.css';
 
 const Connect4 = () => {
@@ -15,28 +16,19 @@ const Connect4 = () => {
   return (
     <div className="connect4-game">
       <h2 className="connect4-title">Connect Four</h2>
-      <div aria-label="Game Status" className="connect4-status">
-        {state.winner
-          ? `Winner: ${state.winner} Winning move (${state.winnerDesc})`
-          : state.boardFull
-            ? DRAW_MESSAGE
-            : `Current Player: ${state.currentPlayer}`}
-      </div>
-      <div className="connect4-board">
-        {state.board.map((row, rowIndex) => (
-          <div key={rowIndex} className="connect4-row">
-            {row.map((cell, colIndex) => (
-              <Cell
-                key={colIndex}
-                cell={cell}
-                rowIndex={rowIndex}
-                colIndex={colIndex}
-                onCellClick={handleCellClick}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+
+      <StatusBox
+        player={state.currentPlayer}
+        winner={state.winner}
+        winnerDesc={state.winnerDesc}
+        boardFull={state.boardFull}
+      />
+
+      <Board
+        board={state.board}
+        handleCellClick={handleCellClick}
+      />
+
       <div className="connect4-actions">
         <button
           aria-label="Undo Move"
@@ -53,6 +45,7 @@ const Connect4 = () => {
           {RESET_BUTTON_TEXT}
         </button>
       </div>
+
     </div>
   );
 };

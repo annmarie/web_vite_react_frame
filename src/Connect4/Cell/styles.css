@@ -8,7 +8,11 @@
   cursor: pointer;
 }
 
-.connect4-board .checker {
+.connect4-board .connect4-cell.winner {
+  cursor: default;
+}
+
+.connect4-board .connect4-cell .checker {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -16,10 +20,10 @@
   margin: 2px auto;
 }
 
-.connect4-board .checker.player_one {
+.connect4-board .connect4-cell .checker.player_one {
   background-color: red;
 }
 
-.connect4-board .checker.player_two {
+.connect4-board .connect4-cell .checker.player_two {
   background-color: yellow;
 }

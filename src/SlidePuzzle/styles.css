@@ -16,12 +16,6 @@
   margin: 0 0 10px 0;
 }
 
-
-.slide-puzzle-status {
-  margin: 10px;
-  font-size: 18px;
-}
-
 .slider-puzzle button:active {
   outline: 8px auto #646cff;
 }
