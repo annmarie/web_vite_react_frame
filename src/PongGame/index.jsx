@@ -4,6 +4,7 @@ import {
   MOVE_PADDLE_LEFT, MOVE_PADDLE_RIGHT, MOVE_BALL,
   TOGGLE_GAME, RESET_GAME
 } from './actionTypes'
+import PongBoard from './PongBoard';
 import './styles.css';
 
 const PongGame = () => {
@@ -42,25 +43,15 @@ const PongGame = () => {
 
   return (
     <div className="pong-game-wrapper">
-      <div ref={gameRef} className="pong-game-board">
-        <div className="score">
-          Player 1: {score.player_left} | Player 2: {score.player_right}
-        </div>
-        <div
-          className="paddle"
-          role="paddle_left"
-          style={{ top: paddle_left, left: 10 }}
-        ></div>
-        <div
-          className="paddle"
-          role="paddle_right"
-          style={{ top: paddle_right, right: 10 }}
-        ></div>
-        <div
-          className="ball"
-          style={{ top: ball.y, left: ball.x }}
-        ></div>
-      </div>
+
+      <PongBoard
+        gameRef={gameRef}
+        ball={ball}
+        paddle_left={paddle_left}
+        paddle_right={paddle_right}
+        score={score}
+      />
+
       <div className="legend">
         <div>w - left up<br />s - left up</div>
         <div>spacebar to play/pause</div>
