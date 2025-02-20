@@ -1,6 +1,6 @@
 /**
  * Checks if there is exactly one peg left on the board.
- * @param {number[][]} board - A 2D array representing the game board
+ * @param {Array} board - A 2D array representing the game board
  * @returns {boolean} - Returns true if there is exactly one peg left, otherwise false.
  */
 export function hasWinningMove(board) {
@@ -21,7 +21,7 @@ export function hasWinningMove(board) {
 
 /**
  * Checks if there are any valid moves left on the board.
- * @param {number[][]} board - A 2D array representing the game board.
+ * @param {Array} board - A 2D array representing the game board.
  * @returns {boolean} - Returns true if there is at least one valid move left, otherwise false.
  */
 export function hasMovesLeft(board) {
@@ -37,7 +37,7 @@ export function hasMovesLeft(board) {
 
 /**
  * Determines if a peg at a specific position can jump over another peg.
- * @param {number[][]} board - A 2D array representing the game board.
+ * @param {Array} board - A 2D array representing the game board.
  * @param {number} row - The row index of the peg.
  * @param {number} col - The column index of the peg.
  * @returns {boolean} - Returns true if the peg can jump over another peg, otherwise false.
@@ -72,7 +72,7 @@ export function canJump(board, row, col) {
 
 /**
  * Executes a jump move on the board, updating the board state.
- * @param {number[][]} board - A 2D array representing the game board.
+ * @param {Array} board - A 2D array representing the game board.
  * @param {number} startRow - The starting row index of the peg.
  * @param {number} startCol - The starting column index of the peg.
  * @param {number} endRow - The ending row index after the jump.
@@ -89,7 +89,7 @@ export function jumpPeg(board, startRow, startCol, endRow, endCol) {
 
 /**
  * Validates if a jump move is legal based on the board state.
- * @param {number[][]} board - A 2D array representing the game board.
+ * @param {Array} board - A 2D array representing the game board.
  * @param {number} startRow - The starting row index of the peg.
  * @param {number} startCol - The starting column index of the peg.
  * @param {number} endRow - The ending row index after the jump.
@@ -109,7 +109,7 @@ export function validateJump(board, startRow, startCol, endRow, endCol) {
 
 /**
  * Initializes the game board for a peg solitaire game.
- * @returns {number[][]} - A 2D array representing the initial board state.
+ * @returns {Array} - A 2D array representing the initial board state.
  */
 export function initializeBoard() {
   return [
