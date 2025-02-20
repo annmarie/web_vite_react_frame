@@ -18,6 +18,7 @@ const Hello = () => {
       <li><Link to="/catcarousel">CatCarousel</Link></li>
       <li><Link to="/pegsolitaire">PegSolitaire</Link></li>
       <li><Link to="/diceroll">DiceRoll</Link></li>
+      <li><Link to="/backgammon">Backgammon (WIP)</Link></li>
     </ul>
   )
 }
