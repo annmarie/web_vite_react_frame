@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { FETCH_START, SET_IMAGES, NEXT_IMAGE, PREVIOUS_IMAGE } from './actionTypes'
+import { REFRESH_BUTTON_TEXT, NEXT_BUTTON_TEXT, PREV_BUTTON_TEXT } from './globals';
 import { initialState, reducer } from './reducer';
 import './styles.css';
 
@@ -52,19 +53,19 @@ const CatCarousel = () => {
               onClick={() => dispatch({ type: PREVIOUS_IMAGE })}
               aria-label="Previous Image"
             >
-              Previous
+             {PREV_BUTTON_TEXT}
             </button>
             <button
               onClick={() => dispatch({ type: NEXT_IMAGE })}
               aria-label="Next Image"
             >
-              Next
+             {NEXT_BUTTON_TEXT}
             </button>
             <button
               onClick={handleRefresh}
               aria-label="Refresh Images"
             >
-              Refresh
+             {REFRESH_BUTTON_TEXT}
             </button>
           </div>
           <div className="cat-pictures">
