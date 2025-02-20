@@ -7,14 +7,7 @@
   height: 450px;
 }
 
-.backgammon-game .backgammon-board {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2px;
-  width: 600px;
-  margin: 20px auto;
-  border: 2px solid #000;
-}
+
 
 .backgammon-game .dice-button {
   width: 100%;
@@ -34,7 +27,7 @@
   }
 }
 
-.backgammon-game .backgammon-actions {
+.backgammon-game .backgammon-status {
   display: flex;
   justify-content: space-between;
 }

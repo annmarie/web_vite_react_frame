@@ -4,8 +4,9 @@ import {
   initializeBoard,
   rollDie,
   togglePlayer,
-  getPointKey,
-  updatePoints
+  generatePointIdToIndexMap,
+  updatePoints,
+  calculateTargetPointId
 } from './utils';
 
 describe('Utility Functions', () => {
@@ -52,9 +53,9 @@ describe('Utility Functions', () => {
     });
   });
 
-  describe('getPointKey', () => {
+  describe('generatePointIdToIndexMap', () => {
     it('should return correct point mapping for PLAYER_RIGHT', () => {
-      const pointKey = getPointKey(PLAYER_RIGHT);
+      const pointKey = generatePointIdToIndexMap(PLAYER_RIGHT);
       expect(pointKey[0]).toBe(12);
       expect(pointKey[11]).toBe(23);
       expect(pointKey[12]).toBe(11);
@@ -62,11 +63,24 @@ describe('Utility Functions', () => {
     });
 
     it('should return correct point mapping for PLAYER_LEFT', () => {
-      const pointKey = getPointKey(PLAYER_LEFT);
+      const pointKey = generatePointIdToIndexMap(PLAYER_LEFT);
       expect(pointKey[0]).toBe(11);
       expect(pointKey[11]).toBe(0);
       expect(pointKey[12]).toBe(12);
       expect(pointKey[23]).toBe(23);
+    });
+
+    it('should calculate the correct target point ID', () => {
+      const targetPoint = calculateTargetPointId(PLAYER_LEFT, 0, 3);
+      expect(targetPoint).toBe(14);
+    });
+
+    it('should correctly update the board state', () => {
+      const board = initializeBoard();
+      const updatedBoard = updatePoints(board, 0, 1, PLAYER_LEFT);
+      expect(updatedBoard[0].checkers).toBe(4);
+      expect(updatedBoard[1].checkers).toBe(1);
+      expect(updatedBoard[1].player).toBe(PLAYER_LEFT);
     });
   });
 

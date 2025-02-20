@@ -18,7 +18,7 @@ const Connect4 = () => {
       <h2 className="connect4-title">Connect Four</h2>
 
       <StatusBox
-        player={state.currentPlayer}
+        player={state.player}
         winner={state.winner}
         winnerDesc={state.winnerDesc}
         boardFull={state.boardFull}
