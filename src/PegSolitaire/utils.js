@@ -1,4 +1,8 @@
-
+/**
+ * Checks if there is exactly one peg left on the board.
+ * @param {number[][]} board - A 2D array representing the game board
+ * @returns {boolean} - Returns true if there is exactly one peg left, otherwise false.
+ */
 export function hasWinningMove(board) {
   let count = 0;
 
@@ -15,6 +19,11 @@ export function hasWinningMove(board) {
   return count === 1;
 }
 
+/**
+ * Checks if there are any valid moves left on the board.
+ * @param {number[][]} board - A 2D array representing the game board.
+ * @returns {boolean} - Returns true if there is at least one valid move left, otherwise false.
+ */
 export function hasMovesLeft(board) {
   for (let row = 0; row < board.length; row++) {
     for (let col = 0; col < board[row].length; col++) {
@@ -26,6 +35,13 @@ export function hasMovesLeft(board) {
   return false;
 }
 
+/**
+ * Determines if a peg at a specific position can jump over another peg.
+ * @param {number[][]} board - A 2D array representing the game board.
+ * @param {number} row - The row index of the peg.
+ * @param {number} col - The column index of the peg.
+ * @returns {boolean} - Returns true if the peg can jump over another peg, otherwise false.
+ */
 export function canJump(board, row, col) {
   const directions = [
     [-2, 0], // Up
@@ -54,6 +70,15 @@ export function canJump(board, row, col) {
   return false;
 }
 
+/**
+ * Executes a jump move on the board, updating the board state.
+ * @param {number[][]} board - A 2D array representing the game board.
+ * @param {number} startRow - The starting row index of the peg.
+ * @param {number} startCol - The starting column index of the peg.
+ * @param {number} endRow - The ending row index after the jump.
+ * @param {number} endCol - The ending column index after the jump.
+ * @returns {number[][]} - A new 2D array representing the updated board state.
+ */
 export function jumpPeg(board, startRow, startCol, endRow, endCol) {
   const newBoard = board.map((row) => [...row]);
   newBoard[startRow][startCol] = 0;
@@ -62,6 +87,15 @@ export function jumpPeg(board, startRow, startCol, endRow, endCol) {
   return newBoard;
 }
 
+/**
+ * Validates if a jump move is legal based on the board state.
+ * @param {number[][]} board - A 2D array representing the game board.
+ * @param {number} startRow - The starting row index of the peg.
+ * @param {number} startCol - The starting column index of the peg.
+ * @param {number} endRow - The ending row index after the jump.
+ * @param {number} endCol - The ending column index after the jump.
+ * @returns {boolean} - Returns true if the jump move is valid, otherwise false.
+ */
 export function validateJump(board, startRow, startCol, endRow, endCol) {
   const rowDiff = Math.abs(startRow - endRow);
   const colDiff = Math.abs(startCol - endCol);
@@ -71,8 +105,12 @@ export function validateJump(board, startRow, startCol, endRow, endCol) {
     return board[midRow][midCol] === 1;
   }
   return false;
-};
+}
 
+/**
+ * Initializes the game board for a peg solitaire game.
+ * @returns {number[][]} - A 2D array representing the initial board state.
+ */
 export function initializeBoard() {
   return [
     [null, null, 1, 1, 1, null, null],

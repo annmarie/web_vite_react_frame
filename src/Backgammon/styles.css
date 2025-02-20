@@ -4,10 +4,7 @@
   border: 1px solid black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  height: 450px;
 }
-
-
 
 .backgammon-game .dice-button {
   width: 100%;
@@ -16,15 +13,10 @@
   cursor: pointer;
   height: fit-content;
   transition: border-color 0.25s;
+}
 
-  .dice-button:active {
-    outline: 8px auto black;
-  }
-
-  .dice-button:disabled {
-    cursor: not-allowed;
-    outline: transparent;
-  }
+.backgammon-game .dice-button:active {
+  outline: 8px auto black;
 }
 
 .backgammon-game .backgammon-status {
