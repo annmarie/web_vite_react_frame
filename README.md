@@ -1,10 +1,13 @@
 # Sample React Wigets
 
-* DiceRoll
 * TicTacToe
-* WeatherApp
-* FormParts
+* CatCarousel
+* Pong
 * PegSolitaire
+* SlidePuzzle
+* DiceRoll
+* FormParts
+* Backgammon (WIP)
 
 ## the framework
 node: 20.17
