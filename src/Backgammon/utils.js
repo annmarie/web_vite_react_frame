@@ -1,8 +1,8 @@
 import { PLAYER_LEFT, PLAYER_RIGHT } from './globals';
 
 /**
- * Initializes the game board with 24 points.
- * Each point has an ID, a number of checkers, and an associated player.
+ * Initializes the game board.
+ * Right starts at point 12 and Left starts at point 24
  * @returns {Array} Array of points with their initial state.
  */
 export const initializeBoard = () => {
@@ -58,7 +58,7 @@ export const rollDie = () => {
 };
 
 /**
- * Toggles the current player between PLAYER_LEFT and PLAYER_RIGHT.
+ * Toggles the current player
  * @param {string} player - The current player.
  * @returns {string} The next player.
  */
@@ -67,7 +67,7 @@ export const togglePlayer = (player) => {
 };
 
 /**
- * Right Player Point Order
+ * Point order for the right player.
  */
 export const rightPlayerPointOrder = [
   24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13,
@@ -75,42 +75,38 @@ export const rightPlayerPointOrder = [
 ];
 
 /**
- * Left Player Point Order
+ * Point order for the left player (reverse of the right player's order).
  */
 export const leftPlayerPointOrder = [...rightPlayerPointOrder].reverse();
 
 /**
  * Generates a mapping of point IDs to their indices for a given player.
- * @param {string} player - The current player.
+ * or a mapping of indices to point IDs for a given player.
+ * @param {string} player - The current player
+ * @param {string} indexBy - The index to set for the mapping
  * @returns {Object} A mapping of point IDs to indices.
  */
-export const generatePointIdToIndexMap = (player) => {
+export const generatePointIndexMap = (player, indexBy = 'point') => {
   const pointOrder = player === PLAYER_RIGHT ? rightPlayerPointOrder : leftPlayerPointOrder;
-  return Object.fromEntries(pointOrder.map((pointId, index) => [pointId - 1, index]));
-};
-
-/**
- * Generates a mapping of indices to point IDs for a given player.
- * @param {string} player - The current player.
- * @returns {Object} A mapping of indices to point IDs.
- */
-export const generateIndexToPointIdMap = (player) => {
-  const pointOrder = player === PLAYER_RIGHT ? rightPlayerPointOrder : leftPlayerPointOrder;
-  return Object.fromEntries(pointOrder.map((pointId, index) => [index, pointId - 1]));
+  return pointOrder.reduce((map, pointId, index) => {
+    indexBy === 'point' ? map[pointId - 1] = index : map[index] = pointId - 1;
+    return map;
+  }, {});
 };
 
 /**
  * Calculates the target point ID based on the current player, selected index, and die roll.
- * @param {string} player - The current player.
+ * @param {string} player - The current player ("PLAYER_RIGHT" or "PLAYER_LEFT").
  * @param {number} selectedIndex - The index of the selected point.
  * @param {number} die - The die roll.
- * @returns {number} The target point ID.
+ * @returns {number} The target point ID, or 0 if the target index is invalid.
  */
-export const calculateTargetPointId = (player, selectedIndex, die) => {
-  const pointIdToIndexMap = generatePointIdToIndexMap(player);
-  const indexToPointIdMap = generateIndexToPointIdMap(player);
+export const calculatePotentialMove = (player, selectedIndex, die) => {
+  const pointIdToIndexMap = generatePointIndexMap(player, 'point');
+  const indexToPointIdMap = generatePointIndexMap(player, 'index');
+
   const targetIndex = Math.abs(pointIdToIndexMap[selectedIndex] + die);
-  return indexToPointIdMap[targetIndex] || 0;
+  return indexToPointIdMap[targetIndex] || -1;
 };
 
 /**
@@ -139,3 +135,35 @@ export const updatePoints = (points, fromIndex, toIndex, player) => {
   return updatedPoints;
 };
 
+/**
+ * Finds all potential moves for a player based on the current game state.
+ *
+ * @param {Array} points - The array of points on the board. Each point should have the following structure:
+ * @param {string} player - The current player for whom potential moves are being calculated.
+ * @param {Array} diceValue - An array of dice values rolled by the player.
+ * @returns {Object} An object mapping point IDs to arrays of target point IDs where moves are possible.
+ *   - Key: The `id` of the starting point.
+ *   - Value: An array of `id`s of target points where the player can move.
+ */
+export function findPotentialMoves(points, player, diceValue) {
+  const dice = new Set(diceValue);
+  const potentialMoves = {};
+
+  for (const point of points.filter(p => p.player === player)) {
+    for (const die of dice) {
+      const movePointId = calculatePotentialMove(player, point.id - 1, die);
+      if (movePointId >= 0) {
+        const targetPoint = points[movePointId];
+        if (
+          targetPoint.checkers === 0 ||
+          targetPoint.player === player ||
+          (targetPoint.checkers === 1 && targetPoint.player !== player)
+        ) {
+          potentialMoves[point.id] = potentialMoves[point.id] || [];
+          potentialMoves[point.id].push(targetPoint.id);
+        }
+      }
+    }
+  }
+  return potentialMoves;
+}

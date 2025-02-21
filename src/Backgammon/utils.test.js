@@ -4,9 +4,10 @@ import {
   initializeBoard,
   rollDie,
   togglePlayer,
-  generatePointIdToIndexMap,
+  generatePointIndexMap,
   updatePoints,
-  calculateTargetPointId
+  calculatePotentialMove,
+  findPotentialMoves
 } from './utils';
 
 describe('Utility Functions', () => {
@@ -53,31 +54,47 @@ describe('Utility Functions', () => {
     });
   });
 
-  describe('generatePointIdToIndexMap', () => {
-    it('should return correct point mapping for PLAYER_RIGHT', () => {
-      const pointKey = generatePointIdToIndexMap(PLAYER_RIGHT);
-      expect(pointKey[0]).toBe(12);
-      expect(pointKey[11]).toBe(23);
-      expect(pointKey[12]).toBe(11);
-      expect(pointKey[23]).toBe(0);
+  describe('generatePointIndexMap', () => {
+    it('should return correct index point mapping for PLAYER_RIGHT', () => {
+      const pointIdToIndexMap = generatePointIndexMap(PLAYER_RIGHT, 'index');
+      expect(pointIdToIndexMap[0]).toBe(23);
+      expect(pointIdToIndexMap[11]).toBe(12);
+      expect(pointIdToIndexMap[12]).toBe(0);
+      expect(pointIdToIndexMap[23]).toBe(11);
     });
 
-    it('should return correct point mapping for PLAYER_LEFT', () => {
-      const pointKey = generatePointIdToIndexMap(PLAYER_LEFT);
-      expect(pointKey[0]).toBe(11);
-      expect(pointKey[11]).toBe(0);
-      expect(pointKey[12]).toBe(12);
-      expect(pointKey[23]).toBe(23);
+    it('should return correct index point mapping for PLAYER_LEFT', () => {
+      const pointIdToIndexMap = generatePointIndexMap(PLAYER_LEFT, 'index');
+      expect(pointIdToIndexMap[0]).toBe(11);
+      expect(pointIdToIndexMap[11]).toBe(0);
+      expect(pointIdToIndexMap[12]).toBe(12);
+      expect(pointIdToIndexMap[23]).toBe(23);
     });
 
-    it('should calculate the correct target point ID', () => {
-      const targetPoint = calculateTargetPointId(PLAYER_LEFT, 0, 3);
+    it('should return correct point index mapping for PLAYER_RIGHT', () => {
+      const pointIdToIndexMap = generatePointIndexMap(PLAYER_RIGHT, 'point');
+      expect(pointIdToIndexMap[0]).toBe(12);
+      expect(pointIdToIndexMap[11]).toBe(23);
+      expect(pointIdToIndexMap[12]).toBe(11);
+      expect(pointIdToIndexMap[23]).toBe(0);
+    });
+
+    it('should return correct point index mapping for PLAYER_LEFT', () => {
+      const pointIdToIndexMap = generatePointIndexMap(PLAYER_LEFT, 'point');
+      expect(pointIdToIndexMap[0]).toBe(11);
+      expect(pointIdToIndexMap[11]).toBe(0);
+      expect(pointIdToIndexMap[12]).toBe(12);
+      expect(pointIdToIndexMap[23]).toBe(23);
+    });
+
+    it('should calculate the correct potential moves', () => {
+      const targetPoint = calculatePotentialMove(PLAYER_LEFT, 0, 3);
       expect(targetPoint).toBe(14);
     });
 
     it('should return 0 for the target point ID if invalid data is passed', () => {
-      const targetPoint = calculateTargetPointId(PLAYER_RIGHT, 'invalid', 'invalid');
-      expect(targetPoint).toBe(0);
+      const targetPoint = calculatePotentialMove(PLAYER_RIGHT, 'invalid', 'invalid');
+      expect(targetPoint).toBe(-1);
     });
 
     it('should correctly update the board state', () => {
@@ -123,6 +140,30 @@ describe('Utility Functions', () => {
       const updatedPoints = updatePoints(points, fromIndex, toIndex, PLAYER_LEFT);
       expect(updatedPoints[toIndex].checkers).toBe(1);
       expect(updatedPoints[toIndex].player).toBe(PLAYER_LEFT);
+    });
+  });
+});
+
+describe('findPotentialMoves', () => {
+  it('should return potential moves PLAYER_LEFT based on dice [3,5]', () => {
+    const points = initializeBoard()
+    const result = findPotentialMoves(points, PLAYER_LEFT, [3, 5]);
+    expect(result).toEqual({
+      '1': [15, 17],
+      '12': [9],
+      '17': [20, 22],
+      '19': [22]
+    });
+  });
+
+  it('should return potential moves PLAYER_RIGHT based on dice [3,5]', () => {
+    const points = initializeBoard()
+    const result = findPotentialMoves(points, PLAYER_RIGHT, [3, 5]);
+    expect(result).toEqual({
+      '5': [8, 10],
+      '7': [10],
+      '13': [3, 5],
+      '24': [21]
     });
   });
 });
