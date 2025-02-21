@@ -2,7 +2,7 @@ import { reducer, initialState } from './reducer';
 import { PLAYER_LEFT, PLAYER_RIGHT } from './globals';
 import {
   SELECT_SPOT, MOVE_CHECKER,
-  ROLL_DICE, RESET
+  ROLL_DICE, RESET, UNDO
 } from './actionTypes'
 import * as utils from './utils';
 
@@ -10,6 +10,7 @@ jest.mock('./utils', () => ({
   ...jest.requireActual('./utils'),
   rollDie: jest.fn(),
 }));
+
 
 describe('Backgammon Reducer', () => {
 
@@ -149,5 +150,31 @@ describe('Backgammon Reducer', () => {
     expect(newState.diceHistory[0]).toEqual(state.diceValue);
     expect(newState.playerHistory).toHaveLength(1);
     expect(newState.playerHistory[0]).toEqual(state.player);
+  });
+
+  it('should should set the dice manually on first roll if doubles are rolled 10 times in a row', () => {
+    const diceError = jest.spyOn(console, 'error').mockImplementation();
+    utils.rollDie.mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(1).mockReturnValueOnce(1)
+      .mockReturnValueOnce(2).mockReturnValueOnce(4);
+
+    const state = reducer(initialState, { type: ROLL_DICE });
+
+    expect(utils.rollDie).toHaveBeenCalledTimes(20);
+    expect(state.diceValue).toEqual([1, 2]);
+    expect(diceError.mock.calls[0][0]).toContain('Roll Error')
+  });
+
+  it('should handle undo with no history', () => {
+    const state = { ...initialState, };
+    const newState = reducer(state, { type: UNDO });
+    expect(newState).toEqual(state);
   });
 });
