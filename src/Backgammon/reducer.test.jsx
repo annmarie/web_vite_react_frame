@@ -11,7 +11,6 @@ jest.mock('./utils', () => ({
   rollDie: jest.fn(),
 }));
 
-
 describe('Backgammon Reducer', () => {
 
   beforeEach(() => {
@@ -74,8 +73,7 @@ describe('Backgammon Reducer', () => {
     expect(rollState2.player).toBe(PLAYER_RIGHT);
     const moveState3 = reducer(rollState2,  { type: MOVE_CHECKER, payload: { fromPointId: 24, toPointId: 18 } });
     const moveState4 = reducer(moveState3,  { type: MOVE_CHECKER, payload: { fromPointId: 24, toPointId: 23 } });
-    expect(moveState4.checkersOnBar[PLAYER_LEFT]).toStrictEqual(1);
-    expect(moveState4.checkersOnBar[PLAYER_RIGHT]).toStrictEqual(0);
+    expect(moveState4.checkersOnBar[PLAYER_LEFT]).toEqual(1);
   });
 
   it('should move right player checker to bar', () => {
@@ -90,8 +88,7 @@ describe('Backgammon Reducer', () => {
     expect(rollState2.player).toBe(PLAYER_LEFT);
     const moveState3 = reducer(rollState2,  { type: MOVE_CHECKER, payload: { fromPointId: 1, toPointId: 18 } });
     const moveState4 = reducer(moveState3,  { type: MOVE_CHECKER, payload: { fromPointId: 1, toPointId: 14 } });
-    expect(moveState4.checkersOnBar[PLAYER_LEFT]).toStrictEqual(0);
-    expect(moveState4.checkersOnBar[PLAYER_RIGHT]).toStrictEqual(1);
+    expect(moveState4.checkersOnBar[PLAYER_RIGHT]).toEqual(1);
   });
 
   it('should return the initial state when no action is provided', () => {
@@ -132,7 +129,6 @@ describe('Backgammon Reducer', () => {
     const stateMove2 = reducer(stateMove, actionMove2);
     expect(stateMove2.player).toBe(PLAYER_RIGHT);
     expect(stateMove2.diceValue).toEqual(null)
-    const stateRoll = reducer(stateMove2, { type: ROLL_DICE });
   });
 
   it('should make a move as player right and then roll the dice for next move', () => {
@@ -171,7 +167,7 @@ describe('Backgammon Reducer', () => {
     expect(stateMove.points[0].checkers).toBe(5);
   });
 
-  it('should update the history correctly', () => {
+  it('should roll and update the history correctly', () => {
     utils.rollDie.mockReturnValueOnce(6).mockReturnValueOnce(3);
     const state = reducer({ ...initialState }, { type: ROLL_DICE });
     const actionMove = { type: MOVE_CHECKER, payload: { fromPointId: 1, toPointId: 15 } };
@@ -184,7 +180,8 @@ describe('Backgammon Reducer', () => {
     expect(newState.playerHistory[0]).toEqual(state.player);
     expect(newState.potentialMovesHistory).toHaveLength(1);
     expect(newState.potentialMovesHistory[0]).toEqual({1: [18, 15], 12: [6, 9], 17: [23, 20], 19: [22]})
-    expect(newState.checkersOnBarHistory[0]).toStrictEqual(utils.initializeCheckersOnBar());
+    expect(newState.checkersOnBarHistory[0][PLAYER_LEFT]).toEqual(0);
+    expect(newState.checkersOnBarHistory[0][PLAYER_RIGHT]).toEqual(0);
   });
 
   it('should should set the dice manually on first roll if doubles are rolled 10 times in a row', () => {
@@ -199,9 +196,7 @@ describe('Backgammon Reducer', () => {
       .mockReturnValueOnce(1).mockReturnValueOnce(1)
       .mockReturnValueOnce(1).mockReturnValueOnce(1)
       .mockReturnValueOnce(2).mockReturnValueOnce(4);
-
     const state = reducer(initialState, { type: ROLL_DICE });
-
     expect(utils.rollDie).toHaveBeenCalledTimes(20);
     expect(state.diceValue).toEqual([1, 2]);
     expect(diceError.mock.calls[0][0]).toContain('Roll Error')

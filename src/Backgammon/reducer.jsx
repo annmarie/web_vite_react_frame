@@ -8,7 +8,7 @@ import {
 } from './actionTypes';
 import {
   initializeBoard, togglePlayer, rollDie, moveCheckers,
-  generatePointIndexMap, findPotentialMoves, initializeCheckersOnBar
+  generatePointIndexMap, findPotentialMoves
 } from './utils';
 
 /**
@@ -28,7 +28,7 @@ import {
  */
 export const initialState = {
   points: initializeBoard(),
-  checkersOnBar: initializeCheckersOnBar(),
+  checkersOnBar: { [PLAYER_LEFT]: 0, [PLAYER_RIGHT]: 0 },
   diceValue: null,
   player: null,
   selectedSpot: null,
@@ -91,7 +91,11 @@ function reduceSelectSpot(state, action) {
     return state;
   }
 
-  return { ...state, selectedSpot: pointId, potentialSpots: state.potentialMoves[pointId] || [] };
+  return {
+    ...state,
+    selectedSpot: pointId,
+    potentialSpots: state.potentialMoves[pointId] || []
+  };
 }
 
 /**
@@ -138,18 +142,24 @@ function reduceMoveChecker(state, action) {
     return state;
   }
 
-  const { updatedPoints, updatedCheckersOnBar } = moveCheckers(
+  const { updatedPoints, hasBarPlayer } = moveCheckers(
     state.points,
-    state.checkersOnBar,
-    toIndex,
-    fromIndex,
+    toIndex, fromIndex,
     state.player
   );
+
+  const updatedCheckersOnBar = { ...state.checkersOnBar }
+  if (hasBarPlayer) {
+    updatedCheckersOnBar[hasBarPlayer] = state.checkersOnBar[hasBarPlayer] || 0;
+    updatedCheckersOnBar[hasBarPlayer] += 1;
+  }
 
   const updatedDiceValue = state.diceValue.filter((die, index) =>
     index !== state.diceValue.findIndex((d) => d === moveDistance)
   );
+
   const updatedPotentialMoves = findPotentialMoves(updatedPoints, state.player, updatedDiceValue);
+
   const moveInProcess = updatedDiceValue.length > 0;
 
   return {
@@ -205,7 +215,6 @@ function reduceUndo(state) {
     potentialMoves: previousPotentialMoves,
     selectedSpot: null,
     potentialSpots: [],
-
     pointsHistory: updatedPointsHistory,
     checkersOnBarHistory: updatedCheckersOnBarHistory,
     diceHistory: updatedDiceHistory,
@@ -251,10 +260,5 @@ function reduceRollDice(state) {
 
   const potentialMoves = findPotentialMoves(state.points, player, diceValue);
 
-  return {
-    ...state,
-    diceValue,
-    potentialMoves,
-    player,
-  };
+  return { ...state, diceValue, potentialMoves, player };
 }
