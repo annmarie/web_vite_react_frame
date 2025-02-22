@@ -8,8 +8,7 @@ import {
 import {
   UNDO_BUTTON_TEXT, RESET_BUTTON_TEXT,
   ROLL_DICE_BUTTON_TEXT,
-  PLAYER_LEFT,
-  PLAYER_RIGHT
+  PLAYER_LEFT, PLAYER_RIGHT
 } from './globals';
 import Dice from './Dice';
 import Board from './Board';
