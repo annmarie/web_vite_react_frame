@@ -79,7 +79,7 @@ export const calculatePotentialMove = (player, selectedIndex, die) => {
   const indexToPointIdMap = generatePointIndexMap(player, 'index');
 
   const targetIndex = Math.abs(pointIdToIndexMap[selectedIndex] + die);
-  return indexToPointIdMap[targetIndex] || -1;
+  return indexToPointIdMap[targetIndex] >= 0 ? indexToPointIdMap[targetIndex] : -1;
 };
 
 /**
@@ -92,12 +92,21 @@ export const calculatePotentialMove = (player, selectedIndex, die) => {
  *   - Key: The `id` of the starting point.
  *   - Value: An array of `id`s of target points where the player can move.
  */
-export function findPotentialMoves(points, player, diceValue) {
+export function findPotentialMoves(points, player, diceValue, checkersOnBar) {
   const dice = new Set(diceValue);
   const potentialMoves = {};
+  const hasCheckerOnBar = checkersOnBar[player] ? (checkersOnBar[player] || 0) > 0 : 0;
 
   for (const point of points.filter(p => p.player === player)) {
     for (const die of dice) {
+      if (hasCheckerOnBar) {
+        if (
+          (player === PLAYER_LEFT && point.id < 19) ||
+          (player === PLAYER_RIGHT && (point.id < 7 || point.id > 12))
+        ) {
+          continue;
+        }
+      }
       const movePointId = calculatePotentialMove(player, point.id - 1, die);
       if (movePointId >= 0) {
         const targetPoint = points[movePointId];
@@ -127,7 +136,7 @@ export function findPotentialMoves(points, player, diceValue) {
  */
 export function moveCheckers(points, toIndex, fromIndex, player) {
   let hasBarPlayer = '';
-  const updatedPoints = [ ...points ];
+  const updatedPoints = [...points];
   const destinationPoint = points[toIndex] || -1;
   if (destinationPoint === -1) return { updatedPoints: points, hasBarPlayer }
   if (destinationPoint.checkers === 1 && destinationPoint.player !== player) {
@@ -138,11 +147,14 @@ export function moveCheckers(points, toIndex, fromIndex, player) {
       player: null
     }
   }
-  updatedPoints[fromIndex] = {
-    ...updatedPoints[fromIndex],
-    checkers: updatedPoints[fromIndex].checkers - 1,
-    player: updatedPoints[fromIndex].checkers - 1 === 0 ? null : player,
-  };
+
+  if (fromIndex >= 0) {
+    updatedPoints[fromIndex] = {
+      ...updatedPoints[fromIndex],
+      checkers: updatedPoints[fromIndex].checkers - 1,
+      player: updatedPoints[fromIndex].checkers - 1 === 0 ? null : player,
+    };
+  }
 
   updatedPoints[toIndex] = {
     ...updatedPoints[toIndex],

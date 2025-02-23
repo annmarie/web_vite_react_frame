@@ -103,7 +103,7 @@ describe('Utility Functions', () => {
   describe('findPotentialMoves', () => {
     it('should return potential moves PLAYER_LEFT based on dice [3,5]', () => {
       const points = initializeBoard()
-      const result = findPotentialMoves(points, PLAYER_LEFT, [3, 5]);
+      const result = findPotentialMoves(points, PLAYER_LEFT, [3, 5], {});
       expect(result).toEqual({
         '1': [15, 17],
         '12': [9],
@@ -114,7 +114,7 @@ describe('Utility Functions', () => {
 
     it('should return potential moves PLAYER_RIGHT based on dice [3,5]', () => {
       const points = initializeBoard()
-      const result = findPotentialMoves(points, PLAYER_RIGHT, [3, 5]);
+      const result = findPotentialMoves(points, PLAYER_RIGHT, [3, 5], {});
       expect(result).toEqual({
         '5': [8, 10],
         '7': [10],
@@ -122,9 +122,53 @@ describe('Utility Functions', () => {
         '24': [21]
       });
     });
-  });
-  describe('moveCheckers', () => {
 
+    it('should return potential moves PLAYER_RIGHT based on dice [3,5] when they are on the bar', () => {
+      const points = initializeBoard()
+      const result = findPotentialMoves(points, PLAYER_RIGHT, [3, 5], { 'right': 2 });
+      expect(result).toEqual({ '7': [10] });
+    });
+
+    it('should return potential moves for PLAYER_LEFT with dice [5,5,5,5] nobody on bar', () => {
+      const points = [
+        { 'id': 1, 'checkers': 3, 'player': 'left' },
+        { 'id': 2, 'checkers': 2, 'player': 'right' },
+        { 'id': 3, 'checkers': 0, 'player': null },
+        { 'id': 4, 'checkers': 3, 'player': 'right' },
+        { 'id': 5, 'checkers': 3, 'player': 'right' },
+        { 'id': 6, 'checkers': 1, 'player': 'left' },
+        { 'id': 7, 'checkers': 3, 'player': 'right' },
+        { 'id': 8, 'checkers': 2, 'player': 'right' },
+        { 'id': 9, 'checkers': 1, 'player': 'left' },
+        { 'id': 10, 'checkers': 0, 'player': null },
+        { 'id': 11, 'checkers': 1, 'player': 'right' },
+        { 'id': 12, 'checkers': 0, 'player': null },
+        { 'id': 13, 'checkers': 0, 'player': null },
+        { 'id': 14, 'checkers': 0, 'player': null },
+        { 'id': 15, 'checkers': 0, 'player': null },
+        { 'id': 16, 'checkers': 1, 'player': 'left' },
+        { 'id': 17, 'checkers': 3, 'player': 'left' },
+        { 'id': 18, 'checkers': 0, 'player': null },
+        { 'id': 19, 'checkers': 4, 'player': 'left' },
+        { 'id': 20, 'checkers': 2, 'player': 'left' },
+        { 'id': 21, 'checkers': 0, 'player': null },
+        { 'id': 22, 'checkers': 0, 'player': null },
+        { 'id': 23, 'checkers': 1, 'player': 'right' },
+        { 'id': 24, 'checkers': 0, 'player': null }
+      ];
+      const player = PLAYER_LEFT;
+      const diceValue = [ 5, 5, 5, 5 ]
+      const result = findPotentialMoves(points, player, diceValue, {});
+      //      { '1': [ 17 ], '6': [ 1 ], '16': [ 21 ], '17': [ 22 ], '19': [ 24 ] }
+      expect(result[1][0]).toEqual(17);
+      expect(result[6][0]).toEqual(1);
+      expect(result[16][0]).toEqual(21);
+      expect(result[17][0]).toEqual(22);
+      expect(result[19][0]).toEqual(24);
+    })
+  });
+
+  describe('moveCheckers', () => {
     it('should move a checker from one point to an empty spot', () => {
       const points = [
         { checkers: 5, player: PLAYER_RIGHT },
