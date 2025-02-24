@@ -1,7 +1,10 @@
 /**
  * backgammon reducer
  */
-import { PLAYER_LEFT, PLAYER_RIGHT } from './globals';
+import {
+  PLAYER_LEFT, PLAYER_RIGHT, INVALID_INDEX,
+  START_KEY_LEFT, START_KEY_RIGHT
+} from './globals';
 import {
   SELECT_SPOT, MOVE_CHECKER, ROLL_DICE,
   UNDO, RESET, TOGGLE_PLAYER
@@ -91,19 +94,19 @@ function reduceSelectSpot(state, action) {
   const selectedIndex = pointId - 1;
 
   if (state.checkersOnBar[state.player]) {
-    const startKeyId = state.player === PLAYER_LEFT ? 12 : 24;
+    const startKeyId = state.player === PLAYER_LEFT ? START_KEY_LEFT : START_KEY_RIGHT;
 
     for (const potentialPointId of Object.keys(state.potentialMoves)) {
       if (pointId == potentialPointId) {
         const moveDistance = startKeyId - potentialPointId;
-        return updateMoveCheckerState(state, -1, selectedIndex, moveDistance)
+        return updateMoveCheckerState(state, INVALID_INDEX, selectedIndex, moveDistance)
       }
     }
     return state;
   }
 
   if (
-    selectedIndex === -1 ||
+    selectedIndex === INVALID_INDEX ||
     state.points[selectedIndex].player !== state.player
   ) {
     return state;
@@ -122,40 +125,29 @@ function reduceSelectSpot(state, action) {
  * @param {Object} action - The action containing from and to point IDs.
  * @returns {Object} - The updated state after moving the checker.
  */
-function reduceMoveChecker(state, action) {
+function reduceMoveChecker(state, { payload: { fromPointId, toPointId } }) {
+  const { player, diceValue, points } = state;
+
   if (
-    !state.player || !state.diceValue ||
-    state.diceValue.length === 0
-  ) {
-    return state;
-  }
+    !player || !diceValue ||
+    diceValue.length === 0
+  ) return state;
 
-  const { fromPointId, toPointId } = action.payload;
-
-  if (fromPointId === toPointId) {
-    return { ...state, selectedSpot: null, potentialSpots: [] };
-  }
-
-  const fromIndex = state.points.findIndex((point) => point.id === fromPointId);
-  const toIndex = state.points.findIndex((point) => point.id === toPointId);
-
+  const fromIndex = points.findIndex((point) => point.id === fromPointId);
+  const toIndex = points.findIndex((point) => point.id === toPointId);
   if (
     fromIndex === -1 || toIndex === -1 ||
-    state.points[fromIndex].checkers < 1
-  ) {
-    return state;
-  }
+    points[fromIndex].checkers < 1
+  ) return state;
 
-  const pointKey = generatePointIndexMap(state.player, 'point');
+  const pointKey = generatePointIndexMap(player, 'point');
   const moveDistance = Math.abs(pointKey[toIndex] - pointKey[fromIndex]);
-  const isValidDiceValue = state.diceValue.includes(moveDistance);
+  const isValidDiceValue = diceValue.includes(moveDistance);
 
   if (
     !isValidDiceValue ||
     !(pointKey[toIndex] > pointKey[fromIndex])
-  ) {
-    return state;
-  }
+  ) return state;
 
   return updateMoveCheckerState(state, fromIndex, toIndex, moveDistance);
 }
@@ -176,7 +168,7 @@ function updateMoveCheckerState(state, fromIndex, toIndex, moveDistance) {
     updatedCheckersOnBar[hasBarPlayer] = state.checkersOnBar[hasBarPlayer] || 0;
     updatedCheckersOnBar[hasBarPlayer] += 1;
   }
-  if (fromIndex === -1) {
+  if (fromIndex === INVALID_INDEX) {
     updatedCheckersOnBar[state.player] = state.checkersOnBar[state.player] || 1;
     updatedCheckersOnBar[state.player] -= 1;
   }
@@ -221,39 +213,48 @@ function updateMoveCheckerState(state, fromIndex, toIndex, moveDistance) {
 /**
  * Reverts the game state to the previous state.
  * @param {Object} state - The current state.
- * @returns {Object} - The updated state after undoing the last action.
+ * @returns {Object} - The updated state after undoing the last action and histories.
  */
 function reduceUndo(state) {
-  const previousPoints = state.pointsHistory[state.pointsHistory.length - 1] || initialState.points;
-  const updatedPointsHistory = state.pointsHistory.slice(0, -1);
-
-  const previousDice = state.diceHistory[state.diceHistory.length - 1] || initialState.diceValue;
-  const updatedDiceHistory = state.diceHistory.slice(0, -1);
-
-  const previousPlayer = state.playerHistory[state.playerHistory.length - 1] || initialState.player;
-  const updatedPlayerHistory = state.playerHistory.slice(0, -1);
-
-  const previousPotentialMoves = state.potentialMovesHistory[state.potentialMovesHistory.length - 1] || initialState.potentialMoves;
-  const updatedPotentialMovesHistory = state.potentialMovesHistory.slice(0, -1);
-
-  const previousCheckersOnBar = state.checkersOnBarHistory[state.checkersOnBarHistory.length - 1] || initialState.checkersOnBar;
-  const updatedCheckersOnBarHistory = state.checkersOnBarHistory.slice(0, -1);
+  const previousActionState = getPreviousActionState(state);
+  const updatedHistoryState = updateHistoryState(state);
 
   return {
     ...state,
-    points: previousPoints,
-    checkersOnBar: previousCheckersOnBar,
-    diceValue: previousDice,
-    player: previousPlayer,
-    potentialMoves: previousPotentialMoves,
+    ...previousActionState,
+    ...updatedHistoryState,
     selectedSpot: null,
     potentialSpots: [],
+  };
+}
 
-    pointsHistory: updatedPointsHistory,
-    checkersOnBarHistory: updatedCheckersOnBarHistory,
-    diceHistory: updatedDiceHistory,
-    playerHistory: updatedPlayerHistory,
-    potentialMovesHistory: updatedPotentialMovesHistory,
+/**
+ * Gets the previous state values
+ * @param {Object} state - The current state.
+ * @returns {Object} - The updated state after undoing the last action.
+ */
+function getPreviousActionState(state) {
+  return {
+    points: state.pointsHistory[state.pointsHistory.length - 1] || initialState.points,
+    diceValue: state.diceHistory[state.diceHistory.length - 1] || initialState.diceValue,
+    player: state.playerHistory[state.playerHistory.length - 1] || initialState.player,
+    potentialMoves: state.potentialMovesHistory[state.potentialMovesHistory.length - 1] || initialState.potentialMoves,
+    checkersOnBar: state.checkersOnBarHistory[state.checkersOnBarHistory.length - 1] || initialState.checkersOnBar,
+  };
+}
+
+/**
+ * Gets the previous state histories
+ * @param {Object} state - The current state.
+ * @returns {Object} - The updated state after undoing the last histories.
+ */
+function updateHistoryState(state) {
+  return {
+    pointsHistory: state.pointsHistory.slice(0, -1),
+    diceHistory: state.diceHistory.slice(0, -1),
+    playerHistory: state.playerHistory.slice(0, -1),
+    potentialMovesHistory: state.potentialMovesHistory.slice(0, -1),
+    checkersOnBarHistory: state.checkersOnBarHistory.slice(0, -1),
   };
 }
 
