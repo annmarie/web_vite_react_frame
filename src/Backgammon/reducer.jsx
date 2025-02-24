@@ -3,8 +3,8 @@
  */
 import { PLAYER_LEFT, PLAYER_RIGHT } from './globals';
 import {
-  SELECT_SPOT, MOVE_CHECKER,
-  ROLL_DICE, UNDO, RESET, TOGGLE_PLAYER
+  SELECT_SPOT, MOVE_CHECKER, ROLL_DICE,
+  UNDO, RESET, TOGGLE_PLAYER
 } from './actionTypes';
 import {
   initializeBoard, togglePlayer, rollDie, moveCheckers,
@@ -80,7 +80,9 @@ export const reducer = (state, action) => {
  */
 function reduceSelectSpot(state, action) {
   if (
-    state.player === null || state.diceValue.length === 0
+    state.player === null ||
+    state.diceValue === null ||
+    state.diceValue.length === 0
   ) {
     return state;
   }
@@ -89,13 +91,15 @@ function reduceSelectSpot(state, action) {
   const selectedIndex = pointId - 1;
 
   if (state.checkersOnBar[state.player]) {
-    const dice = new Set(state.diceValue);
-    for (const die of dice) {
-      const pointKey = generatePointIndexMap(state.player, 'index');
-      if (die === pointKey[pointKey[selectedIndex]]) {
-        return updateMoveCheckerState(state, -1, selectedIndex, die)
+    const startKeyId = state.player === PLAYER_LEFT ? 12 : 24;
+
+    for (const potentialPointId of Object.keys(state.potentialMoves)) {
+      if (pointId == potentialPointId) {
+        const moveDistance = startKeyId - potentialPointId;
+        return updateMoveCheckerState(state, -1, selectedIndex, moveDistance)
       }
     }
+    return state;
   }
 
   if (
@@ -167,7 +171,6 @@ function updateMoveCheckerState(state, fromIndex, toIndex, moveDistance) {
     toIndex, fromIndex,
     state.player
   );
-
   const updatedCheckersOnBar = { ...state.checkersOnBar }
   if (hasBarPlayer) {
     updatedCheckersOnBar[hasBarPlayer] = state.checkersOnBar[hasBarPlayer] || 0;
