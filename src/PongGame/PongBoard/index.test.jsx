@@ -27,21 +27,4 @@ describe('PongBoard Component', () => {
     expect(ballElement).toBeInTheDocument();
     expect(ballElement).toHaveStyle({ top: `${mockBall.y}px`, left: `${mockBall.x}px` });
   });
-
-  it('should validate PropTypes correctly', () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(
-      <PongBoard
-        gameRef={null}
-        ball={{ x: 'invalid', y: 'invalid' }}
-        paddle_left="invalid"
-        paddle_right="invalid"
-        score={{ player_left: 'invalid', player_right: 'invalid' }}
-      />
-    );
-
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    consoleErrorSpy.mockRestore();
-  });
 });

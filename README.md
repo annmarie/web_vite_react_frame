@@ -7,12 +7,12 @@
 * SlidePuzzle
 * DiceRoll
 * FormParts
-* Backgammon (WIP)
+* Backgammon
 
 ## the framework
 node: 20.17
-vite: 6.0
-react: 18.3
+vite: 6.2
+react: 19
 eslint: es2022
 
 ## get started
