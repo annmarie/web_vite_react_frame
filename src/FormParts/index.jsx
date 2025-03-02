@@ -1,19 +1,41 @@
-import { useReducer, useRef } from 'react';
-import { SET_NUM, SET_COLOR, SET_SIZE, RESET_FORM } from './actionTypes';
-import { reducer, initialState } from './reducer';
+import { useRef, useState } from 'react';
 import ColorSelector from './ColorSelector';
 import NumberInput from './NumberInput';
 import SizeSlider from './SizeSlider';
 import './styles.css';
 
+const initialState = {
+  num: 0,
+  sizeKey: 2,
+  colorKey: 1,
+  sizes: ['XL', 'L', 'M', 'S'],
+  colors: ['Blue', 'Green', 'Yellow', 'Black']
+};
+
+const cleanKey = (key, min, max) => {
+  return Math.min(Math.max(key, min), max);
+};
+
 const FormParts = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, setState] = useState(initialState);
   const numRef = useRef(null);
 
-  const resetForm = () => {
-    dispatch({ type: RESET_FORM });
+  const resetFormClick = () => {
+    setState(initialState)
     numRef.current?.focus();
   };
+
+  const colorFormClick = (value) => {
+    setState({ ...state, colorKey: cleanKey(value, 0, state.colors.length) })
+  }
+
+  const sizeFormClick = (value) => {
+    setState({ ...state, sizeKey: cleanKey(value, 0, state.sizes.length) })
+  }
+
+  const numFormClick = (value) => {
+    setState({ ...state, num: value })
+  }
 
   return (
     <div className="form-parts-container">
@@ -23,14 +45,14 @@ const FormParts = () => {
         <ColorSelector
           colors={state.colors}
           selected={state.colorKey}
-          onChange={(value) => dispatch({ type: SET_COLOR, payload: value })}
+          onChange={colorFormClick}
         />
       </div>
 
       <div className="row-item">
         <NumberInput
           num={state.num}
-          onChange={(num) => dispatch({ type: SET_NUM, payload: num })}
+          onChange={numFormClick}
           inputRef={numRef}
         />
       </div>
@@ -39,11 +61,16 @@ const FormParts = () => {
         <SizeSlider
           sizes={state.sizes}
           selected={state.sizeKey}
-          onChange={(size) => dispatch({ type: SET_SIZE, payload: size})}
+          onChange={sizeFormClick}
         />
       </div>
 
-      <div className="row-item results">
+      <div
+        aria-label="Form Status"
+        className="row-item results"
+        role="status"
+        aria-live="polite"
+      >
         <ul>
           <li>Num: {state.num || 0}</li>
           <li>Size: {state.sizes[state.sizeKey] || ''}</li>
@@ -55,7 +82,7 @@ const FormParts = () => {
         <button
           aria-label="Reset the form and start over"
           data-testid="reset-button"
-          onClick={resetForm}
+          onClick={resetFormClick}
         >
           Reset Form
         </button>

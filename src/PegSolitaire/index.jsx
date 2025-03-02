@@ -1,18 +1,18 @@
-import { useReducer } from 'react';
-import { MAKE_MOVE, UNDO_MOVE, RESET_GAME, SELECT_PEG } from './actionTypes';
-import { reducer, initialState } from './reducer';
+import { useSelector, useDispatch } from 'react-redux';
+import { makeMove, undoMove, resetGame, selectPeg } from './slice';
 import Cell from './Cell'
 import './styles.css';
 
 const PegSolitaire = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.pegsolitaire);
 
   const handleCellClick = (row, col) => {
     const cellValue = state.board[row][col];
     if (cellValue === 1) {
-      dispatch({ type: SELECT_PEG, payload: { row, col } });
+      dispatch(selectPeg({ row, col }));
     } else if (cellValue === 0 && state.selectedPeg) {
-      dispatch({ type: MAKE_MOVE, payload: { endRow: row, endCol: col } });
+      dispatch(makeMove({ endRow: row, endCol: col }));
     }
   };
 
@@ -52,14 +52,14 @@ const PegSolitaire = () => {
       <div className="peg-actions">
         <button
           aria-label="Undo the last move"
-          onClick={() => dispatch({ type: UNDO_MOVE })}
+          onClick={() => dispatch(undoMove())}
           disabled={state.history.length === 0 || state.winner}
         >
           Undo Move
         </button>
         <button
           aria-label="Reset the game to its initial state"
-          onClick={() => dispatch({ type: RESET_GAME })}
+          onClick={() => dispatch(resetGame())}
           disabled={state.history.length === 0}
         >
           Reset Game

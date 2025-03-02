@@ -1,6 +1,13 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import { initialState } from './reducer';
 import FormParts from '../FormParts';
+
+const initialState = {
+  num: 0,
+  sizeKey: 2,
+  colorKey: 1,
+  sizes: ['XL', 'L', 'M', 'S'],
+  colors: ['Blue', 'Green', 'Yellow', 'Black']
+};
 
 describe('FormParts Component', () => {
 

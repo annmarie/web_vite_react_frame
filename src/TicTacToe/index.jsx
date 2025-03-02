@@ -1,16 +1,12 @@
-import { useReducer } from 'react';
-import { MAKE_MOVE, RESET_GAME, UNDO_MOVE } from './actionTypes';
 import { DRAW_MESSAGE, UNDO_BUTTON_TEXT, RESET_BUTTON_TEXT } from './globals';
-import { initialState, reducer } from './reducer';
+import { useSelector, useDispatch } from 'react-redux';
+import { makeMove, undoMove, resetGame } from './slice';
 import './styles.css';
 
 const TicTacToe = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const handleCellClick = (index) => {
-    if (state.board[index] || state.winner) return;
-    dispatch({ type: MAKE_MOVE, payload: { index } });
-  };
+  const dispatch = useDispatch();
+  const handleCellClick = (index) => { dispatch(makeMove(index)); };
+  const state = useSelector((state) => state.tictactoe );
 
   return (
     <div className="tic-tac-toe-game">
@@ -22,11 +18,8 @@ const TicTacToe = () => {
         role="status"
         aria-live="polite"
       >
-        {state.winner
-          ? `Winner: ${state.winner}`
-          : state.boardFull
-            ? DRAW_MESSAGE
-            : `Player: ${state.player}`}
+        {state.winner ? `Winner: ${state.winner}` : state.boardFull
+            ? DRAW_MESSAGE : `Player: ${state.player}`}
       </div>
 
       <div className="tic-tac-toe-board">
@@ -48,14 +41,14 @@ const TicTacToe = () => {
       <div className="tic-tac-toe-actions">
         <button
           aria-label="Undo Move"
-          onClick={() => dispatch({ type: UNDO_MOVE })}
+          onClick={() => dispatch(undoMove())}
           disabled={state.history.length === 0 || state.winner}
         >
           {UNDO_BUTTON_TEXT}
         </button>
         <button
           aria-label="Reset Game"
-          onClick={() => dispatch({ type: RESET_GAME })}
+          onClick={() => dispatch(resetGame())}
           disabled={state.history.length === 0}
         >
           {RESET_BUTTON_TEXT}
