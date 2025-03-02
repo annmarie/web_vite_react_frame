@@ -1,34 +1,11 @@
-/**
- * backgammon reducer
- */
-import {
-  PLAYER_LEFT, PLAYER_RIGHT, INVALID_INDEX,
-  START_KEY_LEFT, START_KEY_RIGHT
-} from './globals';
-import {
-  SELECT_SPOT, MOVE_CHECKER, ROLL_DICE,
-  UNDO, RESET, TOGGLE_PLAYER
-} from './actionTypes';
+import { createSlice } from '@reduxjs/toolkit';
 import {
   initializeBoard, togglePlayer, rollDie, moveCheckers,
   generatePointIndexMap, findPotentialMoves
 } from './utils';
 
-/**
- * Initial state of the game.
- * - `points`: Represents the board state with checkers and players.
- * = `checkersOnBar`: Number of checkers on the bar for each player.
- * - `diceValue`: The current dice values rolled.
- * - `player`: The current player (PLAYER_LEFT or PLAYER_RIGHT).
- * - `selectedSpot`: The currently selected spot on the board.
- * - `potentialSpots`: The potential spots a checker can move to.
- * - `potentialMoves`: The potential moves based on player and dice roll.
- * - `pointsHistory`: History of board states for undo functionality.
- * - `diceHistory`: History of dice rolls for undo functionality.
- * - `playerHistory`: History of player turns for undo functionality.
- * - `potentialMovesHistory`: History of potential moves for undo functionality.
- * - `checkersOnBarHistory`: History of checkers on bar for undo functionality.
- */
+import { PLAYER_LEFT, PLAYER_RIGHT, START_KEY_LEFT, START_KEY_RIGHT, INVALID_INDEX } from './globals';
+
 export const initialState = {
   points: initializeBoard(),
   checkersOnBar: { [PLAYER_LEFT]: 0, [PLAYER_RIGHT]: 0 },
@@ -44,43 +21,19 @@ export const initialState = {
   potentialMovesHistory: [],
 };
 
-/**
- * Reducer function
- * @param {Object} state - The current state of the game.
- * @param {Object} action - The action to be performed.
- * @returns {Object} - The updated state.
- */
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case ROLL_DICE:
-      return reduceRollDice(state);
+export const slice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    selectSpot: (state, action) => reduceSelectSpot(state, action),
+    makeMove: (state, action) => reduceMoveChecker(state, action),
+    rollDice: (state) => reduceRollDice(state),
+    undoRoll: (state) => reduceUndo(state),
+    togglePlayerRoll: (state) => ({ ...state, player: togglePlayer(state.player), diceValue: null }),
+    resetGame: () => ({ ...initialState, board: initializeBoard() }),
+  },
+});
 
-    case SELECT_SPOT:
-      return reduceSelectSpot(state, action);
-
-    case MOVE_CHECKER:
-      return reduceMoveChecker(state, action);
-
-    case TOGGLE_PLAYER:
-      return { ...state, player: togglePlayer(state.player), diceValue: null }
-
-    case UNDO:
-      return reduceUndo(state);
-
-    case RESET:
-      return { ...initialState, points: initializeBoard() };
-
-    default:
-      return state || initialState;
-  }
-};
-
-/**
- * Determines potential spots a checker can move to based on dice values.
- * @param {Object} state - The current state.
- * @param {Object} action - The action containing the selected spot.
- * @returns {Object} - The updated state with potential spots.
- */
 function reduceSelectSpot(state, action) {
   if (
     state.player === null ||
@@ -119,12 +72,6 @@ function reduceSelectSpot(state, action) {
   };
 }
 
-/**
- * Moves a checker from one spot to another and updates the game state.
- * @param {Object} state - The current state.
- * @param {Object} action - The action containing from and to point IDs.
- * @returns {Object} - The updated state after moving the checker.
- */
 function reduceMoveChecker(state, { payload: { fromPointId, toPointId } }) {
   const { player, diceValue, points } = state;
 
@@ -152,11 +99,6 @@ function reduceMoveChecker(state, { payload: { fromPointId, toPointId } }) {
   return updateMoveCheckerState(state, fromIndex, toIndex, moveDistance);
 }
 
-/**
- * Update state for a checker move.
- * @param {Object} state - The current state.
- * @returns {Object} - The updated state after moving the checker.
- */
 function updateMoveCheckerState(state, fromIndex, toIndex, moveDistance) {
   const { updatedPoints, hasBarPlayer } = moveCheckers(
     state.points,
@@ -210,11 +152,6 @@ function updateMoveCheckerState(state, fromIndex, toIndex, moveDistance) {
   };
 }
 
-/**
- * Reverts the game state to the previous state.
- * @param {Object} state - The current state.
- * @returns {Object} - The updated state after undoing the last action and histories.
- */
 function reduceUndo(state) {
   const previousActionState = getPreviousActionState(state);
   const updatedHistoryState = updateHistoryState(state);
@@ -228,11 +165,6 @@ function reduceUndo(state) {
   };
 }
 
-/**
- * Gets the previous state values
- * @param {Object} state - The current state.
- * @returns {Object} - The updated state after undoing the last action.
- */
 function getPreviousActionState(state) {
   return {
     points: state.pointsHistory[state.pointsHistory.length - 1] || initialState.points,
@@ -243,11 +175,6 @@ function getPreviousActionState(state) {
   };
 }
 
-/**
- * Gets the previous state histories
- * @param {Object} state - The current state.
- * @returns {Object} - The updated state after undoing the last histories.
- */
 function updateHistoryState(state) {
   return {
     pointsHistory: state.pointsHistory.slice(0, -1),
@@ -258,11 +185,6 @@ function updateHistoryState(state) {
   };
 }
 
-/**
- * Rolls the dice and determines the starting player if it's the first roll.
- * @param {Object} state - The current state.
- * @returns {Object} - The updated state with new dice values and player.
- */
 function reduceRollDice(state) {
   let die1 = null;
   let die2 = null;
@@ -302,3 +224,7 @@ function reduceRollDice(state) {
 
   return { ...state, diceValue, potentialMoves, player };
 }
+
+export const { makeMove, rollDice, undoRoll, togglePlayerRoll, resetGame, selectSpot } = slice.actions;
+
+export default slice.reducer;

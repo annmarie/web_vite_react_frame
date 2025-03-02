@@ -1,12 +1,8 @@
 # Sample React Wigets
 
-* TicTacToe
-* CatCarousel
-* Pong
+* CatGallery
 * PegSolitaire
 * SlidePuzzle
-* DiceRoll
-* FormParts
 * Backgammon
 
 ## the framework
