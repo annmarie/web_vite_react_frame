@@ -1,3 +1,5 @@
+import { PLAYER_ONE, PLAYER_TWO } from './globals';
+
 /**
  * Determines the winner
  * @param {Array} squares - An array of 9 elements representing the game board.
@@ -19,16 +21,17 @@ export function calculateWinner(squares) {
 }
 
 /**
- * Checks if the board is full.
- * @param {Array} board - An array of 9 elements representing the game board.
- * @returns {boolean} - Returns true if all squares are filled, otherwise false.
- */
-export function isBoardFull(board) {
-  return board.every((square) => square !== null);
-}
-
-/**
  * Initializes an empty board.
  * @returns {Array} - Returns an array of 9 elements, all initialized to null.
  */
 export const initializeBoard = () => Array(9).fill(null);
+
+/**
+ * Toggles the current player between PLAYER_ONE and PLAYER_TWO.
+ *
+ * @param {string} player - The current player.
+ * @returns {string} - The next player.
+ */
+export function togglePlayer(player) {
+  return player === PLAYER_ONE ? PLAYER_TWO : PLAYER_ONE;
+}

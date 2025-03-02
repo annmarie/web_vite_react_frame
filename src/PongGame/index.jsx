@@ -1,30 +1,28 @@
-import { useReducer, useEffect, useRef } from 'react';
-import { reducer, initialState } from './reducer';
-import {
-  MOVE_PADDLE_LEFT, MOVE_PADDLE_RIGHT, MOVE_BALL,
-  TOGGLE_GAME, RESET_GAME
-} from './actionTypes'
+import { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { moveBall, movePaddleLeft, movePaddleRight, togglePause, resetGame } from './slice'
 import PongBoard from './PongBoard';
 import './styles.css';
 
 const PongGame = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.pong );
   const gameRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'w') dispatch({ type: MOVE_PADDLE_LEFT, payload: -20 });
-      if (e.key === 's') dispatch({ type: MOVE_PADDLE_LEFT, payload: 20 });
-      if (e.key === 'ArrowUp') dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
-      if (e.key === 'ArrowDown') dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
-      if (e.key === 'o') dispatch({ type: MOVE_PADDLE_RIGHT, payload: -20 });
-      if (e.key === 'l') dispatch({ type: MOVE_PADDLE_RIGHT, payload: 20 });
-      if (e.key === ' ') dispatch({ type: TOGGLE_GAME });
+      if (e.key === 'w') dispatch(movePaddleLeft(-20));
+      if (e.key === 's') dispatch(movePaddleLeft(20));
+      if (e.key === 'ArrowUp') dispatch(movePaddleRight(-20));
+      if (e.key === 'ArrowDown') dispatch(movePaddleRight(20));
+      if (e.key === 'o') dispatch(movePaddleRight(-20));
+      if (e.key === 'l') dispatch(movePaddleRight(20));
+      if (e.key === ' ') dispatch(togglePause());
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [dispatch]);
 
   const intervalRef = useRef(null);
   useEffect(() => {
@@ -32,12 +30,12 @@ const PongGame = () => {
       clearInterval(intervalRef.current);
     } else {
       intervalRef.current = setInterval(() => {
-        dispatch({ type: MOVE_BALL });
+        dispatch(moveBall());
       }, 16);
     }
 
     return () => clearInterval(intervalRef.current);
-  }, [state.pause]);
+  }, [state.pause, dispatch]);
 
   const { ball, paddle_left, paddle_right, score } = state;
 
@@ -60,14 +58,14 @@ const PongGame = () => {
 
       <button
         aria-label="Play/Pause Game"
-        onClick={() => dispatch({ type: TOGGLE_GAME })}
+        onClick={() => dispatch(togglePause())}
       >
         {state.pause ? 'Play' : 'Pause'}
       </button>
 
       <button
         aria-label="Reset Game"
-        onClick={() => dispatch({ type: RESET_GAME })}
+        onClick={() => dispatch(resetGame())}
       >
         Reset
       </button>

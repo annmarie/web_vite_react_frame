@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useSelector, useDispatch, Provider } from 'react-redux';
 import { store } from './store';
-import { increment, decrement, incrementByAmount } from './counterSlice';
+import { increment, decrement, incrementByAmount } from './slice';
 import DiceRoll from './DiceRoll';
 import FormParts from './FormParts';
 import SlidePuzzle from './SlidePuzzle';
@@ -13,7 +13,7 @@ import PongGame from './PongGame';
 import Backgammon from './Backgammon';
 
 const Hello = () => {
-  const count = useSelector((state) => state.counter.value);
+  const count = useSelector((state) => state.main.value);
   const dispatch = useDispatch();
 
   return (
@@ -49,7 +49,7 @@ const App = () => {
           <Route path="/connect4" element={<Connect4 />} />
           <Route path="/pegsolitaire" element={<PegSolitaire />} />
           <Route path="/catcarousel" element={<CatCarousel />} />
-          <Route path="/tictactoe" element={<TicTacToe />} />
+          <Route path="/tictactoe" element={ <TicTacToe />} />
           <Route path="/ponggame" element={<PongGame />} />
           <Route path="/backgammon" element={<Backgammon />} />
         </Routes>

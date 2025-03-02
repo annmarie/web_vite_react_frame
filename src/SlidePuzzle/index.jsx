@@ -1,16 +1,14 @@
-import { useReducer } from 'react';
-import { MOVE_TILE, RESET_PUZZLE } from './actionTypes';
-import { reducer, initialState } from './reducer';
+import { RESET_BUTTON_TEXT } from './globals';
+import { useSelector, useDispatch } from 'react-redux';
+import { moveTile, resetGame } from './slice';
 import StatusBox from './StatusBox';
 import Board from './Board';
 import './styles.css';
 
 const SidePuzzle = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const handleTileClick = (row, col) => {
-    dispatch({ type: MOVE_TILE, payload: { moveTile: { row, col } } });
-  };
+  const dispatch = useDispatch();
+  const handleTileClick = (row, col) => dispatch(moveTile({ row, col }));
+  const state = useSelector((state) => state.slidepuzzle );
 
   return (
     <div className="slide-puzzle-game">
@@ -24,10 +22,9 @@ const SidePuzzle = () => {
       <button
         aria-label="Reset the game to its initial state"
         data-testid="reset-button"
-        onClick={() => dispatch({ type: RESET_PUZZLE })}
-        disabled={false}
+        onClick={() => dispatch(resetGame())}
       >
-        Reset Game
+        {RESET_BUTTON_TEXT}
       </button>
 
     </div>
