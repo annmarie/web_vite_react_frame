@@ -7,7 +7,7 @@ jest.mock('./utils', () => ({
   setTiles: jest.fn(() => [[5, 4, 3], [2, 1, 8], [7, 0, 6]]),
 }));
 
-describe('Main Slice', () => {
+describe('SlidePuzzle Slice', () => {
   let store;
   let state;
 

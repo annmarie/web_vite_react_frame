@@ -3,7 +3,7 @@ import { PLAYER_ONE, PLAYER_TWO, DRAW_MESSAGE } from './globals';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from '../store';
-import TicTacToe from '.';
+import TicTacToe from '../TicTacToe';
 
 const BOARD_LENGTH = 3 * 3; // 3 rows * 3 columns
 const CURRENT_PLAYER_ONE = new RegExp(`Player: ${PLAYER_ONE}`, 'i');

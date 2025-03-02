@@ -4,7 +4,7 @@ import reducer, {
   movePaddleLeft, movePaddleRight,
 } from './slice';
 
-describe('Main Slice', () => {
+describe('PongGame Slice', () => {
   let store;
   let state;
 

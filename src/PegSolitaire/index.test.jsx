@@ -1,6 +1,9 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import PegSolitaire from '../PegSolitaire';
-import { initialState } from './reducer';
+import { initialState } from './slice';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { reducer } from '../store';
 
 const BOARD_LENGTH = 7 * 7; // 7 rows * 7 columns
 const UNDO_BUTTON = /Undo the last move/i
@@ -9,9 +12,14 @@ const GAME_STATUS = /Game Status/i
 const SELECT_CELL = /Cell at row \d+, column \d+ is (a peg|empty|not playable)/i
 
 describe('PegSolitaire Component', () => {
+  let store;
+
+  beforeEach(() => {
+    store = configureStore({ reducer });
+  });
 
   it('should render the peg solitaire board', async () => {
-    await act(async () => render(<PegSolitaire />));
+    await act(async () => render(<Provider store={store}><PegSolitaire /></Provider>));
     const undoButton = screen.getByRole('button', { name: UNDO_BUTTON });
     const resetButton = screen.getByRole('button', { name: RESET_BUTTON });
     const gameStatus = screen.getByRole('status', { name: GAME_STATUS });
@@ -32,7 +40,7 @@ describe('PegSolitaire Component', () => {
   });
 
   it('should handle a first move', async () => {
-    await act(async () => render(<PegSolitaire />));
+    await act(async () => render(<Provider store={store}><PegSolitaire /></Provider>));
     const undoButton = screen.getByRole('button', { name: UNDO_BUTTON });
     const resetButton = screen.getByRole('button', { name: RESET_BUTTON });
     const { board } = initialState;
@@ -57,7 +65,7 @@ describe('PegSolitaire Component', () => {
   });
 
   it('should handle undo button click', async () => {
-    await act(async () => render(<PegSolitaire />));
+    await act(async () => render(<Provider store={store}><PegSolitaire /></Provider>));
     const undoButton = screen.getByRole('button', { name: UNDO_BUTTON });
     expect(undoButton).toBeDisabled();
     await act(async () => fireEvent.click(screen.getByLabelText(/Cell at row 4, column 2 is a peg/i)));
@@ -70,7 +78,7 @@ describe('PegSolitaire Component', () => {
   });
 
   it('should handle a win and reset it', async () => {
-    await act(async () => render(<PegSolitaire />));
+    await act(async () => render(<Provider store={store}><PegSolitaire /></Provider>));
     const cells = screen.getAllByRole('button', { name: SELECT_CELL });
     const winCellClickOrder = [
       22, 24, 37, 23, 28, 30, 14, 28, 31, 29, 28, 30, 23, 37, 33, 31,
