@@ -14,24 +14,30 @@ const CatGallery = () => {
 
   return (
     <div>
-    <h1>Cat Gallery</h1>
-    {status === 'failed' ? (
-      <p>{error}</p>
-    ) : status === 'succeeded' ? (
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {images.map((cat) => (
-          <img
-            key={cat.id}
-            src={cat.url}
-            alt="A cute cat"
-            style={{ width: '200px', height: '200px', margin: '10px' }}
-          />
-        ))}
-      </div>
-    ) : (
-      <p>Loading...</p>
-    )}
-  </div>
+      <h3>Cat Gallery</h3>
+      {status === 'failed' ? (
+        <p>{error}</p>
+      ) : status === 'succeeded' ? (
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {images.map((cat) => (
+            <img
+              key={cat.id}
+              src={cat.url}
+              alt="A cute cat"
+              style={{ width: '200px', height: '200px', margin: '10px' }}
+            />
+          ))}
+          <button
+            onClick={() => dispatch(fetchCatImages()) }
+            style={{ width: '200px', height: '200px', margin: '10px', fontSize: '24px' }}
+          >
+            update
+          </button>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
   );
 };
 
