@@ -1,17 +1,20 @@
 
 .tic-tac-toe-game {
-  background-color: #f9f9f9;
+  background-color: #eabbbb;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid black;
   padding: 10px;
   text-align: center;
-  min-width: 240px;
-  width: 200px;
+  width: 222px;
 }
 
-.tic-tac-toe-title {
-  margin: 0 0 10px 0;
+.tic-tac-toe-game button:active {
+  outline: 8px auto #646cff;
+}
+
+.tic-tac-toe-game button:disabled {
+  cursor: not-allowed;
+  outline: transparent;
 }
 
 .tic-tac-toe-board {
@@ -56,11 +59,3 @@
   margin: 10px;
 }
 
-.tic-tac-toe-game button:active {
-  outline: 8px auto #646cff;
-}
-
-.tic-tac-toe-game button:disabled {
-  cursor: not-allowed;
-  outline: transparent;
-}

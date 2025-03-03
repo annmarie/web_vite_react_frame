@@ -10,8 +10,7 @@ const TicTacToe = () => {
 
   return (
     <div className="tic-tac-toe-game">
-      <h3 className="tic-tac-toe-title">Tic Tac Toe</h3>
-
+      <h3 style={{ margin: '0 0 10px 0' }}>Tic Tac Toe</h3>
       <div
         aria-label="Game Status"
         className="tic-tac-toe-status"
